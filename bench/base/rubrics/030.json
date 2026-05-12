@@ -1,0 +1,127 @@
+{
+  "id": 30,
+  "title": "通过考试",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示“小张通过了”会推出“小王通过了”的单向条件关系。",
+      "score": 0,
+      "reason": "这是题干中关于通过关系的第一条条件规则，方向不能反置或弱化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Z",
+            "nl": "小张通过了"
+          },
+          {
+            "key": "W",
+            "nl": "小王通过了"
+          }
+        ],
+        "formula": "Z -> W",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示“小王通过了”会推出“小李通过了”的单向条件关系。",
+      "score": 0,
+      "reason": "这是题干中第二条条件规则，用于保持学生通过情况之间的依赖关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "W",
+            "nl": "小王通过了"
+          },
+          {
+            "key": "L",
+            "nl": "小李通过了"
+          }
+        ],
+        "formula": "W -> L",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表示“小李通过了，或者小赵通过了”的析取关系。",
+      "score": 0,
+      "reason": "该信息要求至少“小李通过”和“小赵通过”之一成立，不能误写成合取、蕴含或互斥。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "L",
+            "nl": "小李通过了"
+          },
+          {
+            "key": "T",
+            "nl": "小赵通过了"
+          }
+        ],
+        "formula": "L | T",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留题干明确给出的事实：小赵没有通过。",
+      "score": 0,
+      "reason": "这是题干直接陈述的当前事实，会影响对假设条件的形式化评估。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "T",
+            "nl": "小赵通过了"
+          }
+        ],
+        "formula": "~T",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应保留题干明确给出的事实：小张通过了。",
+      "score": 0,
+      "reason": "这是题干直接陈述的当前事实，也是查询目标中涉及的关键命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Z",
+            "nl": "小张通过了"
+          }
+        ],
+        "formula": "Z",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 necessary 类型，目标命题是“如果小赵通过了，则小张没通过”这一条件式是否必然成立。",
+      "score": 0,
+      "reason": "需要确认候选形式化询问的是同一个必然性问题，而不是可能性、模型枚举或其他命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小张通过了"
+          },
+          {
+            "key": "D",
+            "nl": "小赵通过了"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "D -> ~A"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

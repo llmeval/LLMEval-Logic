@@ -1,0 +1,143 @@
+{
+  "id": 25,
+  "title": "高中选课组合",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示物理和化学必须同选或同不选，即选择物理当且仅当选择化学。",
+      "score": 0,
+      "reason": "这是限制可行选课组合的核心双向依赖关系，方向缺失会改变可行模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "选物理"
+          },
+          {
+            "key": "B",
+            "nl": "选化学"
+          }
+        ],
+        "formula": "(F -> B) & (B -> F)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示生物和地理不能同时选择。",
+      "score": 0,
+      "reason": "该互斥关系直接排除含有生物和地理同时为真的选课组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "选生物"
+          },
+          {
+            "key": "C",
+            "nl": "选地理"
+          }
+        ],
+        "formula": "~(A & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应表示当前已经选择了政治和生物。",
+      "score": 0,
+      "reason": "这是题目明确给出的当前状态，决定后续可行组合必须包含这两门课。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "选政治"
+          },
+          {
+            "key": "A",
+            "nl": "选生物"
+          }
+        ],
+        "formula": "D & A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应表示还必须在物理、化学、历史、地理这四门中恰好再选一门。",
+      "score": 0,
+      "reason": "这是题目明确给出的额外选课数量约束，若只表示至少一门或遗漏互斥会改变枚举空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "选物理"
+          },
+          {
+            "key": "B",
+            "nl": "选化学"
+          },
+          {
+            "key": "E",
+            "nl": "选历史"
+          },
+          {
+            "key": "C",
+            "nl": "选地理"
+          }
+        ],
+        "formula": "(F | B | E | C) & ~(F & B) & ~(F & E) & ~(F & C) & ~(B & E) & ~(B & C) & ~(E & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标是在全部六门课命题集合上枚举可能的选课组合：生物、化学、地理、政治、历史、物理。",
+      "score": 0,
+      "reason": "题目要求列出所有可能选课组合，因此查询必须覆盖六门课的整体模型枚举，而不是只判断某一门是否必选或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "选生物"
+          },
+          {
+            "key": "B",
+            "nl": "选化学"
+          },
+          {
+            "key": "C",
+            "nl": "选地理"
+          },
+          {
+            "key": "D",
+            "nl": "选政治"
+          },
+          {
+            "key": "E",
+            "nl": "选历史"
+          },
+          {
+            "key": "F",
+            "nl": "选物理"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

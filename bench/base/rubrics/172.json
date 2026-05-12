@@ -1,0 +1,94 @@
+{
+  "id": 172,
+  "title": "如何完成逻辑学作业",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应正确表示“如果 qfwfq 没有借助 AI，或者她靠自己写，那么她的想象力会枯竭”这一蕴含关系，并保留前件中的析取结构。",
+      "score": 0,
+      "reason": "这是题干中决定完成方式与想象力状态关系的核心条件，若把“或者”误写成合取、反向蕴含或遗漏否定，都会改变形式化任务。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "qfwfq 借助了 AI"
+          },
+          {
+            "key": "D",
+            "nl": "qfwfq 靠自己写"
+          },
+          {
+            "key": "B",
+            "nl": "qfwfq 想象力枯竭"
+          }
+        ],
+        "formula": "(~A | D) -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应正确表示“如果 qfwfq 的想象力枯竭，那么作业不及格”的单向蕴含关系。",
+      "score": 0,
+      "reason": "该关系把想象力枯竭与作业结果连接起来，是由已知及格状态反推完成方式限制的必要逻辑桥梁。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "qfwfq 想象力枯竭"
+          },
+          {
+            "key": "C",
+            "nl": "作业不及格"
+          }
+        ],
+        "formula": "B -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留题干明确给出的最终状态：她上交的作业是及格的，即“作业不及格”为假。",
+      "score": 0,
+      "reason": "这是题目明示的当前事实约束，缺少该约束就无法限定最后可能的完成方式。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "作业不及格"
+          }
+        ],
+        "formula": "~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合应是 qfwfq 是否借助了 AI 与 qfwfq 是否靠自己写这两个命题的所有可能组合。",
+      "score": 0,
+      "reason": "原问题询问“最后可能是怎么完成作业的”，需要枚举完成方式相关的两个布尔命题组合，而不是查询想象力或作业是否及格本身。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "qfwfq 借助了 AI"
+          },
+          {
+            "key": "D",
+            "nl": "qfwfq 靠自己写"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

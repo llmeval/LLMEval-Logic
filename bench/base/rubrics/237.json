@@ -1,0 +1,114 @@
+{
+  "id": 237,
+  "title": "对战问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示 A 战队在 B、C、D 三支队伍中且仅在其中一支队伍中选择交手对象。",
+      "score": 0,
+      "reason": "这是抽签对战结构的核心约束，决定 A 与各队交手命题之间的互斥与穷尽关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "AB",
+            "nl": "A战队与B战队对战"
+          },
+          {
+            "key": "AC",
+            "nl": "A战队与C战队对战"
+          },
+          {
+            "key": "AD",
+            "nl": "A战队与D战队对战"
+          }
+        ],
+        "formula": "(AB | AC | AD) & ~(AB & AC) & ~(AB & AD) & ~(AC & AD)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示若 A 战队与 D 战队对战，则未被抽中与 A 对战的 B、C 两队会彼此对战，并且 B、C 对战也对应 A 与 D 对战。",
+      "score": 0,
+      "reason": "该关系连接 A 的抽签结果与 B、C 是否对战，是判断 B 与 C 相关问题的关键。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "AD",
+            "nl": "A战队与D战队对战"
+          },
+          {
+            "key": "BC",
+            "nl": "B战队与C战队对战"
+          }
+        ],
+        "formula": "AD <-> BC",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表示若 A 战队与 C 战队对战，则未被抽中与 A 对战的 B、D 两队会彼此对战，并且 B、D 对战也对应 A 与 C 对战。",
+      "score": 0,
+      "reason": "该关系用于确定 B 是否可能与 D 对战，影响 B 可能对战队伍的枚举。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "AC",
+            "nl": "A战队与C战队对战"
+          },
+          {
+            "key": "BD",
+            "nl": "B战队与D战队对战"
+          }
+        ],
+        "formula": "AC <-> BD",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留已知事实：A 与 B 同赛区，因此 A 战队不能与 B 战队对战。",
+      "score": 0,
+      "reason": "这是题干明确给出的无效抽签结果，直接排除 A 与 B 对战的可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "AB",
+            "nl": "A战队与B战队对战"
+          }
+        ],
+        "formula": "~AB",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应保留已知事实：A 与 C 曾经交手过，因此 A 战队不能与 C 战队对战。",
+      "score": 0,
+      "reason": "这是题干明确给出的无效抽签结果，直接排除 A 与 C 对战的可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "AC",
+            "nl": "A战队与C战队对战"
+          }
+        ],
+        "formula": "~AC",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时对应三个目标：判断“B战队与C战队对战”是否可能，判断“B战队与C战队对战”是否必然，并枚举 B 战队可能与哪些队伍对战，目标命题空间为“A战队与B战队对战”、“B战队与C战队对战”、“B战队与D战队对战”。",
+      "score": 0,
+      "reason": "该项检查形式化问题是否与原题的三部分询问一致，包括可能性、必然性和 B 的可能对手枚举范围。"
+    }
+  ]
+}

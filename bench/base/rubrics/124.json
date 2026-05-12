@@ -1,0 +1,126 @@
+{
+  "id": 124,
+  "title": "黑暗森林(implicit 论域非空）",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须表示：任意对象如果是文明并且不隐藏坐标，那么该对象会被毁灭。",
+      "score": 0,
+      "reason": "这是从不隐藏坐标的文明推出被毁灭的核心全称蕴含关系，方向和条件合取都不能丢失。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x is a Civilization"
+          },
+          {
+            "key": "I",
+            "nl": "x Hides coordinates"
+          },
+          {
+            "key": "G",
+            "nl": "x is Destroyed"
+          }
+        ],
+        "formula": "forall u. ((F(u) & ~I(u)) -> G(u))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "必须表示：如果存在某个既是文明又被毁灭的对象，那么宇宙是残酷的。",
+      "score": 0,
+      "reason": "这是从被毁灭文明的存在推出宇宙残酷性的存在量化蕴含，量词范围和蕴含方向是任务相关的。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x is a Civilization"
+          },
+          {
+            "key": "G",
+            "nl": "x is Destroyed"
+          },
+          {
+            "key": "a",
+            "nl": "Universe is cruel"
+          }
+        ],
+        "formula": "(exists u. (F(u) & G(u))) -> a",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "必须表示：如果宇宙是残酷的，那么所有观察者都会感到恐惧。",
+      "score": 0,
+      "reason": "这是将宇宙残酷性连接到观察者恐惧状态的全称蕴含，必须限定为观察者并推出恐惧。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "Universe is cruel"
+          },
+          {
+            "key": "J",
+            "nl": "x is an Observer"
+          },
+          {
+            "key": "H",
+            "nl": "x feels Fear"
+          }
+        ],
+        "formula": "a -> forall v. (J(v) -> H(v))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "必须保留明示约束：并不是所有文明都会隐藏自己的坐标。",
+      "score": 0,
+      "reason": "该约束提供至少有文明不满足隐藏坐标条件的信息，是后续推出毁灭与残酷性的起点。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x is a Civilization"
+          },
+          {
+            "key": "I",
+            "nl": "x Hides coordinates"
+          }
+        ],
+        "formula": "~(forall u. (F(u) -> I(u)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "必须保留约束：至少存在一个观察者。",
+      "score": 0,
+      "reason": "查询目标是存在感到恐惧的观察者，因此形式化中需要有观察者存在性约束来支撑该存在命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "J",
+            "nl": "x is an Observer"
+          }
+        ],
+        "formula": "exists v. J(v)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须同时对应两类问题：possible 与 necessary；目标命题集合均为“存在至少一个对象既是观察者又感到恐惧”。",
+      "score": 0,
+      "reason": "该项检查候选形式化是否询问原题要求的可能性和必然性，并且目标是否正是存在感到恐惧的观察者。"
+    }
+  ]
+}

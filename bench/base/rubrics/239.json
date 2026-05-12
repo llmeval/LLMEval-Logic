@@ -1,0 +1,120 @@
+{
+  "id": 239,
+  "title": "开关",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“A 和 B 中有且仅有一个是开着的”，即 A、B 至少一个开且不能同时开。",
+      "score": 0,
+      "reason": "这是约束三个开关可行状态的核心排他关系，遗漏任一方向都会改变可枚举的状态空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A_on",
+            "nl": "A开"
+          },
+          {
+            "key": "B_on",
+            "nl": "B开"
+          }
+        ],
+        "formula": "(A_on | B_on) & ~(A_on & B_on)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“如果 B 是开着的，那么 C 必须是关着的”。",
+      "score": 0,
+      "reason": "该条件规定了 B 开对 C 关的单向蕴含关系，是筛选状态组合所必需的。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B_on",
+            "nl": "B开"
+          },
+          {
+            "key": "C_on",
+            "nl": "C开"
+          }
+        ],
+        "formula": "B_on -> ~C_on",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“C 是开着的，当且仅当 A 也是开着的”，即 C 开与 A 开互相等价。",
+      "score": 0,
+      "reason": "双条件关系同时包含 C 开推出 A 开以及 A 开推出 C 开，不能误写成单向条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A_on",
+            "nl": "A开"
+          },
+          {
+            "key": "C_on",
+            "nl": "C开"
+          }
+        ],
+        "formula": "C_on <-> A_on",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“如果 A 是关着的，那么 C 必须是开着的”。",
+      "score": 0,
+      "reason": "该条件规定了 A 关时 C 必须开的单向蕴含，影响对 A、C 状态组合的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A_on",
+            "nl": "A开"
+          },
+          {
+            "key": "C_on",
+            "nl": "C开"
+          }
+        ],
+        "formula": "~A_on -> C_on",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 enumerate_models 类型，目标是枚举 A、B、C 三个开关开/关状态的所有可能组合。",
+      "score": 0,
+      "reason": "题目要求找出三个开关的可能状态组合，因此形式化查询应枚举 A、B、C 的联合赋值，而不是判断单个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A开"
+          },
+          {
+            "key": "B",
+            "nl": "B开"
+          },
+          {
+            "key": "C",
+            "nl": "C开"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

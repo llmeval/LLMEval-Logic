@@ -1,0 +1,99 @@
+{
+  "id": 220,
+  "title": "出差问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“如果甲出差，那么乙也出差”的单向蕴含关系。",
+      "score": 0,
+      "reason": "这是题干给出的核心条件之一，方向不能反置，也不能误写成双条件或合取。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "甲出差"
+          },
+          {
+            "key": "Q",
+            "nl": "乙出差"
+          }
+        ],
+        "formula": "P -> Q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示“如果乙出差，那么丙不出差”的单向蕴含关系，并正确包含对丙出差的否定。",
+      "score": 0,
+      "reason": "该条件决定乙与丙出差状态之间的排斥依赖，是求可能情形所必需的逻辑关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "乙出差"
+          },
+          {
+            "key": "Q",
+            "nl": "丙出差"
+          }
+        ],
+        "formula": "P -> ~Q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示“如果丙不出差，那么甲出差”的单向蕴含关系，并正确以丙不出差作为前件。",
+      "score": 0,
+      "reason": "该条件把丙不出差与甲出差连接起来，是形成完整约束链的关键。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "丙出差"
+          },
+          {
+            "key": "Q",
+            "nl": "甲出差"
+          }
+        ],
+        "formula": "~P -> Q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合应为甲出差、乙出差、丙出差三者的全部出差状态组合。",
+      "score": 0,
+      "reason": "题目要求列举在条件下三人的出差情况可能是什么，因此查询应枚举这三个布尔命题的模型，而不是只判断某一个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲出差"
+          },
+          {
+            "key": "B",
+            "nl": "乙出差"
+          },
+          {
+            "key": "C",
+            "nl": "丙出差"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

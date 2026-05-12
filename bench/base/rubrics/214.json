@@ -1,0 +1,106 @@
+{
+  "id": 214,
+  "title": "换美甲问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“如果我很忙，那么我没空去重做美甲”，即忙会推出不重做美甲。",
+      "score": 0,
+      "reason": "这是题干中的关键条件关系，用于约束忙与重做美甲之间的逻辑关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "busy",
+            "nl": "我很忙"
+          },
+          {
+            "key": "redo",
+            "nl": "我重做美甲"
+          }
+        ],
+        "formula": "busy -> ~redo",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示“如果我看腻了美甲款式并且美甲太长了，那么我会去重做美甲”。",
+      "score": 0,
+      "reason": "这是题干中把看腻、太长和重做美甲连接起来的条件关系，直接影响对看腻与否的形式化判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "bored",
+            "nl": "我看腻了美甲的款式"
+          },
+          {
+            "key": "long",
+            "nl": "我的美甲太长了"
+          },
+          {
+            "key": "redo",
+            "nl": "我重做美甲"
+          }
+        ],
+        "formula": "(bored & long) -> redo",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留已知事实：我的美甲太长了。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前状态，会参与触发“看腻且太长则重做美甲”的条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "long",
+            "nl": "我的美甲太长了"
+          }
+        ],
+        "formula": "long",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留已知事实：我现在很忙。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前状态，会触发“忙则不重做美甲”的条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "busy",
+            "nl": "我很忙"
+          }
+        ],
+        "formula": "busy",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "应把问题形式化为同时询问目标命题“我看腻了美甲的款式”是否可能成立以及是否必然成立。",
+      "score": 0,
+      "reason": "查询目标必须对准“看腻了这款式”这一命题，并且保留原题中的可能性与必然性两种询问类型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "我看腻了美甲的款式"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "A"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

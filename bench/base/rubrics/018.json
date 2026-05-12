@@ -1,0 +1,183 @@
+{
+  "id": 18,
+  "title": "珠宝盗窃",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示盗窃者在 A、B、C、D 四人中且恰好只有一人盗窃。",
+      "score": 0,
+      "reason": "这是题干明确给出的嫌疑人范围和唯一作案者约束，决定后续模型空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A盗窃了珠宝"
+          },
+          {
+            "key": "B",
+            "nl": "B盗窃了珠宝"
+          },
+          {
+            "key": "C",
+            "nl": "C盗窃了珠宝"
+          },
+          {
+            "key": "D",
+            "nl": "D盗窃了珠宝"
+          }
+        ],
+        "formula": "(A & ~B & ~C & ~D) | (~A & B & ~C & ~D) | (~A & ~B & C & ~D) | (~A & ~B & ~C & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示 A 的口供为真当且仅当 A 没有盗窃珠宝。",
+      "score": 0,
+      "reason": "A 的陈述内容是自己不可能作案，因此其说真话变量应与 A 未盗窃建立双向对应关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A盗窃了珠宝"
+          },
+          {
+            "key": "E",
+            "nl": "A说真话"
+          }
+        ],
+        "formula": "E <-> ~A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表示 B 的口供为真当且仅当 D 盗窃了珠宝。",
+      "score": 0,
+      "reason": "B 明确指认 D 是罪犯，因此 B 是否说真话取决于 D 是否为盗窃者。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "D盗窃了珠宝"
+          },
+          {
+            "key": "F",
+            "nl": "B说真话"
+          }
+        ],
+        "formula": "F <-> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表示 C 的口供为真当且仅当 B 盗窃了珠宝。",
+      "score": 0,
+      "reason": "C 的任务相关指认是 B 才是罪犯，卖珠宝细节不需要单独作为目标命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "B盗窃了珠宝"
+          },
+          {
+            "key": "G",
+            "nl": "C说真话"
+          }
+        ],
+        "formula": "G <-> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化必须表示 D 的口供为真当且仅当 D 没有盗窃珠宝。",
+      "score": 0,
+      "reason": "D 声称 B 故意诬陷自己，任务相关含义是 B 对 D 的指认为假，即 D 不是盗窃者。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "D盗窃了珠宝"
+          },
+          {
+            "key": "H",
+            "nl": "D说真话"
+          }
+        ],
+        "formula": "H <-> ~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示四个人的口供中恰好只有一个人说真话。",
+      "score": 0,
+      "reason": "这是问题给出的显式条件，约束四个说真话命题的可满足组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "A说真话"
+          },
+          {
+            "key": "F",
+            "nl": "B说真话"
+          },
+          {
+            "key": "G",
+            "nl": "C说真话"
+          },
+          {
+            "key": "H",
+            "nl": "D说真话"
+          }
+        ],
+        "formula": "(E & ~F & ~G & ~H) | (~E & F & ~G & ~H) | (~E & ~F & G & ~H) | (~E & ~F & ~G & H)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 enumerate_models，目标是在 A、B、C、D 四人对应的盗窃命题上枚举谁可能是盗窃者。",
+      "score": 0,
+      "reason": "原问题询问在给定条件下谁可能是盗窃者，因此应枚举四个嫌疑人的盗窃命题取值，而不是询问谁说真话或单一必然性判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A盗窃了珠宝"
+          },
+          {
+            "key": "B",
+            "nl": "B盗窃了珠宝"
+          },
+          {
+            "key": "C",
+            "nl": "C盗窃了珠宝"
+          },
+          {
+            "key": "D",
+            "nl": "D盗窃了珠宝"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

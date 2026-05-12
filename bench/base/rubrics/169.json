@@ -1,0 +1,147 @@
+{
+  "id": 169,
+  "title": "命题逻辑",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表达“如果 D 出席，那么 E 一定出席”的单向条件关系。",
+      "score": 0,
+      "reason": "该条件决定 D 的出席对 E 出席的约束，方向不能反转或改成无关关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "D出席"
+          },
+          {
+            "key": "E",
+            "nl": "E出席"
+          }
+        ],
+        "formula": "D -> E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表达 B 只有在和 C 一起时才愿意出席，即没有 C 出席时 B 不出席。",
+      "score": 0,
+      "reason": "这是 B 与 C 出席之间的必要条件关系，直接影响可行出席组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "B出席"
+          },
+          {
+            "key": "C",
+            "nl": "C出席"
+          }
+        ],
+        "formula": "~C -> ~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表达“如果 B 不出席，那么 A 也不出席”的条件关系。",
+      "score": 0,
+      "reason": "该条件把 B 的缺席与 A 的缺席相连，是推导可行出席情况的关键约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A出席"
+          },
+          {
+            "key": "B",
+            "nl": "B出席"
+          }
+        ],
+        "formula": "~B -> ~A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留“A、D 两人不可能同时不出席”这一显式约束，即 A 和 D 至少有一人出席。",
+      "score": 0,
+      "reason": "这是题干直接给出的出席限制，排除了 A、D 同时缺席的模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A出席"
+          },
+          {
+            "key": "D",
+            "nl": "D出席"
+          }
+        ],
+        "formula": "A | D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应保留“C 没有时间出席”这一显式事实，即 C 不出席。",
+      "score": 0,
+      "reason": "这是题干给定的当前状态，会触发与 B 相关的出席限制。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "C出席"
+          }
+        ],
+        "formula": "~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 enumerate_models 类型，目标是在所有条件下枚举 A、B、C、D、E 五人的出席情况组合。",
+      "score": 0,
+      "reason": "题目问“可能是什么”，需要枚举满足约束的完整出席模型，而不是只判断某个单一命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A出席"
+          },
+          {
+            "key": "B",
+            "nl": "B出席"
+          },
+          {
+            "key": "C",
+            "nl": "C出席"
+          },
+          {
+            "key": "D",
+            "nl": "D出席"
+          },
+          {
+            "key": "E",
+            "nl": "E出席"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

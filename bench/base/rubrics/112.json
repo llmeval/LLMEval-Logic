@@ -1,0 +1,165 @@
+{
+  "id": 112,
+  "title": "多色眼睛问题（1）",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应表示周三无事发生这一当前观察事实。",
+      "score": 0,
+      "reason": "周三无事发生是后续排除某些眼睛颜色组合的显式条件，必须作为前提保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "周三无事发生"
+          }
+        ],
+        "formula": "D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应表示在被查询的 a、b、c 三人中至少有两人的眼睛是红色的这一约束。",
+      "score": 0,
+      "reason": "该约束限定了枚举空间中允许考虑的基本颜色组合，是判断可能情况所必需的显式条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "a的眼睛是红色的"
+          },
+          {
+            "key": "B",
+            "nl": "b的眼睛是红色的"
+          },
+          {
+            "key": "C",
+            "nl": "c的眼睛是红色的"
+          }
+        ],
+        "formula": "(A & B) | (A & C) | (B & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示如果周三无事发生，则不能是 a 不是红眼而 b、c 都是红眼的情况。",
+      "score": 0,
+      "reason": "这是由周三仍无人行动所带来的关键排除关系之一，用于排除一种恰好一人非红眼的组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "a的眼睛是红色的"
+          },
+          {
+            "key": "B",
+            "nl": "b的眼睛是红色的"
+          },
+          {
+            "key": "C",
+            "nl": "c的眼睛是红色的"
+          },
+          {
+            "key": "D",
+            "nl": "周三无事发生"
+          }
+        ],
+        "formula": "D -> ~(~A & B & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示如果周三无事发生，则不能是 b 不是红眼而 a、c 都是红眼的情况。",
+      "score": 0,
+      "reason": "这是周三无事发生对 b 的颜色情况产生的对应排除关系，避免遗漏对称的一种组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "a的眼睛是红色的"
+          },
+          {
+            "key": "B",
+            "nl": "b的眼睛是红色的"
+          },
+          {
+            "key": "C",
+            "nl": "c的眼睛是红色的"
+          },
+          {
+            "key": "D",
+            "nl": "周三无事发生"
+          }
+        ],
+        "formula": "D -> ~(~B & A & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示如果周三无事发生，则不能是 c 不是红眼而 a、b 都是红眼的情况。",
+      "score": 0,
+      "reason": "这是周三无事发生对 c 的颜色情况产生的对应排除关系，保证三人的对称排除条件都被形式化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "a的眼睛是红色的"
+          },
+          {
+            "key": "B",
+            "nl": "b的眼睛是红色的"
+          },
+          {
+            "key": "C",
+            "nl": "c的眼睛是红色的"
+          },
+          {
+            "key": "D",
+            "nl": "周三无事发生"
+          }
+        ],
+        "formula": "D -> ~(~C & A & B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集应为 a 的眼睛是否红、b 的眼睛是否红、c 的眼睛是否红这三个命题的可能组合。",
+      "score": 0,
+      "reason": "问题询问 a、b、c 的眼睛颜色可能是什么情况，因此形式化查询必须枚举这三人的红眼命题组合，而不是查询单个命题真假或其他人物。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "a的眼睛是红色的"
+          },
+          {
+            "key": "B",
+            "nl": "b的眼睛是红色的"
+          },
+          {
+            "key": "C",
+            "nl": "c的眼睛是红色的"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

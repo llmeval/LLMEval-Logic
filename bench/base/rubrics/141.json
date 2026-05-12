@@ -1,0 +1,118 @@
+{
+  "id": 141,
+  "title": "美国青少年复杂的人际关系",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果邀请 Sage，则不能邀请 Myah。",
+      "score": 0,
+      "reason": "这是题干中 Sage 与 Myah 不能同时被邀请的核心条件，方向和否定关系必须保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "S",
+            "nl": "邀请 Sage"
+          },
+          {
+            "key": "M",
+            "nl": "邀请 Myah"
+          }
+        ],
+        "formula": "S -> ~M",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果邀请 Myah，则必须邀请 Kat。",
+      "score": 0,
+      "reason": "这是 Myah 与 Kat 之间的依赖关系，不能反向或弱化为无条件事实。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "M",
+            "nl": "邀请 Myah"
+          },
+          {
+            "key": "K",
+            "nl": "邀请 Kat"
+          }
+        ],
+        "formula": "M -> K",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表示：只有邀请 Sage 时才会邀请 Kat，即邀请 Kat 以邀请 Sage 为必要条件。",
+      "score": 0,
+      "reason": "这是 Kat 与 Sage 之间的必要条件关系，必须体现 Kat 被邀请不能脱离 Sage 被邀请。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "K",
+            "nl": "邀请 Kat"
+          },
+          {
+            "key": "S",
+            "nl": "邀请 Sage"
+          }
+        ],
+        "formula": "K -> S",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留显式条件：Sage 和 Myah 至少要邀请一个。",
+      "score": 0,
+      "reason": "这是题干直接给出的邀请人数/选择约束，会限制可行情形。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "S",
+            "nl": "邀请 Sage"
+          },
+          {
+            "key": "M",
+            "nl": "邀请 Myah"
+          }
+        ],
+        "formula": "S | M",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 possible 类型，目标命题集合是在不邀请 Myah 的同时邀请 Sage 和 Kat。",
+      "score": 0,
+      "reason": "题目问的是该组合是否有可能，而不是是否必然、枚举所有模型或计数模型；目标中必须同时包含邀请 Sage、邀请 Kat、不邀请 Myah。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "邀请 Kat"
+          },
+          {
+            "key": "B",
+            "nl": "邀请 Myah"
+          },
+          {
+            "key": "C",
+            "nl": "邀请 Sage"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "C & A & ~B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

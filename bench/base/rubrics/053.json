@@ -1,0 +1,118 @@
+{
+  "id": 53,
+  "title": "手机功能",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "正确表示“如果 Wi-Fi 开启，则移动数据关闭”的蕴含关系。",
+      "score": 0,
+      "reason": "该规则约束 Wi-Fi 与移动数据不能在 Wi-Fi 开启时同时开启，是判断相关可能性的必要关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "Wi-Fi开启"
+          },
+          {
+            "key": "D",
+            "nl": "移动数据开启"
+          }
+        ],
+        "formula": "C -> ~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "正确表示“如果定位服务开启，则 Wi-Fi 开启或移动数据开启”的蕴含关系。",
+      "score": 0,
+      "reason": "该规则给出定位服务开启时对 Wi-Fi 或移动数据状态的要求，影响定位服务与其他功能之间的逻辑依赖。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "定位服务开启"
+          },
+          {
+            "key": "C",
+            "nl": "Wi-Fi开启"
+          },
+          {
+            "key": "D",
+            "nl": "移动数据开启"
+          }
+        ],
+        "formula": "B -> (C | D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "正确表示“如果蓝牙关闭，则定位服务关闭”的蕴含关系，并把关闭表示为相应开启命题的否定。",
+      "score": 0,
+      "reason": "该规则连接蓝牙状态与定位服务状态，是判断蓝牙是否可能或必然开启的关键约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "蓝牙开启"
+          },
+          {
+            "key": "B",
+            "nl": "定位服务开启"
+          }
+        ],
+        "formula": "~A -> ~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "正确表示“如果移动数据开启，则定位服务自动开启”的蕴含关系。",
+      "score": 0,
+      "reason": "该规则把已知的移动数据开启与定位服务开启联系起来，是评估定位服务相关查询的核心关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "移动数据开启"
+          },
+          {
+            "key": "B",
+            "nl": "定位服务开启"
+          }
+        ],
+        "formula": "D -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "保留题目明确给出的当前状态：移动数据开启。",
+      "score": 0,
+      "reason": "这是题目中的已知事实，必须作为约束纳入形式化，才能正确限定模型空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "移动数据开启"
+          }
+        ],
+        "formula": "D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询对齐：问题同时包含 possible 与 necessary 类型；目标分别是定位服务开启是否可能、定位服务开启是否必然、Wi-Fi 开启是否可能、蓝牙开启是否可能、蓝牙开启是否必然。",
+      "score": 0,
+      "reason": "形式化必须询问原题中的全部可能性与必然性目标，不能遗漏、替换或改变查询类型。"
+    }
+  ]
+}

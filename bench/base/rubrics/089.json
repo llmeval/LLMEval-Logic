@@ -1,0 +1,89 @@
+{
+  "id": 89,
+  "title": "矛盾的记者",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须表示记者自己的规则：只要知道事件真相，就不能断章取义。",
+      "score": 0,
+      "reason": "这是导致发布新闻与规则可能冲突的核心约束之一，必须保留其蕴含方向和否定关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "知道事件真相"
+          },
+          {
+            "key": "A",
+            "nl": "断章取义"
+          }
+        ],
+        "formula": "C -> ~A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "必须表示工作室规则的一部分：如果向公众发布新闻，那么必定已经知道事件真相。",
+      "score": 0,
+      "reason": "该蕴含关系把发布新闻与知道真相连接起来，是判断发布是否可行所必需的。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "发布新闻"
+          },
+          {
+            "key": "C",
+            "nl": "知道事件真相"
+          }
+        ],
+        "formula": "B -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "必须表示工作室规则的另一部分：如果向公众发布新闻，那么该新闻已经被断章取义。",
+      "score": 0,
+      "reason": "该蕴含关系把发布新闻与断章取义连接起来，是形成规则间冲突的另一关键条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "发布新闻"
+          },
+          {
+            "key": "A",
+            "nl": "断章取义"
+          }
+        ],
+        "formula": "B -> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 possible，目标命题集合为：这位记者向公众发布新闻。",
+      "score": 0,
+      "reason": "原问题询问在不违反规则的前提下发布新闻是否有可能，因此形式化查询必须针对发布新闻这一命题的可满足性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "发布新闻"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

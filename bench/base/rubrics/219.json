@@ -1,0 +1,103 @@
+{
+  "id": 219,
+  "title": "聚会筹划",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：只要张三来或李四来中至少一人成立，就要求王五来。",
+      "score": 0,
+      "reason": "这是题目中的第一条限制，规定了张三或李四到场与王五到场之间的蕴含关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Z",
+            "nl": "张三来"
+          },
+          {
+            "key": "L",
+            "nl": "李四来"
+          },
+          {
+            "key": "W",
+            "nl": "王五来"
+          }
+        ],
+        "formula": "(Z | L) -> W",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：如果张三不来，那么李四来。",
+      "score": 0,
+      "reason": "这是题目中的第二条限制，关键在于否定张三来作为前件，并推出李四来。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Z",
+            "nl": "张三来"
+          },
+          {
+            "key": "L",
+            "nl": "李四来"
+          }
+        ],
+        "formula": "~Z -> L",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：如果李四来，那么王五不来。",
+      "score": 0,
+      "reason": "这是题目中的第三条限制，关键在于李四到场会排除王五到场。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "L",
+            "nl": "李四来"
+          },
+          {
+            "key": "W",
+            "nl": "王五来"
+          }
+        ],
+        "formula": "L -> ~W",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 enumerate_models 类型，目标是枚举张三来、李四来、王五来这三个命题共同构成的所有可能聚会名单。",
+      "score": 0,
+      "reason": "问题询问满足限制的聚会名单可能是什么，因此应枚举三个人是否到场的模型，而不是判断单个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "张三来"
+          },
+          {
+            "key": "B",
+            "nl": "李四来"
+          },
+          {
+            "key": "C",
+            "nl": "王五来"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

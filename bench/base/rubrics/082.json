@@ -1,0 +1,64 @@
+{
+  "id": 82,
+  "title": "小黑和无限第二天会出去玩吗",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“如果第二天不下雨，那么小黑和无限会出去玩”的单向蕴含关系，不能误写成反向蕴含或双条件。",
+      "score": 0,
+      "reason": "这是题干中唯一的条件规则，决定了不下雨与出去玩之间的逻辑关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "第二天不下雨"
+          },
+          {
+            "key": "Q",
+            "nl": "小黑和无限出去玩"
+          }
+        ],
+        "formula": "P -> Q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示已知当前情况是“第二天下雨了”，即“第二天不下雨”为假。",
+      "score": 0,
+      "reason": "这是题目明确给出的当前事实，影响能否从前件为假推出目标结论。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "第二天不下雨"
+          }
+        ],
+        "formula": "~P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 necessary 类型，目标命题集为“小黑和无限不会出去玩”。",
+      "score": 0,
+      "reason": "题目问的是在给定情况下是否一定能推出不会出去玩，因此查询类型和目标否定命题都必须对齐。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "小黑和无限出去玩"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "~B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

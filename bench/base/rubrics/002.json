@@ -1,0 +1,124 @@
+{
+  "id": 2,
+  "title": "宿舍失窃案",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须把四人口供的真值关系表示为：甲的口供“甲没偷且乙偷了”、乙的口供“乙没偷且丙偷了”、丙的口供“丙没偷且甲偷了”、丁的口供“要么甲偷了要么乙偷了（排他析取）且丙没偷”这四个复合陈述中恰好一个为真。",
+      "score": 0,
+      "reason": "这是题干中“4人中只有1人说真话，其余均说谎”与各人口供内容结合后的核心逻辑约束，决定哪些偷窃情形可被保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "pA",
+            "nl": "甲偷了"
+          },
+          {
+            "key": "pB",
+            "nl": "乙偷了"
+          },
+          {
+            "key": "pC",
+            "nl": "丙偷了"
+          }
+        ],
+        "formula": "(((~pA & pB) & ~(~pB & pC) & ~(~pC & pA) & ~((pA | pB) & ~pC)) | (~(~pA & pB) & (~pB & pC) & ~(~pC & pA) & ~((pA | pB) & ~pC)) | (~(~pA & pB) & ~(~pB & pC) & (~pC & pA) & ~((pA | pB) & ~pC)) | (~(~pA & pB) & ~(~pB & pC) & ~(~pC & pA) & ((pA | pB) & ~pC)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留至少有一名锁定嫌疑人偷了笔记本这一约束。",
+      "score": 0,
+      "reason": "问题是在锁定的四名嫌疑人中询问谁可能偷了，需排除无人作案的模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "pA",
+            "nl": "甲偷了"
+          },
+          {
+            "key": "pB",
+            "nl": "乙偷了"
+          },
+          {
+            "key": "pC",
+            "nl": "丙偷了"
+          },
+          {
+            "key": "pD",
+            "nl": "丁偷了"
+          }
+        ],
+        "formula": "(pA | pB | pC | pD)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留四名嫌疑人中至多一人偷了笔记本这一约束。",
+      "score": 0,
+      "reason": "该约束使“谁偷了”对应单一作案者的可能性枚举，避免把多人共同偷窃的组合作为目标模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "pA",
+            "nl": "甲偷了"
+          },
+          {
+            "key": "pB",
+            "nl": "乙偷了"
+          },
+          {
+            "key": "pC",
+            "nl": "丙偷了"
+          },
+          {
+            "key": "pD",
+            "nl": "丁偷了"
+          }
+        ],
+        "formula": "(~(pA & pB) & ~(pA & pC) & ~(pA & pD) & ~(pB & pC) & ~(pB & pD) & ~(pC & pD))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 enumerate_models 类型，目标命题集合是甲偷了、乙偷了、丙偷了、丁偷了四个嫌疑人偷窃命题的可能取值组合，用于回答谁可能偷了笔记本。",
+      "score": 0,
+      "reason": "只有枚举这四个偷窃命题的可满足模型，才能与原问题的询问目标保持一致。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲偷了"
+          },
+          {
+            "key": "B",
+            "nl": "乙偷了"
+          },
+          {
+            "key": "C",
+            "nl": "丙偷了"
+          },
+          {
+            "key": "D",
+            "nl": "丁偷了"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "id": 41,
+  "title": "土门二三事",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须表示“如果不是芷清干的，那么只能是甲或乙干的”这一条件关系，方向不能反过来。",
+      "score": 0,
+      "reason": "这是排除和保留可能人选的关键条件，错误的蕴含方向会改变可行模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲干的"
+          },
+          {
+            "key": "B",
+            "nl": "乙干的"
+          },
+          {
+            "key": "C",
+            "nl": "芷清干的"
+          }
+        ],
+        "formula": "(~C) -> (A | B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "必须表示这件事至多由甲、乙、芷清、丁中的一人所为，不能允许两人或多人同时为真。",
+      "score": 0,
+      "reason": "原问题询问“是谁干的”，需要保持嫌疑人之间的互斥关系，否则枚举出的可能情况会不符合题意。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲干的"
+          },
+          {
+            "key": "B",
+            "nl": "乙干的"
+          },
+          {
+            "key": "C",
+            "nl": "芷清干的"
+          },
+          {
+            "key": "D",
+            "nl": "丁干的"
+          }
+        ],
+        "formula": "~(A & B) & ~(A & C) & ~(A & D) & ~(B & C) & ~(B & D) & ~(C & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "必须保留明确判断：甲昨天晚上没有精力干坏事，因此不是甲干的。",
+      "score": 0,
+      "reason": "这是题中直接给出的排除条件，会直接影响谁仍然可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲干的"
+          }
+        ],
+        "formula": "~A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "必须保留明确前提：这件事是甲、乙、芷清、丁这四个徒弟中的至少一人干的。",
+      "score": 0,
+      "reason": "题干断定是徒弟所为，并在四名徒弟中询问，需要保证至少存在一个候选人为真。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲干的"
+          },
+          {
+            "key": "B",
+            "nl": "乙干的"
+          },
+          {
+            "key": "C",
+            "nl": "芷清干的"
+          },
+          {
+            "key": "D",
+            "nl": "丁干的"
+          }
+        ],
+        "formula": "A | B | C | D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 enumerate_models，目标命题集合必须是甲干的、乙干的、芷清干的、丁干的四个候选人。",
+      "score": 0,
+      "reason": "原问题问“可能偷偷给池年扎头发的人是谁”，应枚举四个候选命题的可满足取值情况，而不是证明某一人必然或仅查询部分候选人。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲干的"
+          },
+          {
+            "key": "B",
+            "nl": "乙干的"
+          },
+          {
+            "key": "C",
+            "nl": "芷清干的"
+          },
+          {
+            "key": "D",
+            "nl": "丁干的"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

@@ -1,0 +1,229 @@
+{
+  "id": 45,
+  "title": "诚实者，说谎者与神",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须表达 A 恰好属于三种身份之一：神、诚实者、说谎者。",
+      "score": 0,
+      "reason": "这是判断 A 身份组合是否可能的基本身份域约束，缺失会允许无身份或多重身份的无效模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "AG",
+            "nl": "A是神（可真可假）"
+          },
+          {
+            "key": "AH",
+            "nl": "A是诚实者（总是说真话）"
+          },
+          {
+            "key": "AL",
+            "nl": "A是说谎者（总是说假话）"
+          }
+        ],
+        "formula": "(AG | AH | AL) & ~(AG & AH) & ~(AG & AL) & ~(AH & AL)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须表达 B 恰好属于三种身份之一：神、诚实者、说谎者。",
+      "score": 0,
+      "reason": "这是判断 B 身份组合是否可能的基本身份域约束，缺失会允许无身份或多重身份的无效模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "BG",
+            "nl": "B是神（可真可假）"
+          },
+          {
+            "key": "BH",
+            "nl": "B是诚实者（总是说真话）"
+          },
+          {
+            "key": "BL",
+            "nl": "B是说谎者（总是说假话）"
+          }
+        ],
+        "formula": "(BG | BH | BL) & ~(BG & BH) & ~(BG & BL) & ~(BH & BL)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留“至多只有一个人是神”的限制，即 A 和 B 不能同时是神。",
+      "score": 0,
+      "reason": "这是题目显式给出的全局限制，会直接排除某些身份组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "AG",
+            "nl": "A是神（可真可假）"
+          },
+          {
+            "key": "BG",
+            "nl": "B是神（可真可假）"
+          }
+        ],
+        "formula": "~(AG & BG)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：如果 A 是诚实者，则 A 的陈述为真，即 B 是说谎者并且 A 不是神。",
+      "score": 0,
+      "reason": "诚实者总说真话，A 的陈述内容必须在 A 为诚实者时成立。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "AH",
+            "nl": "A是诚实者（总是说真话）"
+          },
+          {
+            "key": "BL",
+            "nl": "B是说谎者（总是说假话）"
+          },
+          {
+            "key": "AG",
+            "nl": "A是神（可真可假）"
+          }
+        ],
+        "formula": "AH -> (BL & ~AG)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：如果 A 是说谎者，则 A 的陈述为假，即并非“B 是说谎者并且 A 不是神”。",
+      "score": 0,
+      "reason": "说谎者总说假话，A 的整句合取陈述在 A 为说谎者时必须为假。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "AL",
+            "nl": "A是说谎者（总是说假话）"
+          },
+          {
+            "key": "BL",
+            "nl": "B是说谎者（总是说假话）"
+          },
+          {
+            "key": "AG",
+            "nl": "A是神（可真可假）"
+          }
+        ],
+        "formula": "AL -> ~(BL & ~AG)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：如果 B 是诚实者，则 B 的陈述为真，即“B 是神”和“A 是神”二者恰好一个成立。",
+      "score": 0,
+      "reason": "B 的“要么……要么……”应被表示为排他或，并且诚实者的陈述必须为真。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "BH",
+            "nl": "B是诚实者（总是说真话）"
+          },
+          {
+            "key": "BG",
+            "nl": "B是神（可真可假）"
+          },
+          {
+            "key": "AG",
+            "nl": "A是神（可真可假）"
+          }
+        ],
+        "formula": "BH -> ((BG & ~AG) | (~BG & AG))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：如果 B 是说谎者，则 B 的陈述为假，即并非“B 是神”和“A 是神”二者恰好一个成立。",
+      "score": 0,
+      "reason": "说谎者总说假话，B 的排他或陈述在 B 为说谎者时必须为假。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "BL",
+            "nl": "B是说谎者（总是说假话）"
+          },
+          {
+            "key": "BG",
+            "nl": "B是神（可真可假）"
+          },
+          {
+            "key": "AG",
+            "nl": "A是神（可真可假）"
+          }
+        ],
+        "formula": "BL -> ~((BG & ~AG) | (~BG & AG))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "形式化不得把神的陈述固定为必真或必假；神的身份本身不应推出其陈述真假。",
+      "score": 0,
+      "reason": "题目说明神可以自由选择说真话或说假话，因此不能把神等同于诚实者或说谎者的发言规则。z3_check omitted: 需检查未添加限制"
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 enumerate_models，目标是枚举 A 和 B 在“是否为神、是否为诚实者、是否为说谎者”这些身份命题上的可能组合。",
+      "score": 0,
+      "reason": "原问题询问 A 和 B 的身份分别可能是什么，因此查询必须枚举两人的身份变量空间，而不是只问单个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A是神（可真可假）"
+          },
+          {
+            "key": "B",
+            "nl": "B是神（可真可假）"
+          },
+          {
+            "key": "C",
+            "nl": "A是诚实者（总是说真话）"
+          },
+          {
+            "key": "D",
+            "nl": "B是诚实者（总是说真话）"
+          },
+          {
+            "key": "E",
+            "nl": "A是说谎者（总是说假话）"
+          },
+          {
+            "key": "F",
+            "nl": "B是说谎者（总是说假话）"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

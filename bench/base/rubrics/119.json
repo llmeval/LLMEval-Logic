@@ -1,0 +1,101 @@
+{
+  "id": 119,
+  "title": "骑士和骗子",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应把A的发言内容形式化为条件命题：如果A是骑士，那么B是骗子；其中“B是骗子”应对应为B不是骑士。",
+      "score": 0,
+      "reason": "该条件命题是A发言的核心内容，方向或否定对象写错会改变题目的逻辑关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A是骑士"
+          },
+          {
+            "key": "B",
+            "nl": "B是骑士"
+          }
+        ],
+        "formula": "A -> ~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应体现骑士总说真话这一规则在A身上的应用：若A是骑士，则A所说的条件命题为真。",
+      "score": 0,
+      "reason": "A的身份必须与其发言真值关联，否则无法正确表达骑士规则对本题发言的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A是骑士"
+          },
+          {
+            "key": "B",
+            "nl": "B是骑士"
+          }
+        ],
+        "formula": "A -> (A -> ~B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应体现骗子总说假话这一规则在A身上的应用：若A不是骑士，则A所说的条件命题为假。",
+      "score": 0,
+      "reason": "骗子规则要求非骑士的A所说内容为假，这是把发言与身份连接成完整约束的必要部分。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A是骑士"
+          },
+          {
+            "key": "B",
+            "nl": "B是骑士"
+          }
+        ],
+        "formula": "~A -> ~(A -> ~B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留题干明确的身份设定：每个岛民只能在骑士和骗子两类中取一种身份；若用单一布尔命题表示“是骑士”，则其否定表示“是骗子”。",
+      "score": 0,
+      "reason": "该约束保证“骗子”不会被当作第三种状态或独立无约束属性，从而保持身份语义一致。z3_check omitted: 缺少骗子身份原子"
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为enumerate_models，目标是在A和B两个岛民的身份命题上枚举所有可能组合。",
+      "score": 0,
+      "reason": "原问题询问A和B的身份可能是什么，因此形式化查询必须枚举这两个身份变量的可满足取值组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A是骑士"
+          },
+          {
+            "key": "B",
+            "nl": "B是骑士"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

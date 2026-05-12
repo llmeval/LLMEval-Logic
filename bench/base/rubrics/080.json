@@ -1,0 +1,78 @@
+{
+  "id": 80,
+  "title": "投资决策",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表达：如果不大额投资股市，则至少会在债券市场或房地产市场中进行配置。",
+      "score": 0,
+      "reason": "这是投资原则中的核心条件关系，决定在不选择大额股市投资时可行市场的逻辑范围。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "S",
+            "nl": "大额投资股市"
+          },
+          {
+            "key": "B",
+            "nl": "投资债券市场"
+          },
+          {
+            "key": "R",
+            "nl": "投资房地产市场"
+          }
+        ],
+        "formula": "~S -> (B | R)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留当前债券市场不符合收益要求这一排除条件，即不会投资债券市场。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前限制，直接影响可枚举的投资市场组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "投资债券市场"
+          }
+        ],
+        "formula": "~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合应为是否大额投资股市、是否投资债券市场、是否投资房地产市场。",
+      "score": 0,
+      "reason": "问题询问“可能会投资哪些市场”，需要枚举这三个市场相关命题的可行组合，而不是只判断单个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "大额投资股市"
+          },
+          {
+            "key": "B",
+            "nl": "投资债券市场"
+          },
+          {
+            "key": "C",
+            "nl": "投资房地产市场"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

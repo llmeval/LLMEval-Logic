@@ -1,0 +1,133 @@
+{
+  "id": 177,
+  "title": "买橘子 命题逻辑",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果小芳遇到有人卖橘子，那么小芳会带橘子回来。",
+      "score": 0,
+      "reason": "这是题中关于遇到卖橘子的人与带橘子之间的条件关系，影响可带回物品的可能组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "小芳遇到有人卖橘子"
+          },
+          {
+            "key": "A",
+            "nl": "小芳带橘子回来"
+          }
+        ],
+        "formula": "E -> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果小芳没有买或带橘子回来，那么她会给小明买一个冰淇淋。",
+      "score": 0,
+      "reason": "这是题中橘子与冰淇淋之间的条件关系，决定在没有橘子的情况下冰淇淋是否需要带回。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小芳带橘子回来"
+          },
+          {
+            "key": "C",
+            "nl": "小芳给小明买一个冰淇淋"
+          }
+        ],
+        "formula": "~A -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表示：小芳带橘子回来以遇到有人卖橘子为前提，即若带橘子回来则说明遇到有人卖橘子。",
+      "score": 0,
+      "reason": "该关系用于排除在已知没有遇到卖橘子的人时仍可带回橘子的模型，保持橘子来源约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小芳带橘子回来"
+          },
+          {
+            "key": "E",
+            "nl": "小芳遇到有人卖橘子"
+          }
+        ],
+        "formula": "A -> E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应包含明确事实：小芳需要帮小明带一板薄荷糖。",
+      "score": 0,
+      "reason": "这是题干中直接给出的需带回物品之一，属于被枚举目标中的固定约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "小芳帮小明带一板薄荷糖"
+          }
+        ],
+        "formula": "D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应包含明确事实：小芳没有遇到有人卖橘子。",
+      "score": 0,
+      "reason": "这是题干给出的当前情况约束，会限制橘子及冰淇淋相关模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "小芳遇到有人卖橘子"
+          }
+        ],
+        "formula": "~E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 enumerate_models 类型，枚举小芳可能需要带回的目标物品组合：橘子、冰淇淋、薄荷糖。",
+      "score": 0,
+      "reason": "问题询问在这种情况下可能需要带回哪些东西，因此应枚举这些目标物品的可能真值组合，而不是判断单个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小芳带橘子回来"
+          },
+          {
+            "key": "C",
+            "nl": "小芳给小明买一个冰淇淋"
+          },
+          {
+            "key": "D",
+            "nl": "小芳帮小明带一板薄荷糖"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

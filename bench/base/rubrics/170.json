@@ -1,0 +1,101 @@
+{
+  "id": 170,
+  "title": "人和人相处",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“相互理解”必然推出“在同一语境下”。",
+      "score": 0,
+      "reason": "这是背景中关于相互理解与同一语境之间的必要条件关系，方向不能反置。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "U",
+            "nl": "相互理解"
+          },
+          {
+            "key": "S",
+            "nl": "在同一语境下"
+          }
+        ],
+        "formula": "U -> S",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示如果既“在同一语境下”又“相互理解”，则能够“好好相处”。",
+      "score": 0,
+      "reason": "这是从同一语境下的相互理解到好好相处的核心条件关系，需要保留合取前件和蕴含方向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "S",
+            "nl": "在同一语境下"
+          },
+          {
+            "key": "U",
+            "nl": "相互理解"
+          },
+          {
+            "key": "G",
+            "nl": "好好相处"
+          }
+        ],
+        "formula": "(S & U) -> G",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示在“相互沟通”且仍然“不能好好相处”的情况下，“相互理解”不能导致“好好相处”。",
+      "score": 0,
+      "reason": "这是题干第三个假设，限定条件包含相互沟通和不好好相处，并约束相互理解与好好相处之间的关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "M",
+            "nl": "相互沟通"
+          },
+          {
+            "key": "G",
+            "nl": "好好相处"
+          },
+          {
+            "key": "U",
+            "nl": "相互理解"
+          }
+        ],
+        "formula": "(M & ~G) -> (U -> ~G)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应同时对应“possible”和“necessary”，查询目标均为：相互沟通的人是否能好好相处，即“相互沟通”推出“好好相处”。",
+      "score": 0,
+      "reason": "题目要求分别判断相互沟通者好好相处的可能性和必然性，形式化查询必须指向同一个条件命题目标。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "相互沟通"
+          },
+          {
+            "key": "B",
+            "nl": "好好相处"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "A -> B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

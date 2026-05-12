@@ -1,0 +1,124 @@
+{
+  "id": 134,
+  "title": "占卜沙龙",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "正确表示“如果灰调蓝参加，那么费利西安一定参加”的单向蕴含关系。",
+      "score": 0,
+      "reason": "该条件限定了灰调蓝与费利西安参加状态之间的必要依赖，方向不能反转或弱化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "灰调蓝参加"
+          },
+          {
+            "key": "F",
+            "nl": "费利西安参加"
+          }
+        ],
+        "formula": "G -> F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "正确表示“如果费利西安参加，那么西莉亚不能参加”的单向蕴含关系。",
+      "score": 0,
+      "reason": "该条件表达费利西安参加会排除西莉亚参加，是判断组合可行性的关键排斥关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "费利西安参加"
+          },
+          {
+            "key": "C",
+            "nl": "西莉亚参加"
+          }
+        ],
+        "formula": "F -> ~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "正确表示“如果西莉亚不参加，那么灰调蓝必须参加”的单向蕴含关系。",
+      "score": 0,
+      "reason": "该条件把西莉亚缺席与灰调蓝出席相联系，必须保留否定前件和蕴含方向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "西莉亚参加"
+          },
+          {
+            "key": "G",
+            "nl": "灰调蓝参加"
+          }
+        ],
+        "formula": "~C -> G",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "正确保留“至少需要两位女士参加”的显式约束，即三人中至少两人参加。",
+      "score": 0,
+      "reason": "这是题目明确给出的组合数量限制，缺失或误写会改变被枚举的可行参加组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "灰调蓝参加"
+          },
+          {
+            "key": "F",
+            "nl": "费利西安参加"
+          },
+          {
+            "key": "C",
+            "nl": "西莉亚参加"
+          }
+        ],
+        "formula": "(G & F) | (C & F) | (G & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标是枚举灰调蓝、费利西安和西莉亚三人的参加状态组合。",
+      "score": 0,
+      "reason": "题目要求找出满足条件的参加组合，因此形式化问题必须对这三位女士的布尔参加变量进行模型枚举。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "灰调蓝参加"
+          },
+          {
+            "key": "B",
+            "nl": "费利西安参加"
+          },
+          {
+            "key": "C",
+            "nl": "西莉亚参加"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

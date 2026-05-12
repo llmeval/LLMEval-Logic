@@ -1,0 +1,167 @@
+{
+  "id": 222,
+  "title": "点什么吃",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：如果点披萨，就不点汉堡。",
+      "score": 0,
+      "reason": "这是“点披萨当且仅当不点汉堡”的一个方向，错误会改变披萨与汉堡的相容性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "点披萨吃"
+          },
+          {
+            "key": "H",
+            "nl": "点汉堡吃"
+          }
+        ],
+        "formula": "P -> ~H",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：如果不点汉堡，就点披萨。",
+      "score": 0,
+      "reason": "这是“点披萨当且仅当不点汉堡”的另一个方向，不能只形式化为单向蕴含。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "点披萨吃"
+          },
+          {
+            "key": "H",
+            "nl": "点汉堡吃"
+          }
+        ],
+        "formula": "~H -> P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：如果点寿司，就不点披萨。",
+      "score": 0,
+      "reason": "寿司对披萨的排除关系会直接限制可行点餐组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "S",
+            "nl": "点寿司吃"
+          },
+          {
+            "key": "P",
+            "nl": "点披萨吃"
+          }
+        ],
+        "formula": "S -> ~P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：如果点汉堡，就不点薯条。",
+      "score": 0,
+      "reason": "汉堡对薯条的排除关系是题目给出的条件之一，会影响食物组合的可满足性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "点汉堡吃"
+          },
+          {
+            "key": "F",
+            "nl": "点薯条吃"
+          }
+        ],
+        "formula": "H -> ~F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：披萨、汉堡、寿司三种主食中至少点两种。",
+      "score": 0,
+      "reason": "这是主食数量约束，必须排除少于两种主食的组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "点披萨吃"
+          },
+          {
+            "key": "H",
+            "nl": "点汉堡吃"
+          },
+          {
+            "key": "S",
+            "nl": "点寿司吃"
+          }
+        ],
+        "formula": "(P & H) | (P & S) | (H & S)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留已知事实：小明没有点薯条。",
+      "score": 0,
+      "reason": "这是题目明确给出的当前状态，不能作为待求变量而不加约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "点薯条吃"
+          }
+        ],
+        "formula": "~F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 enumerate_models 类型，目标是在所有条件下枚举小明可能点哪些食物，即汉堡、薯条、披萨、寿司四个命题的取值组合。",
+      "score": 0,
+      "reason": "原问题询问可能的点餐组合，形式化查询应枚举四种食物的可行模型，而不是只判断单个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "点汉堡吃"
+          },
+          {
+            "key": "B",
+            "nl": "点薯条吃"
+          },
+          {
+            "key": "C",
+            "nl": "点披萨吃"
+          },
+          {
+            "key": "D",
+            "nl": "点寿司吃"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

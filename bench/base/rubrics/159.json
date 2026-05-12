@@ -1,0 +1,110 @@
+{
+  "id": 159,
+  "title": "谷雨诗会",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应明确表示小赵的观点为真，即彭老师参加本届谷雨诗会。",
+      "score": 0,
+      "reason": "这是题干直接给出的真观点内容，是后续判断其他观点真假及查询付老师是否参加的基础。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "彭老师参加"
+          }
+        ],
+        "formula": "A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示小钱的观点为假：不能成立“如果彭老师参加，那么周老师和付老师也会参加”。",
+      "score": 0,
+      "reason": "题干说明只有小赵观点为真，因此小钱的条件判断必须被形式化为假，否则会改变付老师是否参加的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "彭老师参加"
+          },
+          {
+            "key": "B",
+            "nl": "周老师参加"
+          },
+          {
+            "key": "C",
+            "nl": "付老师参加"
+          }
+        ],
+        "formula": "~(A -> (B & C))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示小孙的观点为假：其“要么刘老师参加，要么付老师不参加”的排他选择判断不成立。",
+      "score": 0,
+      "reason": "小孙观点的真假约束直接关联刘老师与付老师参加情况，必须保留该排他选择被否定的逻辑关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "付老师参加"
+          },
+          {
+            "key": "D",
+            "nl": "刘老师参加"
+          }
+        ],
+        "formula": "~((C & D) | (~C & ~D))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示小李的观点为假：不能成立“只有刘老师参加，彭老师才会参加”。",
+      "score": 0,
+      "reason": "小李观点被判为假会约束彭老师与刘老师的参加关系，是推出相关参加状态的重要条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "彭老师参加"
+          },
+          {
+            "key": "D",
+            "nl": "刘老师参加"
+          }
+        ],
+        "formula": "~(~D -> ~A)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 necessary，目标命题集为“付老师参加”。",
+      "score": 0,
+      "reason": "原问题询问付老师是否会参加，需要检验该命题在形式化约束下是否必然成立，而不是查询其他人物或其他任务类型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "付老师参加"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

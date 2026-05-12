@@ -1,0 +1,110 @@
+{
+  "id": 47,
+  "title": "吃饺子",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示最后会在牛肉馅、猪肉馅、鱼肉馅三种饺子中至少选择一种。",
+      "score": 0,
+      "reason": "题干说明决定去吃饺子，且候选口味就是这三种；若不表示至少选一种，会改变可行选择空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "选择牛肉馅"
+          },
+          {
+            "key": "B",
+            "nl": "选择猪肉馅"
+          },
+          {
+            "key": "C",
+            "nl": "选择鱼肉馅"
+          }
+        ],
+        "formula": "A | B | C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示只会选择一种口味，即三种口味中任意两种不能同时被选择。",
+      "score": 0,
+      "reason": "“只会选一种口味”是题干显式限制；若允许同时选择多个口味，就不符合原问题的选择条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "选择牛肉馅"
+          },
+          {
+            "key": "B",
+            "nl": "选择猪肉馅"
+          },
+          {
+            "key": "C",
+            "nl": "选择鱼肉馅"
+          }
+        ],
+        "formula": "~(A & B) & ~(A & C) & ~(B & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示因为鱼肉馅排队人很多，所以不会选择鱼肉馅。",
+      "score": 0,
+      "reason": "鱼肉馅不会被选择是题干明确给出的当前排除条件，直接影响可能选择集合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "选择鱼肉馅"
+          }
+        ],
+        "formula": "~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化不能把“不喜欢猪肉馅”错误表示为一定不选择猪肉馅；猪肉馅不应仅因不喜欢而被逻辑排除。",
+      "score": 0,
+      "reason": "题干特别说明“不喜欢也不代表一定不选”，因此把猪肉馅形式化为禁止选择会扭曲原问题的逻辑关系。z3_check omitted: 难以用单个蕴含式表达"
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 enumerate_models，目标命题集合是三种口味是否被选择：牛肉馅、猪肉馅、鱼肉馅。",
+      "score": 0,
+      "reason": "原问题问“最后可能会选哪种饺子”，需要枚举三种候选口味在约束下的可行选择情况，而不是证明某一种必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "选择牛肉馅"
+          },
+          {
+            "key": "B",
+            "nl": "选择猪肉馅"
+          },
+          {
+            "key": "C",
+            "nl": "选择鱼肉馅"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

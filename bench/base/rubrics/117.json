@@ -1,0 +1,160 @@
+{
+  "id": 117,
+  "title": "寒假和谁一起回家",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "需表示A的预测为真当且仅当：老我和老自一起回家、老我和老己一起回家这两种情况中恰好发生一种。",
+      "score": 0,
+      "reason": "这是A预测内容的核心逻辑关系，必须保留“要么……要么……”的排他性，而不能误写成普通析取。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "预测A"
+          },
+          {
+            "key": "E",
+            "nl": "老我和老自回家"
+          },
+          {
+            "key": "F",
+            "nl": "老我和老己回家"
+          }
+        ],
+        "formula": "A <-> ((E | F) & ~(E & F))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "需表示B的预测为真当且仅当：如果老我和老自一起回家，那么老己也会和老我一起回家。",
+      "score": 0,
+      "reason": "这是B预测内容的条件关系，必须保持从“和老自一起”到“和老己一起”的蕴含方向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "预测B"
+          },
+          {
+            "key": "E",
+            "nl": "老我和老自回家"
+          },
+          {
+            "key": "F",
+            "nl": "老我和老己回家"
+          }
+        ],
+        "formula": "B <-> (E -> F)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "需表示C的预测为真当且仅当：老我既不和老自一起回家，也不和老己一起回家。",
+      "score": 0,
+      "reason": "这是C预测内容的合取否定关系，必须同时否定两种同行可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "预测C"
+          },
+          {
+            "key": "E",
+            "nl": "老我和老自回家"
+          },
+          {
+            "key": "F",
+            "nl": "老我和老己回家"
+          }
+        ],
+        "formula": "C <-> (~E & ~F)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "需表示D的预测为真当且仅当：老我至少会和老自、老己中的一人一起回家。",
+      "score": 0,
+      "reason": "这是D预测内容的非排他析取关系，允许与其中一人或两人一起回家。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "预测D"
+          },
+          {
+            "key": "E",
+            "nl": "老我和老自回家"
+          },
+          {
+            "key": "F",
+            "nl": "老我和老己回家"
+          }
+        ],
+        "formula": "D <-> (E | F)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "需表示最终条件：四个预测中恰好只有一个预测错误，其余三个预测正确。",
+      "score": 0,
+      "reason": "题干明确给出“只有一个人预测错误”，这是筛选可能同行情况的关键约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "预测A"
+          },
+          {
+            "key": "B",
+            "nl": "预测B"
+          },
+          {
+            "key": "C",
+            "nl": "预测C"
+          },
+          {
+            "key": "D",
+            "nl": "预测D"
+          }
+        ],
+        "formula": "((~A & B & C & D) | (A & ~B & C & D) | (A & B & ~C & D) | (A & B & C & ~D))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为enumerate_models，目标命题集合是枚举老我是否和老自一起回家、老我是否和老己一起回家的所有可能组合。",
+      "score": 0,
+      "reason": "原问题问“最后可能和老我一起回家的人有哪些”，需要枚举两位候选同行者对应命题的可满足组合，而不是只判断单个命题真假。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "老我和老自回家"
+          },
+          {
+            "key": "F",
+            "nl": "老我和老己回家"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "E",
+          "F"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

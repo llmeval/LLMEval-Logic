@@ -1,0 +1,340 @@
+{
+  "id": 188,
+  "title": "王安石推行青苗法",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：县官向自耕农放贷时，该放贷行为不属于违规放贷。",
+      "score": 0,
+      "reason": "这是判断王二向张三放贷是否合规的核心规则，必须保留放贷者为县官、借贷者为自耕农与非违规之间的条件关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "y向x放贷"
+          },
+          {
+            "key": "H",
+            "nl": "x是县官"
+          },
+          {
+            "key": "FI",
+            "nl": "x是自耕农"
+          },
+          {
+            "key": "R",
+            "nl": "y向x违规放贷"
+          }
+        ],
+        "formula": "forall x. forall y. ((P(x,y) & H(y) & FI(x)) -> ~R(x,y))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：县官向地主或流民放贷时，该放贷行为属于违规放贷。",
+      "score": 0,
+      "reason": "这保留了青苗法中放贷对象限制的反面规则，用于区分合法放贷对象与违规放贷对象。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "y向x放贷"
+          },
+          {
+            "key": "H",
+            "nl": "x是县官"
+          },
+          {
+            "key": "G",
+            "nl": "x是地主"
+          },
+          {
+            "key": "J",
+            "nl": "x是流民"
+          },
+          {
+            "key": "R",
+            "nl": "y向x违规放贷"
+          }
+        ],
+        "formula": "forall x. forall y. ((P(x,y) & H(y) & (G(x) | J(x))) -> R(x,y))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示：借贷者未按时归还且未遭遇自然灾害时，需要承担责任。",
+      "score": 0,
+      "reason": "这是一般逾期责任规则，确保形式化没有把所有未按时归还情形都直接等同于自然灾害免责情形。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "y向x放贷"
+          },
+          {
+            "key": "H",
+            "nl": "x是县官"
+          },
+          {
+            "key": "I",
+            "nl": "x按时归还本息"
+          },
+          {
+            "key": "FF",
+            "nl": "x遭遇自然灾害"
+          },
+          {
+            "key": "FG",
+            "nl": "x要承担责任"
+          }
+        ],
+        "formula": "forall x. forall y. ((P(x,y) & H(y) & ~I(x) & ~FF(x)) -> FG(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示：借贷者因自然灾害未按时归还，并且经县官核实上报朝廷后，可以延期且无需承担责任。",
+      "score": 0,
+      "reason": "这是自然灾害免责的必要条件结构，必须体现核实上报是免责和延期的条件之一。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "y向x放贷"
+          },
+          {
+            "key": "H",
+            "nl": "x是县官"
+          },
+          {
+            "key": "FF",
+            "nl": "x遭遇自然灾害"
+          },
+          {
+            "key": "I",
+            "nl": "x按时归还本息"
+          },
+          {
+            "key": "Q",
+            "nl": "y核实了x的受灾情况上报朝廷"
+          },
+          {
+            "key": "FH",
+            "nl": "x可以延期归还贷款"
+          },
+          {
+            "key": "FG",
+            "nl": "x要承担责任"
+          }
+        ],
+        "formula": "forall x. forall y. ((P(x,y) & H(y) & FF(x) & ~I(x) & Q(x,y)) -> (FH(x) & ~FG(x)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "应表示：借贷者虽遭遇自然灾害且未按时归还，但县官未核实上报朝廷时，借贷者仍需承担责任。",
+      "score": 0,
+      "reason": "这是判断李四是否承担责任的直接规则，关键在于自然灾害本身不自动免责，未核实上报会导致承担责任。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "y向x放贷"
+          },
+          {
+            "key": "H",
+            "nl": "x是县官"
+          },
+          {
+            "key": "FF",
+            "nl": "x遭遇自然灾害"
+          },
+          {
+            "key": "I",
+            "nl": "x按时归还本息"
+          },
+          {
+            "key": "Q",
+            "nl": "y核实了x的受灾情况上报朝廷"
+          },
+          {
+            "key": "FG",
+            "nl": "x要承担责任"
+          }
+        ],
+        "formula": "forall x. forall y. ((P(x,y) & H(y) & FF(x) & ~I(x) & ~Q(x,y)) -> FG(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应明确表示王二是县官。",
+      "score": 0,
+      "reason": "县官身份是适用青苗法放贷规则和责任规则的前提条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "王二"
+          },
+          {
+            "key": "H",
+            "nl": "x是县官"
+          }
+        ],
+        "formula": "H(a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应明确表示张三是自耕农。",
+      "score": 0,
+      "reason": "张三的自耕农身份是判断王二向张三放贷是否合规的事实前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "张三"
+          },
+          {
+            "key": "FI",
+            "nl": "x是自耕农"
+          }
+        ],
+        "formula": "FI(b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "应明确表示王二向张三放贷。",
+      "score": 0,
+      "reason": "该事实是判断王二向张三这笔放贷是否合规的对象事实。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "王二"
+          },
+          {
+            "key": "b",
+            "nl": "张三"
+          },
+          {
+            "key": "P",
+            "nl": "y向x放贷"
+          }
+        ],
+        "formula": "P(b,a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC4",
+      "group": "stated_constraint",
+      "desc": "应明确表示王二向李四放贷。",
+      "score": 0,
+      "reason": "该事实是将李四纳入借贷规则和逾期责任规则的前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "王二"
+          },
+          {
+            "key": "c",
+            "nl": "李四"
+          },
+          {
+            "key": "P",
+            "nl": "y向x放贷"
+          }
+        ],
+        "formula": "P(c,a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC5",
+      "group": "stated_constraint",
+      "desc": "应明确表示李四遭遇自然灾害、未按时归还本息，且王二未核实李四受灾情况并上报朝廷。",
+      "score": 0,
+      "reason": "这些是判断李四未归还本息是否需要承担责任的直接事实条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "王二"
+          },
+          {
+            "key": "c",
+            "nl": "李四"
+          },
+          {
+            "key": "FF",
+            "nl": "x遭遇自然灾害"
+          },
+          {
+            "key": "I",
+            "nl": "x按时归还本息"
+          },
+          {
+            "key": "Q",
+            "nl": "y核实了x的受灾情况上报朝廷"
+          }
+        ],
+        "formula": "FF(c) & ~I(c) & ~Q(c,a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 necessary；目标命题集应同时对应“王二向张三放贷不属于违规放贷”和“李四要承担责任”。",
+      "score": 0,
+      "reason": "原问题要求判断两个结论是否必然成立，形式化查询必须对准这两个目标，而不是查询处罚王二、延期资格或其他命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "王二"
+          },
+          {
+            "key": "b",
+            "nl": "张三"
+          },
+          {
+            "key": "c",
+            "nl": "李四"
+          },
+          {
+            "key": "R",
+            "nl": "y向x违规放贷"
+          },
+          {
+            "key": "FG",
+            "nl": "x要承担责任"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "~R(b,a) & FG(c)"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

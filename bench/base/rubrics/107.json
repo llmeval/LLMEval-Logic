@@ -1,0 +1,72 @@
+{
+  "id": 107,
+  "title": "海盗分金币",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应形式化表示：由于海盗A默认赞成且半数及以上即可通过，A的方案通过当且仅当海盗B或海盗C中至少一人投票赞成A的方案。",
+      "score": 0,
+      "reason": "这是判断方案能否通过的核心投票规则，必须保留“至少一个赞成”而不是误写为两人都赞成或其他条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "海盗A的方案通过"
+          },
+          {
+            "key": "vB",
+            "nl": "海盗B投票赞成A的方案"
+          },
+          {
+            "key": "vC",
+            "nl": "海盗C投票赞成A的方案"
+          }
+        ],
+        "formula": "P <-> (vB | vC)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留题干明确给出的当前投票事实：海盗B会反对A的方案，即B不投票赞成A的方案。",
+      "score": 0,
+      "reason": "B的反对是题干直接陈述的事实，会影响A的方案是否满足通过条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "vB",
+            "nl": "海盗B投票赞成A的方案"
+          }
+        ],
+        "formula": "~vB",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留题干明确给出的当前投票事实：海盗C会同意A的方案，即C投票赞成A的方案。",
+      "score": 0,
+      "reason": "C的赞成是题干直接陈述的事实，会影响A的方案是否满足通过条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "vC",
+            "nl": "海盗C投票赞成A的方案"
+          }
+        ],
+        "formula": "vC",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时包含两个类型：possible与necessary；二者的目标命题都应是“海盗A的方案通过”。",
+      "score": 0,
+      "reason": "原问题分别询问A的方案是否有可能通过以及是否一定通过，形式化查询必须对准同一个目标命题并保留这两个查询类型。z3_check omitted: 单个query_equiv不支持双查询类型"
+    }
+  ]
+}

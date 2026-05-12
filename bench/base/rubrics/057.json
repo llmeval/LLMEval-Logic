@@ -1,0 +1,215 @@
+{
+  "id": 57,
+  "title": "真假问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表达：如果第一位说话者说真话，那么四个人中恰好只有第一位说真话，其余三位都不说真话。",
+      "score": 0,
+      "reason": "这是第一位说话者所说“恰好有一个人说真话”的核心条件，且该条件直接约束被枚举的真话者组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A说真话"
+          },
+          {
+            "key": "B",
+            "nl": "B说真话"
+          },
+          {
+            "key": "C",
+            "nl": "C说真话"
+          },
+          {
+            "key": "D",
+            "nl": "D说真话"
+          }
+        ],
+        "formula": "A -> (A & ~B & ~C & ~D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表达：如果第二位说话者说真话，那么四个人中恰好有两个人说真话。",
+      "score": 0,
+      "reason": "这是第二位说话者陈述内容的关键逻辑关系，需要完整覆盖所有且仅有两人说真话的可能组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A说真话"
+          },
+          {
+            "key": "B",
+            "nl": "B说真话"
+          },
+          {
+            "key": "C",
+            "nl": "C说真话"
+          },
+          {
+            "key": "D",
+            "nl": "D说真话"
+          }
+        ],
+        "formula": "B -> ((A & B & ~C & ~D) | (A & ~B & C & ~D) | (A & ~B & ~C & D) | (~A & B & C & ~D) | (~A & B & ~C & D) | (~A & ~B & C & D))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表达：如果第三位说话者说真话，那么四个人中恰好有三个人说真话。",
+      "score": 0,
+      "reason": "这是第三位说话者陈述内容的关键逻辑关系，需要完整覆盖所有且仅有三人说真话的可能组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A说真话"
+          },
+          {
+            "key": "B",
+            "nl": "B说真话"
+          },
+          {
+            "key": "C",
+            "nl": "C说真话"
+          },
+          {
+            "key": "D",
+            "nl": "D说真话"
+          }
+        ],
+        "formula": "C -> ((A & B & C & ~D) | (A & B & ~C & D) | (A & ~B & C & D) | (~A & B & C & D))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化应表达：如果第四位说话者说真话，那么四个人全都说真话。",
+      "score": 0,
+      "reason": "这是第四位说话者陈述内容的核心条件，关系到全真状态是否会被纳入或排除。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A说真话"
+          },
+          {
+            "key": "B",
+            "nl": "B说真话"
+          },
+          {
+            "key": "C",
+            "nl": "C说真话"
+          },
+          {
+            "key": "D",
+            "nl": "D说真话"
+          }
+        ],
+        "formula": "D -> (A & B & C & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留题干明确条件：四个人所说的话不都为假，即至少有一人说真话。",
+      "score": 0,
+      "reason": "这是题干直接给出的总体约束，会排除全假的真值组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A说真话"
+          },
+          {
+            "key": "B",
+            "nl": "B说真话"
+          },
+          {
+            "key": "C",
+            "nl": "C说真话"
+          },
+          {
+            "key": "D",
+            "nl": "D说真话"
+          }
+        ],
+        "formula": "A | B | C | D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应保留题干明确条件：四个人所说的话不都为真，即不能四人全都说真话。",
+      "score": 0,
+      "reason": "这是题干直接给出的总体约束，会排除全真的真值组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A说真话"
+          },
+          {
+            "key": "B",
+            "nl": "B说真话"
+          },
+          {
+            "key": "C",
+            "nl": "C说真话"
+          },
+          {
+            "key": "D",
+            "nl": "D说真话"
+          }
+        ],
+        "formula": "~(A & B & C & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 enumerate_models 类型，目标是在四个命题“谁说真话”上枚举可能的真值组合。",
+      "score": 0,
+      "reason": "题目问“谁可能在说真话”，需要对四位说话者的真话状态进行模型枚举，而不是只判断单个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A说真话"
+          },
+          {
+            "key": "B",
+            "nl": "B说真话"
+          },
+          {
+            "key": "C",
+            "nl": "C说真话"
+          },
+          {
+            "key": "D",
+            "nl": "D说真话"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

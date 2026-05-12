@@ -1,0 +1,65 @@
+{
+  "id": 17,
+  "title": "如果世界上所有的东西都是冰淇淋...",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应把背景中的条件句表示为：如果所有事物都是冰淇淋，那么所有事物都能吃，而不是相反方向或无条件断言。",
+      "score": 0,
+      "reason": "这是题干唯一前提的核心逻辑结构，条件方向和两个全称命题的关系必须保持一致。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "是冰淇淋"
+          },
+          {
+            "key": "G",
+            "nl": "能吃"
+          }
+        ],
+        "formula": "(forall x. F(x)) -> (forall x. G(x))",
+        "mode": "equiv"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "不应把背景条件直接形式化为“任意事物只要是冰淇淋就能吃”的逐对象蕴含规则。",
+      "score": 0,
+      "reason": "该项用于防止把前提误译成与问题目标相同或更强的普遍规则，从而改变原问题的推理关系。z3_check omitted: 需检查未添加额外规则"
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "不应额外断言“所有事物都是冰淇淋”或“所有事物都能吃”已经为真；题干只给出了一个条件前提。",
+      "score": 0,
+      "reason": "该项用于避免引入题干没有陈述的当前事实，防止把条件句误当作已知状态。z3_check omitted: 需检查不存在的额外事实"
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 necessary，目标命题集应是“所有事物如果是冰淇淋就能吃”。",
+      "score": 0,
+      "reason": "问题问的是该全称逐对象蕴含是否必然成立，必须与前提区分开并作为必要性查询目标。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "是冰淇淋"
+          },
+          {
+            "key": "G",
+            "nl": "能吃"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "forall x. (F(x) -> G(x))"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

@@ -1,0 +1,374 @@
+{
+  "id": 171,
+  "title": "密码推理",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示密码有三个位置，且每个位置都至少填入数字1到9中的一个数字。",
+      "score": 0,
+      "reason": "这是题干中“三位、由1到9的数字组成”的基本取值范围约束，缺失会改变可满足性问题的搜索空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "位置 x 是数字 y"
+          },
+          {
+            "key": "a",
+            "nl": "位置1"
+          },
+          {
+            "key": "b",
+            "nl": "位置2"
+          },
+          {
+            "key": "c",
+            "nl": "位置3"
+          },
+          {
+            "key": "d",
+            "nl": "数字1"
+          },
+          {
+            "key": "e",
+            "nl": "数字2"
+          },
+          {
+            "key": "f",
+            "nl": "数字3"
+          },
+          {
+            "key": "g",
+            "nl": "数字4"
+          },
+          {
+            "key": "h",
+            "nl": "数字5"
+          },
+          {
+            "key": "i",
+            "nl": "数字6"
+          },
+          {
+            "key": "j",
+            "nl": "数字7"
+          },
+          {
+            "key": "k",
+            "nl": "数字8"
+          },
+          {
+            "key": "l",
+            "nl": "数字9"
+          }
+        ],
+        "formula": "(P(a,d) | P(a,e) | P(a,f) | P(a,g) | P(a,h) | P(a,i) | P(a,j) | P(a,k) | P(a,l)) & (P(b,d) | P(b,e) | P(b,f) | P(b,g) | P(b,h) | P(b,i) | P(b,j) | P(b,k) | P(b,l)) & (P(c,d) | P(c,e) | P(c,f) | P(c,g) | P(c,h) | P(c,i) | P(c,j) | P(c,k) | P(c,l))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示每个密码位置至多只能对应一个数字，不能同一位置同时是两个不同数字。",
+      "score": 0,
+      "reason": "这是三位密码中每一位唯一取值的必要约束，否则线索中的“号码正确”无法按单个数字位解释。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "位置 x 是数字 y"
+          },
+          {
+            "key": "x",
+            "nl": "任一位置"
+          },
+          {
+            "key": "z",
+            "nl": "任一数字"
+          },
+          {
+            "key": "u",
+            "nl": "另一任一数字"
+          }
+        ],
+        "formula": "forall x. forall z. forall u. ((z != u) -> (P(x,z) -> ~P(x,u)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示三位密码的数字互不相同，即同一个数字不能出现在两个不同位置。",
+      "score": 0,
+      "reason": "题干明确要求三位数字不同，此约束直接影响哪些密码候选可被接受。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "位置 x 是数字 y"
+          },
+          {
+            "key": "x",
+            "nl": "任一位置"
+          },
+          {
+            "key": "y",
+            "nl": "另一任一位置"
+          },
+          {
+            "key": "z",
+            "nl": "任一数字"
+          }
+        ],
+        "formula": "forall x. forall y. forall z. ((x != y) -> (P(x,z) -> ~P(y,z)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC4",
+      "group": "stated_constraint",
+      "desc": "形式化必须把数字1到数字9作为彼此不同的九个可选数字处理。",
+      "score": 0,
+      "reason": "若九个数字常量没有被区分，关于具体数字的线索可能被错误合并或混淆。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "d",
+            "nl": "数字1"
+          },
+          {
+            "key": "e",
+            "nl": "数字2"
+          },
+          {
+            "key": "f",
+            "nl": "数字3"
+          },
+          {
+            "key": "g",
+            "nl": "数字4"
+          },
+          {
+            "key": "h",
+            "nl": "数字5"
+          },
+          {
+            "key": "i",
+            "nl": "数字6"
+          },
+          {
+            "key": "j",
+            "nl": "数字7"
+          },
+          {
+            "key": "k",
+            "nl": "数字8"
+          },
+          {
+            "key": "l",
+            "nl": "数字9"
+          }
+        ],
+        "formula": "d != e & d != f & d != g & d != h & d != i & d != j & d != k & d != l & e != f & e != g & e != h & e != i & e != j & e != k & e != l & f != g & f != h & f != i & f != j & f != k & f != l & g != h & g != i & g != j & g != k & g != l & h != i & h != j & h != k & h != l & i != j & i != k & i != l & j != k & j != l & k != l",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须正确表达线索318：数字3在第1位、数字1在第2位、数字8在第3位这三种对应中恰好一种成立，并且另外两个数字完全不在密码中。",
+      "score": 0,
+      "reason": "该线索同时包含“恰有一个号码正确”和“位置也正确”，不能弱化为至少一个正确或只限制位置。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "位置 x 是数字 y"
+          },
+          {
+            "key": "a",
+            "nl": "位置1"
+          },
+          {
+            "key": "b",
+            "nl": "位置2"
+          },
+          {
+            "key": "c",
+            "nl": "位置3"
+          },
+          {
+            "key": "d",
+            "nl": "数字1"
+          },
+          {
+            "key": "f",
+            "nl": "数字3"
+          },
+          {
+            "key": "k",
+            "nl": "数字8"
+          }
+        ],
+        "formula": "(P(a,f) & ~P(a,d) & ~P(b,d) & ~P(c,d) & ~P(a,k) & ~P(b,k) & ~P(c,k)) | (P(b,d) & ~P(a,f) & ~P(b,f) & ~P(c,f) & ~P(a,k) & ~P(b,k) & ~P(c,k)) | (P(c,k) & ~P(a,f) & ~P(b,f) & ~P(c,f) & ~P(a,d) & ~P(b,d) & ~P(c,d))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须正确表达线索379：数字3、7、9中恰好一个出现在密码中，且出现的那个不在379中给出的位置上，另外两个完全不在密码中。",
+      "score": 0,
+      "reason": "该线索要求“仅有一个号码正确”且“位置不正确”，必须同时编码唯一性、存在性和错位性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "位置 x 是数字 y"
+          },
+          {
+            "key": "a",
+            "nl": "位置1"
+          },
+          {
+            "key": "b",
+            "nl": "位置2"
+          },
+          {
+            "key": "c",
+            "nl": "位置3"
+          },
+          {
+            "key": "f",
+            "nl": "数字3"
+          },
+          {
+            "key": "j",
+            "nl": "数字7"
+          },
+          {
+            "key": "l",
+            "nl": "数字9"
+          }
+        ],
+        "formula": "((P(b,f) | P(c,f)) & ~P(a,f) & ~P(a,j) & ~P(b,j) & ~P(c,j) & ~P(a,l) & ~P(b,l) & ~P(c,l)) | ((P(a,j) | P(c,j)) & ~P(b,j) & ~P(a,f) & ~P(b,f) & ~P(c,f) & ~P(a,l) & ~P(b,l) & ~P(c,l)) | ((P(a,l) | P(b,l)) & ~P(c,l) & ~P(a,f) & ~P(b,f) & ~P(c,f) & ~P(a,j) & ~P(b,j) & ~P(c,j))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须正确表达线索863：数字8、6、3中恰好两个出现在密码中，且这两个都不在863中给出的位置上，剩下一个完全不在密码中。",
+      "score": 0,
+      "reason": "该线索要求精确的“两对且都错位”，不能表达成至少两个、至多两个或忽略错位条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "位置 x 是数字 y"
+          },
+          {
+            "key": "a",
+            "nl": "位置1"
+          },
+          {
+            "key": "b",
+            "nl": "位置2"
+          },
+          {
+            "key": "c",
+            "nl": "位置3"
+          },
+          {
+            "key": "f",
+            "nl": "数字3"
+          },
+          {
+            "key": "i",
+            "nl": "数字6"
+          },
+          {
+            "key": "k",
+            "nl": "数字8"
+          }
+        ],
+        "formula": "((P(b,k) | P(c,k)) & (P(a,i) | P(b,i)) & ~P(a,k) & ~P(c,i) & ~P(a,f) & ~P(b,f) & ~P(c,f)) | ((P(a,i) | P(b,i)) & (P(a,f) | P(b,f)) & ~P(c,i) & ~P(c,f) & ~P(a,k) & ~P(b,k) & ~P(c,k)) | ((P(b,k) | P(c,k)) & (P(a,f) | P(b,f)) & ~P(a,k) & ~P(c,f) & ~P(a,i) & ~P(b,i) & ~P(c,i))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化必须正确表达线索421：数字4、2、1三个数字都不出现在密码的任何位置。",
+      "score": 0,
+      "reason": "该线索是对三个具体数字的全局排除，若只排除其原位置或漏掉某个数字，会改变约束含义。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "位置 x 是数字 y"
+          },
+          {
+            "key": "a",
+            "nl": "位置1"
+          },
+          {
+            "key": "b",
+            "nl": "位置2"
+          },
+          {
+            "key": "c",
+            "nl": "位置3"
+          },
+          {
+            "key": "d",
+            "nl": "数字1"
+          },
+          {
+            "key": "e",
+            "nl": "数字2"
+          },
+          {
+            "key": "g",
+            "nl": "数字4"
+          }
+        ],
+        "formula": "~P(a,g) & ~P(b,g) & ~P(c,g) & ~P(a,e) & ~P(b,e) & ~P(c,e) & ~P(a,d) & ~P(b,d) & ~P(c,d)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是possible类型，目标是是否存在一种三位密码，使位置1、位置2、位置3各有数字并满足所有已形式化线索。",
+      "score": 0,
+      "reason": "原问题问的是满足全部线索的密码是否存在，而不是求唯一密码、列举密码或判断某个具体数字必然成立。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "位置 x 是数字 y"
+          },
+          {
+            "key": "a",
+            "nl": "位置1"
+          },
+          {
+            "key": "b",
+            "nl": "位置2"
+          },
+          {
+            "key": "c",
+            "nl": "位置3"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "exists x. exists y. exists z. (P(a,x) & P(b,y) & P(c,z))"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

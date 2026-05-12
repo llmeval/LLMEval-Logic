@@ -1,0 +1,132 @@
+{
+  "id": 16,
+  "title": "卢浮宫大盗",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示小明说真话当且仅当“小陈没有说真话则小李也没有说真话”这一陈述为真。",
+      "score": 0,
+      "reason": "小明自身是否说真话与其陈述内容之间的双条件关系是判断三人说话情况的核心约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小明说的是真话"
+          },
+          {
+            "key": "B",
+            "nl": "小李说的是真话"
+          },
+          {
+            "key": "C",
+            "nl": "小陈说的是真话"
+          }
+        ],
+        "formula": "A <-> (~C -> ~B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示小李说真话当且仅当“小陈说的是真话”。",
+      "score": 0,
+      "reason": "小李陈述的是小陈话语的真假，因此必须把小李的真假与小陈的真假建立双条件关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "小李说的是真话"
+          },
+          {
+            "key": "C",
+            "nl": "小陈说的是真话"
+          }
+        ],
+        "formula": "B <-> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示小陈说真话当且仅当“小明和小李都在撒谎”。",
+      "score": 0,
+      "reason": "小陈的陈述同时否定小明和小李说真话，且其自身真假应与该合取内容对应。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小明说的是真话"
+          },
+          {
+            "key": "B",
+            "nl": "小李说的是真话"
+          },
+          {
+            "key": "C",
+            "nl": "小陈说的是真话"
+          }
+        ],
+        "formula": "C <-> (~A & ~B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留警方已查明的显式条件：三人中至少有一个人在撒谎。",
+      "score": 0,
+      "reason": "这是题目明确给出的额外限制，会排除不满足至少一人说假话的说话情况。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小明说的是真话"
+          },
+          {
+            "key": "B",
+            "nl": "小李说的是真话"
+          },
+          {
+            "key": "C",
+            "nl": "小陈说的是真话"
+          }
+        ],
+        "formula": "~A | ~B | ~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合为小明说的是真话、小李说的是真话、小陈说的是真话三者的可能取值组合。",
+      "score": 0,
+      "reason": "原问题询问三人的说话情况可能是什么，因此形式化查询应枚举这三个真假命题的模型组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小明说的是真话"
+          },
+          {
+            "key": "B",
+            "nl": "小李说的是真话"
+          },
+          {
+            "key": "C",
+            "nl": "小陈说的是真话"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

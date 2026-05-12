@@ -1,0 +1,93 @@
+{
+  "id": 179,
+  "title": "宿敌可以变成妻子吗？",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：如果宿敌S既忘不掉我又会和我躺在同一张床上，那么宿敌S符合“妻子”的定义。",
+      "score": 0,
+      "reason": "这是题干中“妻子”定义对目标命题的关键充分条件，直接决定能否推出S是妻子。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "我的宿敌S忘不掉我"
+          },
+          {
+            "key": "q",
+            "nl": "我的宿敌S会和我躺在同一张床上"
+          },
+          {
+            "key": "r",
+            "nl": "宿敌S是我的妻子"
+          }
+        ],
+        "formula": "(p & q) -> r",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：宿敌S恨我会推出宿敌S忘不掉我。",
+      "score": 0,
+      "reason": "这是由“恨我的人也忘不掉我”得到的关键依赖关系，用于把宿敌S恨我连接到妻子定义中的条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "我的宿敌S恨我"
+          },
+          {
+            "key": "q",
+            "nl": "我的宿敌S忘不掉我"
+          }
+        ],
+        "formula": "p -> q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留题干明确给出的事实：宿敌S会和我躺在同一张床上。",
+      "score": 0,
+      "reason": "这是妻子定义中合取条件的一部分，作为当前已知事实必须被保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "我的宿敌S会和我躺在同一张床上"
+          }
+        ],
+        "formula": "p",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留题干明确给出的事实：宿敌S恨我。",
+      "score": 0,
+      "reason": "这是触发“恨我则忘不掉我”关系的已知事实，不能遗漏。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "我的宿敌S恨我"
+          }
+        ],
+        "formula": "p",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时对应两类目标：possible，目标命题为“宿敌S是我的妻子”；necessary，目标命题为“宿敌S是我的妻子”。",
+      "score": 0,
+      "reason": "原问题同时询问S是否有可能符合妻子定义以及是否一定符合妻子定义，形式化查询必须对准同一个目标命题的可能性与必然性。"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "id": 24,
+  "title": "资金支持",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "明确表示α项目未获资金这一已知事实。",
+      "score": 0,
+      "reason": "这是题干直接给出的当前状态，会影响后续资金关系的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "α项目获资金"
+          }
+        ],
+        "formula": "~a",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "正确表示“β项目获资金，或者α项目获资金”的析取关系。",
+      "score": 0,
+      "reason": "该析取关系与α项目未获资金结合后约束β项目的资金状态，是判断γ项目状态的重要前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "β项目获资金"
+          },
+          {
+            "key": "a",
+            "nl": "α项目获资金"
+          }
+        ],
+        "formula": "b | a",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "正确表示γ项目获资金当且仅当β项目获资金的双条件关系。",
+      "score": 0,
+      "reason": "题干要求γ与β的资金状态完全等价，不能只形式化为单向蕴含。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "c",
+            "nl": "γ项目获资金"
+          },
+          {
+            "key": "b",
+            "nl": "β项目获资金"
+          }
+        ],
+        "formula": "c <-> b",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "正确表示如果γ项目获资金，那么Δ项目未获资金的条件关系。",
+      "score": 0,
+      "reason": "这是题干给出的资金状态依赖关系，应保留其从γ到非Δ的方向和否定结构。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "c",
+            "nl": "γ项目获资金"
+          },
+          {
+            "key": "d",
+            "nl": "Δ项目获资金"
+          }
+        ],
+        "formula": "c -> ~d",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应同时包括possible与necessary，目标命题均为γ项目获资金。",
+      "score": 0,
+      "reason": "原问题要求分别判断γ项目获资金是否可能以及是否必然，形式化查询必须对准同一目标命题并保留两种模态类型。"
+    }
+  ]
+}

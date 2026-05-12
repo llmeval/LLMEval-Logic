@@ -1,0 +1,283 @@
+{
+  "id": 223,
+  "title": "《审判》",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留主角 K 是被告这一明确事实。",
+      "score": 0,
+      "reason": "该事实是后续关于寻求帮助、法官介入以及案件结果规则适用于 K 的基础。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x是被告"
+          },
+          {
+            "key": "c",
+            "nl": "主角k"
+          }
+        ],
+        "formula": "F(c)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留普通法官 j 是普通法官这一明确事实。",
+      "score": 0,
+      "reason": "该事实用于触发普通法官介入导致案件无限延期的规则。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "x是普通法官"
+          },
+          {
+            "key": "b",
+            "nl": "普通法官j"
+          }
+        ],
+        "formula": "G(b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留高级/最高法官 m 是最高法官这一明确事实。",
+      "score": 0,
+      "reason": "该事实用于区分能带来实际无罪判决的法官介入。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "J",
+            "nl": "x是最高法官"
+          },
+          {
+            "key": "d",
+            "nl": "高级法官m"
+          }
+        ],
+        "formula": "J(d)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC4",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留律师 h 能控制普通法官 j 的决定这一明确事实。",
+      "score": 0,
+      "reason": "该事实与 K 向律师 h 求助一起，用于推出普通法官可以介入 K 的案件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "R",
+            "nl": "x控制y的决定"
+          },
+          {
+            "key": "a",
+            "nl": "律师h"
+          },
+          {
+            "key": "b",
+            "nl": "普通法官j"
+          }
+        ],
+        "formula": "R(a,b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC5",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留 K 向律师 h 寻求帮助这一明确事实。",
+      "score": 0,
+      "reason": "该事实是应用律师控制法官即可使法官介入案件规则的前提之一。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x向y寻求帮助"
+          },
+          {
+            "key": "c",
+            "nl": "主角k"
+          },
+          {
+            "key": "a",
+            "nl": "律师h"
+          }
+        ],
+        "formula": "P(c,a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：若某被告向律师 h 求助，且律师 h 能控制某位法官的决定，则该法官能介入该被告的案件。",
+      "score": 0,
+      "reason": "这是从律师关系和控制关系推出法官介入案件的关键条件关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x是被告"
+          },
+          {
+            "key": "P",
+            "nl": "x向y寻求帮助"
+          },
+          {
+            "key": "R",
+            "nl": "x控制y的决定"
+          },
+          {
+            "key": "Q",
+            "nl": "x介入y的案件"
+          },
+          {
+            "key": "a",
+            "nl": "律师h"
+          },
+          {
+            "key": "x",
+            "nl": "任意被告"
+          },
+          {
+            "key": "y",
+            "nl": "任意法官"
+          }
+        ],
+        "formula": "forall x. forall y. ((F(x) & P(x,a) & R(a,y)) -> Q(y,x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：普通法官一旦介入某被告的案件，该被告的案件就会被无限期延期。",
+      "score": 0,
+      "reason": "这是把普通法官介入与案件无限延期相连接的核心规则。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x是被告"
+          },
+          {
+            "key": "G",
+            "nl": "x是普通法官"
+          },
+          {
+            "key": "Q",
+            "nl": "x介入y的案件"
+          },
+          {
+            "key": "H",
+            "nl": "x的案件被无限延期"
+          },
+          {
+            "key": "x",
+            "nl": "任意被告"
+          },
+          {
+            "key": "y",
+            "nl": "任意普通法官"
+          }
+        ],
+        "formula": "forall x. forall y. ((F(x) & G(y) & Q(y,x)) -> H(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：某被告获得实际无罪判决，当且仅当最高法官介入他的案件。",
+      "score": 0,
+      "reason": "该双条件关系决定了实际无罪判决与最高法官介入之间的精确对应，不能只写成单向蕴含。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "I",
+            "nl": "x获得实际无罪判决"
+          },
+          {
+            "key": "Q",
+            "nl": "x介入y的案件"
+          },
+          {
+            "key": "d",
+            "nl": "高级法官m"
+          },
+          {
+            "key": "x",
+            "nl": "任意被告"
+          }
+        ],
+        "formula": "forall x. (I(x) <-> Q(d,x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化必须表达同一案件不能同时由普通法官 j 和最高法官 m 介入，至少要排除二者同时介入同一被告案件的情况。",
+      "score": 0,
+      "reason": "该互斥关系用于把普通法官介入与最高法官不介入区分开，从而影响实际无罪判决的形式化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Q",
+            "nl": "x介入y的案件"
+          },
+          {
+            "key": "b",
+            "nl": "普通法官j"
+          },
+          {
+            "key": "d",
+            "nl": "高级法官m"
+          },
+          {
+            "key": "x",
+            "nl": "任意被告"
+          }
+        ],
+        "formula": "forall x. (Q(b,x) -> ~Q(d,x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 necessary 类型，目标命题集为：K 的案件被无限延期且 K 没有获得实际无罪判决。",
+      "score": 0,
+      "reason": "该项确保形式化问题询问的是原题中的必然性结论，而不是可能性、模型枚举或其他对象的状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "x的案件被无限延期"
+          },
+          {
+            "key": "I",
+            "nl": "x获得实际无罪判决"
+          },
+          {
+            "key": "c",
+            "nl": "主角k"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "H(c) & ~I(c)"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

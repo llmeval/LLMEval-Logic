@@ -1,0 +1,135 @@
+{
+  "id": 55,
+  "title": "优惠券",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示优惠券 X 与优惠券 Y 不能同时使用。",
+      "score": 0,
+      "reason": "这是题干中优惠券之间互斥约束的一部分，若遗漏会改变可行组合空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "使用优惠券x"
+          },
+          {
+            "key": "B",
+            "nl": "使用优惠券y"
+          }
+        ],
+        "formula": "~(A & B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示优惠券 X 与优惠券 Z 不能同时使用。",
+      "score": 0,
+      "reason": "这是题干中优惠券之间互斥约束的一部分，若遗漏会错误允许 X 和 Z 的组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "使用优惠券x"
+          },
+          {
+            "key": "C",
+            "nl": "使用优惠券z"
+          }
+        ],
+        "formula": "~(A & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示优惠券 Y 与优惠券 Z 不能同时使用。",
+      "score": 0,
+      "reason": "这是题干中优惠券之间互斥约束的一部分，若遗漏会错误允许 Y 和 Z 的组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "使用优惠券y"
+          },
+          {
+            "key": "C",
+            "nl": "使用优惠券z"
+          }
+        ],
+        "formula": "~(B & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示优惠券 Z 的使用依赖于购物金额满足满 50 元这一条件。",
+      "score": 0,
+      "reason": "该条件限定了 Z 是否可用，形式化时不应把 Z 视为完全无条件可用或错误地反向表达依赖关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "使用优惠券z"
+          },
+          {
+            "key": "D",
+            "nl": "购物金额满50元"
+          }
+        ],
+        "formula": "C -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留当前购物金额满足 Z 的使用门槛（购物车 60 元 ≥ 50 元），即满 50 元这一已知事实成立。",
+      "score": 0,
+      "reason": "题面给出购物车金额为 60 元，是 Z 的满 50 元条件被满足的依据；可以直接用“满 50 元成立”这一事实表示。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "购物金额满50元"
+          }
+        ],
+        "formula": "D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 possible，目标命题集合为：在全部约束下是否可能至少使用优惠券 X、Y、Z 中的一张。",
+      "score": 0,
+      "reason": "该项检查形式化问题是否询问同一个可满足性目标，而不是改成必然性、计数、枚举或其他优惠券组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "使用优惠券x"
+          },
+          {
+            "key": "B",
+            "nl": "使用优惠券y"
+          },
+          {
+            "key": "C",
+            "nl": "使用优惠券z"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "A | B | C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

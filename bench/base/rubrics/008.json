@@ -1,0 +1,156 @@
+{
+  "id": 8,
+  "title": "录取人员选课情况问题",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示：在历史和物理两门中恰好选择一门。",
+      "score": 0,
+      "reason": "这是题干明确给出的选课限制，决定历史与物理之间的排斥且穷尽关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "选修历史"
+          },
+          {
+            "key": "P",
+            "nl": "选修物理"
+          }
+        ],
+        "formula": "H <-> ~P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示：在思想政治、化学、地理和生物四门中恰好选择两门。",
+      "score": 0,
+      "reason": "这是题干明确给出的第二组选课数量限制，会影响后续对历史是否必选的判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "选修思想政治"
+          },
+          {
+            "key": "D",
+            "nl": "选修化学"
+          },
+          {
+            "key": "E",
+            "nl": "选修地理"
+          },
+          {
+            "key": "F",
+            "nl": "选修生物"
+          }
+        ],
+        "formula": "((C & D & ~E & ~F) | (C & ~D & E & ~F) | (C & ~D & ~E & F) | (~C & D & E & ~F) | (~C & D & ~E & F) | (~C & ~D & E & F))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：朝鲜语专业学生如果选修历史，则选修思想政治。",
+      "score": 0,
+      "reason": "这是题干给出的条件关系之一，连接历史选择与思想政治选择。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "选修历史"
+          },
+          {
+            "key": "C",
+            "nl": "选修思想政治"
+          }
+        ],
+        "formula": "H -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：朝鲜语专业学生如果选修物理，则选修化学。",
+      "score": 0,
+      "reason": "这是题干给出的另一条条件关系，连接物理选择与化学选择。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "选修物理"
+          },
+          {
+            "key": "D",
+            "nl": "选修化学"
+          }
+        ],
+        "formula": "P -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示：所有相关学生都选修思想政治。",
+      "score": 0,
+      "reason": "这是题干直接陈述的当前事实，会与“四门中选两门”的限制共同约束模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "选修思想政治"
+          }
+        ],
+        "formula": "C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC4",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示：所有相关学生都选修地理或生物。",
+      "score": 0,
+      "reason": "这是题干直接陈述的析取事实，不能误写成二者都选或二者择一。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "选修地理"
+          },
+          {
+            "key": "F",
+            "nl": "选修生物"
+          }
+        ],
+        "formula": "E | F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 necessary 类型，目标命题集为“朝鲜语专业学生是否必然选修历史”。",
+      "score": 0,
+      "reason": "题目询问的是历史是否一定被选择，而不是是否可能、枚举方案或询问其他课程。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "选修历史"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "A"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

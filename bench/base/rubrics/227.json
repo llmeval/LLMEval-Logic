@@ -1,0 +1,133 @@
+{
+  "id": 227,
+  "title": "社团面试",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表达“如果甲通过，那么丁也通过”的单向蕴含关系，不能反向或误写为双向关系。",
+      "score": 0,
+      "reason": "该条件是判断可能组合时的关键依赖关系，方向错误会改变可行模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲通过"
+          },
+          {
+            "key": "D",
+            "nl": "丁通过"
+          }
+        ],
+        "formula": "A -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表达“乙通过当且仅当丙没有通过”的双向等价关系。",
+      "score": 0,
+      "reason": "该条件同时约束乙通过推出丙不通过，以及丙不通过推出乙通过，缺少任一方向都会改变可行组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "乙通过"
+          },
+          {
+            "key": "C",
+            "nl": "丙通过"
+          }
+        ],
+        "formula": "B <-> ~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留“甲和乙至少有一个人通过”的显式条件。",
+      "score": 0,
+      "reason": "这是题干直接给出的通过人数下界约束，影响哪些组合可以被枚举。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲通过"
+          },
+          {
+            "key": "B",
+            "nl": "乙通过"
+          }
+        ],
+        "formula": "A | B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留“最后恰好只有两人通过”的显式人数约束，覆盖甲、乙、丙、丁四人。",
+      "score": 0,
+      "reason": "题目询问两人组合，恰好两人通过是限定枚举空间的核心约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲通过"
+          },
+          {
+            "key": "B",
+            "nl": "乙通过"
+          },
+          {
+            "key": "C",
+            "nl": "丙通过"
+          },
+          {
+            "key": "D",
+            "nl": "丁通过"
+          }
+        ],
+        "formula": "(A & B & ~C & ~D) | (A & ~B & C & ~D) | (A & ~B & ~C & D) | (~A & B & C & ~D) | (~A & B & ~C & D) | (~A & ~B & C & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 enumerate_models 类型，目标是在甲、乙、丙、丁四人的通过状态上枚举可能通过面试的两人组合。",
+      "score": 0,
+      "reason": "原问题要求列出所有可能的两人通过组合，因此查询类型和枚举对象都必须与四人的通过命题一致。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲通过"
+          },
+          {
+            "key": "B",
+            "nl": "乙通过"
+          },
+          {
+            "key": "C",
+            "nl": "丙通过"
+          },
+          {
+            "key": "D",
+            "nl": "丁通过"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

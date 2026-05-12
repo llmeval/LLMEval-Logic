@@ -1,0 +1,301 @@
+{
+  "id": 46,
+  "title": "迷雾三岔2",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须表示：如果 A 的开关被按下，则 B 亮或 C 亮或 A 亮中至少一项成立。",
+      "score": 0,
+      "reason": "这是规则1的核心条件，决定 A 开关被按下时允许的灯光组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A_light",
+            "nl": "A亮"
+          },
+          {
+            "key": "A_switch",
+            "nl": "A开关被按下"
+          },
+          {
+            "key": "B_light",
+            "nl": "B亮"
+          },
+          {
+            "key": "C_light",
+            "nl": "C亮"
+          }
+        ],
+        "formula": "A_switch -> (B_light | C_light | A_light)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "必须表示：如果 B 的开关被按下，则 A 亮与 C 亮的状态不同。",
+      "score": 0,
+      "reason": "这是规则2的条件关系，要求正确保留“状态不同”的异或结构。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A_light",
+            "nl": "A亮"
+          },
+          {
+            "key": "B_switch",
+            "nl": "B开关被按下"
+          },
+          {
+            "key": "C_light",
+            "nl": "C亮"
+          }
+        ],
+        "formula": "B_switch -> ((A_light & ~C_light) | (~A_light & C_light))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "必须表示：如果 C 的开关被按下，则 A 的开关被按下、B 的开关未被按下，并且 C 亮。",
+      "score": 0,
+      "reason": "这是规则3的合取后件，三项结果都必须由 C 开关被按下推出。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A_switch",
+            "nl": "A开关被按下"
+          },
+          {
+            "key": "B_switch",
+            "nl": "B开关被按下"
+          },
+          {
+            "key": "C_light",
+            "nl": "C亮"
+          },
+          {
+            "key": "C_switch",
+            "nl": "C开关被按下"
+          }
+        ],
+        "formula": "C_switch -> (A_switch & ~B_switch & C_light)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "必须表示：A 亮与 B 亮不可同时成立。",
+      "score": 0,
+      "reason": "这是规则4明示的排除约束，会直接限制可行模型中的灯光状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A_light",
+            "nl": "A亮"
+          },
+          {
+            "key": "B_light",
+            "nl": "B亮"
+          }
+        ],
+        "formula": "~(A_light & B_light)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "必须表示：如果 B 亮，则 C 暗。",
+      "score": 0,
+      "reason": "这是规则5的单向蕴含，约束 B 灯亮时 C 灯的状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B_light",
+            "nl": "B亮"
+          },
+          {
+            "key": "C_light",
+            "nl": "C亮"
+          }
+        ],
+        "formula": "B_light -> ~C_light",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "必须表示：如果 C 亮，则 B 的开关不可能被按下。",
+      "score": 0,
+      "reason": "这是规则6的单向蕴含，连接 C 灯光状态与 B 开关状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B_switch",
+            "nl": "B开关被按下"
+          },
+          {
+            "key": "C_light",
+            "nl": "C亮"
+          }
+        ],
+        "formula": "C_light -> ~B_switch",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR6",
+      "group": "logical_relation",
+      "desc": "必须表示：A 亮当且仅当 B 的开关被按下或 C 暗。",
+      "score": 0,
+      "reason": "这是规则7的双条件关系，两个方向都影响可行状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A_light",
+            "nl": "A亮"
+          },
+          {
+            "key": "B_switch",
+            "nl": "B开关被按下"
+          },
+          {
+            "key": "C_light",
+            "nl": "C亮"
+          }
+        ],
+        "formula": "A_light <-> (B_switch | ~C_light)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR7",
+      "group": "logical_relation",
+      "desc": "必须表示：B 暗当且仅当 A 的开关被按下且 C 暗。",
+      "score": 0,
+      "reason": "这是规则8的双条件关系，必须正确处理 B 暗、A 开关和 C 暗之间的等价。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A_switch",
+            "nl": "A开关被按下"
+          },
+          {
+            "key": "B_light",
+            "nl": "B亮"
+          },
+          {
+            "key": "C_light",
+            "nl": "C亮"
+          }
+        ],
+        "formula": "~B_light <-> (A_switch & ~C_light)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR8",
+      "group": "logical_relation",
+      "desc": "必须表示：如果 C 暗，则 A 的开关和 B 的开关恰有一个被按下。",
+      "score": 0,
+      "reason": "这是规则9的条件性恰一约束，需要同时表达至少一个和至多一个。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A_switch",
+            "nl": "A开关被按下"
+          },
+          {
+            "key": "B_switch",
+            "nl": "B开关被按下"
+          },
+          {
+            "key": "C_light",
+            "nl": "C亮"
+          }
+        ],
+        "formula": "~C_light -> ((A_switch & ~B_switch) | (~A_switch & B_switch))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR9",
+      "group": "logical_relation",
+      "desc": "必须表示：如果 A 暗，则 C 亮，并且 B 的开关状态与 C 的开关状态相反。",
+      "score": 0,
+      "reason": "这是规则10的合取后件，既包含 C 亮，也包含两个开关状态相反的异或关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A_light",
+            "nl": "A亮"
+          },
+          {
+            "key": "B_switch",
+            "nl": "B开关被按下"
+          },
+          {
+            "key": "C_light",
+            "nl": "C亮"
+          },
+          {
+            "key": "C_switch",
+            "nl": "C开关被按下"
+          }
+        ],
+        "formula": "~A_light -> (C_light & ((B_switch & ~C_switch) | (~B_switch & C_switch)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 enumerate_models，目标是枚举 A、B、C 三者的开关状态和灯光状态，即 A亮、A开关被按下、B亮、B开关被按下、C亮、C开关被按下的所有可能组合。",
+      "score": 0,
+      "reason": "原问题询问满足全部规则时三盏灯及三个开关的可能状态，因此查询必须覆盖全部六个布尔命题并采用模型枚举。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A亮"
+          },
+          {
+            "key": "B",
+            "nl": "A开关被按下"
+          },
+          {
+            "key": "C",
+            "nl": "B亮"
+          },
+          {
+            "key": "D",
+            "nl": "B开关被按下"
+          },
+          {
+            "key": "E",
+            "nl": "C亮"
+          },
+          {
+            "key": "F",
+            "nl": "C开关被按下"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

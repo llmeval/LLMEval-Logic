@@ -1,0 +1,124 @@
+{
+  "id": 192,
+  "title": "启动新项目",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：如果启动项目A，则必须同时启动项目B。",
+      "score": 0,
+      "reason": "这是项目A对项目B技术支持依赖关系的核心条件，缺失或方向错误会改变可行启动组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "启动项目A"
+          },
+          {
+            "key": "b",
+            "nl": "启动项目B"
+          }
+        ],
+        "formula": "a -> b",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：项目B和项目C不能同时启动。",
+      "score": 0,
+      "reason": "这是共享资源导致的互斥约束，直接限制可行模型中的B、C组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "启动项目B"
+          },
+          {
+            "key": "c",
+            "nl": "启动项目C"
+          }
+        ],
+        "formula": "~(b & c)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：项目A和项目C要么都启动，要么都不启动，即二者启动状态等价。",
+      "score": 0,
+      "reason": "这是互补项目关系，要求A与C双向绑定，而不是单向蕴含或普通合取。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "启动项目A"
+          },
+          {
+            "key": "c",
+            "nl": "启动项目C"
+          }
+        ],
+        "formula": "a <-> c",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留明确条件：候选项目A、B、C中至少启动一个新项目。",
+      "score": 0,
+      "reason": "题干明确要求公司至少启动一个新项目，该约束排除全部不启动的情况。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "启动项目A"
+          },
+          {
+            "key": "b",
+            "nl": "启动项目B"
+          },
+          {
+            "key": "c",
+            "nl": "启动项目C"
+          }
+        ],
+        "formula": "a | b | c",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 enumerate_models 类型，目标是在所有条件下枚举项目A、项目B、项目C各自是否启动的可能组合。",
+      "score": 0,
+      "reason": "原问题询问最终可能怎么启动，要求枚举三个候选项目的可行启动方案，而不是判断单个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "启动项目A"
+          },
+          {
+            "key": "B",
+            "nl": "启动项目B"
+          },
+          {
+            "key": "C",
+            "nl": "启动项目C"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

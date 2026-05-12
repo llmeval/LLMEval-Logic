@@ -1,0 +1,128 @@
+{
+  "id": 189,
+  "title": "小组作业分配",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：如果 Alice 负责第一个任务，那么 Alice 也负责第二个任务。",
+      "score": 0,
+      "reason": "这是题干给出的条件关系，决定第一个任务选择对第二个任务选择的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "Alice选择了第一个任务"
+          },
+          {
+            "key": "B",
+            "nl": "Alice选择了第二个任务"
+          }
+        ],
+        "formula": "A -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：Alice 负责第二个任务当且仅当 Bob 负责第三个任务；在每个任务仅由一人负责的语境下，等价于 Alice 负责第二个任务当且仅当 Alice 不负责第三个任务。",
+      "score": 0,
+      "reason": "这是第二个任务与第三个任务分配之间的双向依赖，若方向或否定处理错误会改变可行分配。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "Alice选择了第二个任务"
+          },
+          {
+            "key": "C",
+            "nl": "Alice选择了第三个任务"
+          }
+        ],
+        "formula": "B <-> ~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：第一个任务和第四个任务不能由同一个人完成；在只有 Alice 和 Bob 两人的语境下，等价于 Alice 对第一个任务和第四个任务的负责状态必须相反。",
+      "score": 0,
+      "reason": "这是第一个任务与第四个任务之间的互斥分配关系，直接影响 Alice 可能负责的任务组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "Alice选择了第一个任务"
+          },
+          {
+            "key": "D",
+            "nl": "Alice选择了第四个任务"
+          }
+        ],
+        "formula": "A <-> ~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留当前已知事实：Alice 已经负责第二个任务。",
+      "score": 0,
+      "reason": "这是题目给定的当前状态，所有可能分配都应在该事实成立的条件下枚举。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "Alice选择了第二个任务"
+          }
+        ],
+        "formula": "B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须体现每个任务都必须完成且每个任务只能由 Alice 和 Bob 中的一人完成，或采用等价的变量含义使“非 Alice 负责”即表示“Bob 负责”。",
+      "score": 0,
+      "reason": "该显式约束是把 Bob 的负责情况转换为 Alice 是否负责相应任务的基础，否则涉及 Bob 的条件无法正确连接到查询目标。z3_check omitted: 缺少Bob原子"
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 enumerate_models 类型，目标是在满足条件的模型中枚举 Alice 是否可能负责第一、第二、第三、第四个任务的组合。",
+      "score": 0,
+      "reason": "题目问的是 Alice 可能负责哪些任务，因此需要枚举四个任务对应的 Alice 负责状态，而不是只判断某一个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "Alice选择了第一个任务"
+          },
+          {
+            "key": "B",
+            "nl": "Alice选择了第二个任务"
+          },
+          {
+            "key": "C",
+            "nl": "Alice选择了第三个任务"
+          },
+          {
+            "key": "D",
+            "nl": "Alice选择了第四个任务"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

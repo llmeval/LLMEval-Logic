@@ -1,0 +1,169 @@
+{
+  "id": 0,
+  "title": "神话野史",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“海洋泰坦喝酒会导致海面有风浪”的条件关系。",
+      "score": 0,
+      "reason": "这是利用“没有风浪”约束海洋泰坦是否喝酒、进而影响偷酒杯可能性的关键关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "海洋泰坦喝酒了"
+          },
+          {
+            "key": "D",
+            "nl": "海面有风浪"
+          }
+        ],
+        "formula": "A -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示“诡计泰坦偷了酒杯会使海洋泰坦无法喝酒”的条件关系。",
+      "score": 0,
+      "reason": "这是把偷酒杯与海洋泰坦不能喝酒联系起来的核心关系，直接关系到待查询命题的形式化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "诡计泰坦偷了酒杯"
+          },
+          {
+            "key": "A",
+            "nl": "海洋泰坦喝酒了"
+          }
+        ],
+        "formula": "F -> ~A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示“诡计泰坦偷了天平会使律法泰坦不能正确判断谁偷了东西”的条件关系。",
+      "score": 0,
+      "reason": "这是偷天平后续推理链的第一步，缺失会改变关于偷天平的可能性和必要性的形式化语义。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "诡计泰坦偷了天平"
+          },
+          {
+            "key": "B",
+            "nl": "律法泰坦可以正确判断谁偷了东西"
+          }
+        ],
+        "formula": "G -> ~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示“律法泰坦不能正确判断谁偷了东西会导致天空泰坦被冤枉”的条件关系。",
+      "score": 0,
+      "reason": "这是从偷天平通向天空泰坦被冤枉的必要链条环节，影响暴雨相关事实与偷天平之间的逻辑关联。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "律法泰坦可以正确判断谁偷了东西"
+          },
+          {
+            "key": "C",
+            "nl": "天空泰坦被冤枉"
+          }
+        ],
+        "formula": "~B -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "应表示“天空泰坦被冤枉会导致海面有暴雨”的条件关系。",
+      "score": 0,
+      "reason": "这是将冤枉天空泰坦与暴雨现象相连接的关键条件关系，用于保留题干因果链。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "天空泰坦被冤枉"
+          },
+          {
+            "key": "E",
+            "nl": "海面有暴雨"
+          }
+        ],
+        "formula": "C -> E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留明确观测事实：今天海面没有风浪。",
+      "score": 0,
+      "reason": "这是题干给出的当前状态约束，不能被弱化为未知或相反事实。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "海面有风浪"
+          }
+        ],
+        "formula": "~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留明确观测事实：今天海面有暴雨。",
+      "score": 0,
+      "reason": "这是题干给出的当前状态约束，影响与天空泰坦被冤枉及偷天平相关的形式化判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "海面有暴雨"
+          }
+        ],
+        "formula": "E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应同时包含 possible 和 necessary；目标命题集为“诡计泰坦偷了酒杯或诡计泰坦偷了天平”。",
+      "score": 0,
+      "reason": "原问题分别询问该析取命题是否有可能成立以及是否一定成立，形式化查询必须对齐这两个问题目标。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "诡计泰坦偷了酒杯"
+          },
+          {
+            "key": "G",
+            "nl": "诡计泰坦偷了天平"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "F | G"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "id": 38,
+  "title": "工作去向",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "正确表示条件1：如果甲去了销售部，那么乙没有去设计部。",
+      "score": 0,
+      "reason": "该蕴含关系是题干给出的核心条件之一，方向和否定对象都必须保留，否则会改变对乙去向的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲去了销售部"
+          },
+          {
+            "key": "B",
+            "nl": "乙去了设计部"
+          }
+        ],
+        "formula": "A -> ~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "正确表示条件2：丙去了生产部，或者甲去了销售部，二者至少一个成立。",
+      "score": 0,
+      "reason": "该析取条件限定了甲与丙相关命题的可行组合，是后续判断乙去向时必须保留的逻辑关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "丙去了生产部"
+          },
+          {
+            "key": "A",
+            "nl": "甲去了销售部"
+          }
+        ],
+        "formula": "C | A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "正确表示条件3：如果乙没有去设计部，那么丙没有去生产部。",
+      "score": 0,
+      "reason": "该条件把乙是否去设计部与丙是否去生产部联系起来，蕴含方向和两个否定都不能弄反。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "乙去了设计部"
+          },
+          {
+            "key": "C",
+            "nl": "丙去了生产部"
+          }
+        ],
+        "formula": "~B -> ~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "保留题干明确给出的当前事实：丙最终去了生产部。",
+      "score": 0,
+      "reason": "这是题目额外给定的事实条件，缺失它会使乙去向的可行性判断发生变化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "丙去了生产部"
+          }
+        ],
+        "formula": "C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合应是乙是否去了设计部，用它来枚举乙可能的去向。",
+      "score": 0,
+      "reason": "题目要求判断乙可能被分到哪个部门，形式化查询应对乙去设计部这一目标命题的可行取值进行枚举，而不是查询甲或丙的去向或改成必要性判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "乙去了设计部"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

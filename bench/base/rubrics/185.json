@@ -1,0 +1,153 @@
+{
+  "id": 185,
+  "title": "排球轮转规则",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“自由人上场”与“处于弱轮”之间是充分必要关系。",
+      "score": 0,
+      "reason": "该关系决定自由人上场状态如何随弱轮状态变化，是后续枚举目标之一的核心约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "L",
+            "nl": "自由人上场"
+          },
+          {
+            "key": "W",
+            "nl": "处于弱轮"
+          }
+        ],
+        "formula": "L <-> W",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示“处于弱轮”当且仅当“主攻不在前排且副攻不在前排”。",
+      "score": 0,
+      "reason": "弱轮的定义连接主攻、副攻位置与弱轮状态，不能只保留弱轮作为未定义原子。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "W",
+            "nl": "处于弱轮"
+          },
+          {
+            "key": "B",
+            "nl": "主攻在前排"
+          },
+          {
+            "key": "C",
+            "nl": "副攻在前排"
+          }
+        ],
+        "formula": "W <-> (~B & ~C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示“二传在前排”与“主攻在前排”互为充分必要条件。",
+      "score": 0,
+      "reason": "该双向关系直接约束二传位置，并影响问题中二传是否在前排的枚举结果。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "二传在前排"
+          },
+          {
+            "key": "B",
+            "nl": "主攻在前排"
+          }
+        ],
+        "formula": "E <-> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示如果“二传不在前排”，那么“副攻必须在前排”。",
+      "score": 0,
+      "reason": "这是题干明确给出的条件关系，用于限制副攻位置并与弱轮定义共同约束模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "二传在前排"
+          },
+          {
+            "key": "C",
+            "nl": "副攻在前排"
+          }
+        ],
+        "formula": "~E -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留已知条件：“主攻不在前排”。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前状态，会直接限制与主攻相关的所有关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "主攻在前排"
+          }
+        ],
+        "formula": "~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留已知条件：“队伍没有处于弱轮”。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前状态，直接约束自由人上场和弱轮定义相关判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "W",
+            "nl": "处于弱轮"
+          }
+        ],
+        "formula": "~W",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合为“自由人上场”和“二传在前排”的可能组合。",
+      "score": 0,
+      "reason": "原问题要求列举在给定情况下这两个状态可能是什么情况，而不是询问单一命题的必然性或可满足性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "自由人上场"
+          },
+          {
+            "key": "E",
+            "nl": "二传在前排"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "E"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

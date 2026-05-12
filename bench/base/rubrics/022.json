@@ -1,0 +1,123 @@
+{
+  "id": 22,
+  "title": "戴帽子",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应把每个人的帽子颜色建模为黑帽与白帽二选一，且同一人不能同时戴黑帽和白帽。",
+      "score": 0,
+      "reason": "这是把“黑帽子或白帽子”正确转化为形式约束的基础，避免形式化允许无颜色或双颜色状态。z3_check omitted: 缺少白帽原子"
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应表示小麦看到的另外三人（小黄、小花、小红）中恰有两顶黑帽、一顶白帽。",
+      "score": 0,
+      "reason": "小麦的观察是题目给定的显式约束，决定可行帽色分配。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小黄戴着黑帽子"
+          },
+          {
+            "key": "C",
+            "nl": "小花戴着黑帽子"
+          },
+          {
+            "key": "D",
+            "nl": "小红戴着黑帽子"
+          }
+        ],
+        "formula": "(A & C & ~D) | (A & ~C & D) | (~A & C & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应表示小花看到的另外三人（小黄、小麦、小红）中恰有两顶黑帽、一顶白帽。",
+      "score": 0,
+      "reason": "小花的观察是题目给定的显式约束，必须排除与该观察不符的帽色组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小黄戴着黑帽子"
+          },
+          {
+            "key": "B",
+            "nl": "小麦戴着黑帽子"
+          },
+          {
+            "key": "D",
+            "nl": "小红戴着黑帽子"
+          }
+        ],
+        "formula": "(A & B & ~D) | (A & ~B & D) | (~A & B & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "应表示小红看到的另外三人（小黄、小麦、小花）中恰有两顶黑帽、一顶白帽。",
+      "score": 0,
+      "reason": "小红的观察是题目给定的显式约束，必须体现在候选形式化的可满足模型中。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小黄戴着黑帽子"
+          },
+          {
+            "key": "B",
+            "nl": "小麦戴着黑帽子"
+          },
+          {
+            "key": "C",
+            "nl": "小花戴着黑帽子"
+          }
+        ],
+        "formula": "(A & B & ~C) | (A & ~B & C) | (~A & B & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标是枚举小黄、小麦、小花、小红各自是否戴黑帽，从而得到四个人帽子颜色分配的所有可能组合。",
+      "score": 0,
+      "reason": "题目询问的是所有可能的帽色分配，而不是判断某个单一命题是否必然或可能成立。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小黄戴着黑帽子"
+          },
+          {
+            "key": "B",
+            "nl": "小麦戴着黑帽子"
+          },
+          {
+            "key": "C",
+            "nl": "小花戴着黑帽子"
+          },
+          {
+            "key": "D",
+            "nl": "小红戴着黑帽子"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

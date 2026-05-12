@@ -1,0 +1,148 @@
+{
+  "id": 27,
+  "title": "航天中心发射决策链",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“如果所有系统自检通过，那么进入燃料加注阶段”的单向蕴含关系。",
+      "score": 0,
+      "reason": "这是决策链的第一步，方向不能反转，也不能误写为双向或无条件事实。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "所有系统自检通过"
+          },
+          {
+            "key": "B",
+            "nl": "进入燃料加注阶段"
+          }
+        ],
+        "formula": "D -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示“进入燃料加注阶段”和“气象条件允许”共同成立时，才推出“进行发射窗口确认”。",
+      "score": 0,
+      "reason": "这一项要求保留合取前提，不能遗漏气象条件或燃料加注条件中的任一项。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "进入燃料加注阶段"
+          },
+          {
+            "key": "F",
+            "nl": "气象条件允许"
+          },
+          {
+            "key": "C",
+            "nl": "进行发射窗口确认"
+          }
+        ],
+        "formula": "(B & F) -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示“如果进行了发射窗口确认，那么进入发射倒计时”的单向蕴含关系。",
+      "score": 0,
+      "reason": "这是从发射窗口确认到倒计时的必要链路，错误方向会改变后续可达性判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "进行发射窗口确认"
+          },
+          {
+            "key": "A",
+            "nl": "进入发射倒计时"
+          }
+        ],
+        "formula": "C -> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示“如果进入发射倒计时，那么火箭点火发射”的单向蕴含关系。",
+      "score": 0,
+      "reason": "这是由倒计时推出点火发射的最后链路，对结合已知未发射进行推理是必要的。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "进入发射倒计时"
+          },
+          {
+            "key": "E",
+            "nl": "火箭点火发射"
+          }
+        ],
+        "formula": "A -> E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留题目明确给出的事实：火箭没有点火发射。",
+      "score": 0,
+      "reason": "这是当前情形中的显式否定事实，直接限制可满足的模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "火箭点火发射"
+          }
+        ],
+        "formula": "~E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留题目明确给出的事实：气象条件允许。",
+      "score": 0,
+      "reason": "这是当前情形中的显式已知条件，会触发燃料加注后的发射窗口确认规则。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "气象条件允许"
+          }
+        ],
+        "formula": "F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时针对“所有系统自检通过”这一命题，询问其是否可能以及是否必然。",
+      "score": 0,
+      "reason": "题目要求评估同一目标命题在当前约束下的可能性和必然性，不能改查其他阶段或只查链路中的中间命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "所有系统自检通过"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

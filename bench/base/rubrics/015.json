@@ -1,0 +1,139 @@
+{
+  "id": 15,
+  "title": "心理学考试（给AI下了很多层坑）",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“如果我没记反，则在‘视锥细胞受损推出不能辨别明暗’成立时，‘视杆细胞受损推出不能辨别色彩’也成立”这一嵌套条件关系。",
+      "score": 0,
+      "reason": "这是题干中“如果……那么……除非我记反了”的核心条件结构，影响后续情形下是否能推出其他信息。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "我没记反"
+          },
+          {
+            "key": "A",
+            "nl": "视锥细胞受损"
+          },
+          {
+            "key": "B",
+            "nl": "不能辨别明暗"
+          },
+          {
+            "key": "C",
+            "nl": "视杆细胞受损"
+          },
+          {
+            "key": "D",
+            "nl": "不能辨别色彩"
+          }
+        ],
+        "formula": "E -> ((A -> B) -> (C -> D))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示“如果我没记反，那么我考试得分”。",
+      "score": 0,
+      "reason": "这是从记忆状态到得分状态的直接条件关系，是判断得分可能性和必然性的关键。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "我没记反"
+          },
+          {
+            "key": "F",
+            "nl": "我考试得分"
+          }
+        ],
+        "formula": "E -> F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示在“视锥细胞受损且不能辨别明暗”的情况下，可以推出“我没记反”为假。",
+      "score": 0,
+      "reason": "该关系刻画了已知观察对“是否记反”的影响，直接影响是否能由“没记反”推出得分。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "视锥细胞受损"
+          },
+          {
+            "key": "B",
+            "nl": "不能辨别明暗"
+          },
+          {
+            "key": "E",
+            "nl": "我没记反"
+          }
+        ],
+        "formula": "(A & B) -> ~E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应明确保留当前已知事实：视锥细胞受损。",
+      "score": 0,
+      "reason": "这是题干显式给出的当前情形之一，是触发相关条件约束的基础事实。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "视锥细胞受损"
+          }
+        ],
+        "formula": "A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应明确保留当前已知事实：不能辨别明暗。",
+      "score": 0,
+      "reason": "这是题干显式给出的当前情形之一，与视锥细胞受损共同构成后续判断所需的观察条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "不能辨别明暗"
+          }
+        ],
+        "formula": "B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应同时对应“possible”和“necessary”，目标命题集均为“我考试得分”。",
+      "score": 0,
+      "reason": "原问题分别询问在给定情况下得分是否可能以及是否必然，形式化查询必须对准同一个得分命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "我考试得分"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "F"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

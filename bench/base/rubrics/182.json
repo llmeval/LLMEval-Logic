@@ -1,0 +1,120 @@
+{
+  "id": 182,
+  "title": "Claire怎么安排周末",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果Claire给男朋友Alex打电话，那么她就不能早起上进学习。",
+      "score": 0,
+      "reason": "这是题干中由时差导致的条件关系，决定打给Alex与学习安排之间的排斥关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "alex_call",
+            "nl": "给Alex打电话"
+          },
+          {
+            "key": "study",
+            "nl": "早起上进学习"
+          }
+        ],
+        "formula": "alex_call -> ~study",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果Claire不给同校闺蜜Lea打电话，那么她会早起上进学习。",
+      "score": 0,
+      "reason": "这是题干直接给出的条件关系，影响不打给Lea时学习安排是否成立。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "lea_call",
+            "nl": "给Lea打电话"
+          },
+          {
+            "key": "study",
+            "nl": "早起上进学习"
+          }
+        ],
+        "formula": "~lea_call -> study",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留题干明确约束：Claire这周末必须至少打一个电话，即要么给Alex打电话，要么给Lea打电话，或两者中至少一个成立。",
+      "score": 0,
+      "reason": "这是题干明确说明的当前周末社交需求约束，用于限制可行安排范围。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "alex_call",
+            "nl": "给Alex打电话"
+          },
+          {
+            "key": "lea_call",
+            "nl": "给Lea打电话"
+          }
+        ],
+        "formula": "alex_call | lea_call",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应保留题干明确约束：Claire不会同时给Alex和Lea打电话。",
+      "score": 0,
+      "reason": "这是题干明确说明的只会给其中一个人打电话的限制，用于排除两个电话都打的安排。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "alex_call",
+            "nl": "给Alex打电话"
+          },
+          {
+            "key": "lea_call",
+            "nl": "给Lea打电话"
+          }
+        ],
+        "formula": "~(alex_call & lea_call)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为enumerate_models，目标是在给Alex打电话、给Lea打电话、早起上进学习这三个命题上的所有可能安排组合。",
+      "score": 0,
+      "reason": "问题询问Claire这周末可能怎么安排，因此应枚举这三个相关安排命题的可行模型，而不是只判断某个单一命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "给Alex打电话"
+          },
+          {
+            "key": "B",
+            "nl": "给Lea打电话"
+          },
+          {
+            "key": "C",
+            "nl": "早起上进学习"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

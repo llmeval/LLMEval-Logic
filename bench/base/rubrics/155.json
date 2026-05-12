@@ -1,0 +1,159 @@
+{
+  "id": 155,
+  "title": "队列问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须表示：A说真话当且仅当在A右边的B、C、D、E中恰有1个人说真话。",
+      "score": 0,
+      "reason": "A的话是关于其右侧四人中真话人数为1的双向真值条件，缺少或方向错误会改变模型约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A说真话"
+          },
+          {
+            "key": "B",
+            "nl": "B说真话"
+          },
+          {
+            "key": "C",
+            "nl": "C说真话"
+          },
+          {
+            "key": "D",
+            "nl": "D说真话"
+          },
+          {
+            "key": "E",
+            "nl": "E说真话"
+          }
+        ],
+        "formula": "A <-> ((B & ~C & ~D & ~E) | (~B & C & ~D & ~E) | (~B & ~C & D & ~E) | (~B & ~C & ~D & E))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "必须表示：B说真话当且仅当在B右边的C、D、E中恰有2个人说真话。",
+      "score": 0,
+      "reason": "B的话要求对右侧三人的真话人数进行恰好为2的约束，并且应与B是否说真话双向对应。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "B说真话"
+          },
+          {
+            "key": "C",
+            "nl": "C说真话"
+          },
+          {
+            "key": "D",
+            "nl": "D说真话"
+          },
+          {
+            "key": "E",
+            "nl": "E说真话"
+          }
+        ],
+        "formula": "B <-> ((C & D & ~E) | (C & ~D & E) | (~C & D & E))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "必须表示：C关于其右边恰有3个说真话者的陈述不可能为真，因此C不说真话。",
+      "score": 0,
+      "reason": "C右边只有D、E两人，不可能有3个说真话者，所以C的真值约束必须排除C说真话。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "C说真话"
+          }
+        ],
+        "formula": "~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "必须表示：D关于其右边恰有4个说真话者的陈述不可能为真，因此D不说真话。",
+      "score": 0,
+      "reason": "D右边只有E一人，不可能有4个说真话者，所以D的真值约束必须排除D说真话。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "D说真话"
+          }
+        ],
+        "formula": "~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "必须表示：E关于其右边恰有0个说真话者的陈述为真，因此E说真话。",
+      "score": 0,
+      "reason": "E右边没有人，恰有0个说真话者成立，因此E的真值约束必须肯定E说真话。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "E说真话"
+          }
+        ],
+        "formula": "E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是enumerate_models，目标是在A、B、C、D、E五个命题上枚举哪些人可能说真话。",
+      "score": 0,
+      "reason": "原问题询问“谁可能在说真话”，需要枚举五个人各自说真话命题的可能模型，而不是只判断某一个命题或给出必然性查询。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A说真话"
+          },
+          {
+            "key": "B",
+            "nl": "B说真话"
+          },
+          {
+            "key": "C",
+            "nl": "C说真话"
+          },
+          {
+            "key": "D",
+            "nl": "D说真话"
+          },
+          {
+            "key": "E",
+            "nl": "E说真话"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

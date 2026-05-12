@@ -1,0 +1,127 @@
+{
+  "id": 101,
+  "title": "间谍网络",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“Peter 在说谎或 Quinn 在说谎”这一析取关系，允许两者同时为真。",
+      "score": 0,
+      "reason": "该析取条件限制了嫌疑人说谎状态的可行组合，是判断 Sam 可能情况的必要前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "peter在说谎"
+          },
+          {
+            "key": "B",
+            "nl": "quinn在说谎"
+          }
+        ],
+        "formula": "A | B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表示如果 Peter 在说谎，那么 Rachel 也在说谎。",
+      "score": 0,
+      "reason": "这是从 Peter 的状态约束 Rachel 状态的单向蕴含，方向不能反置或弱化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "peter在说谎"
+          },
+          {
+            "key": "C",
+            "nl": "rachel在说谎"
+          }
+        ],
+        "formula": "A -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表示如果 Quinn 在说谎，那么 Rachel 没有说谎。",
+      "score": 0,
+      "reason": "这是 Quinn 的状态对 Rachel 状态的否定性蕴含，对排除不一致组合至关重要。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "quinn在说谎"
+          },
+          {
+            "key": "C",
+            "nl": "rachel在说谎"
+          }
+        ],
+        "formula": "B -> ~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化必须表示 Sam 是否说谎与 Peter 是否说谎完全相同，即二者同真同假。",
+      "score": 0,
+      "reason": "题目直接要求 Sam 的可能情况，而 Sam 与 Peter 的双向等价关系决定了查询目标如何受其他条件约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "sam在说谎"
+          },
+          {
+            "key": "A",
+            "nl": "peter在说谎"
+          }
+        ],
+        "formula": "D <-> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须包含已知当前事实：Rachel 确认在说谎。",
+      "score": 0,
+      "reason": "这是题干明确给出的观测事实，会与关于 Quinn 和 Peter 的规则共同限制可行模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "rachel在说谎"
+          }
+        ],
+        "formula": "C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 enumerate_models 类型，目标命题集合为 Sam 是否在说谎这一单个命题的所有可能取值。",
+      "score": 0,
+      "reason": "原问题询问 Sam 的情况可能是什么，因此应枚举 Sam 说谎命题在所有满足前提的模型中的可能状态，而不是查询 Peter、Quinn、Rachel 或判断必然性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "sam在说谎"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "id": 161,
+  "title": "团建饮料喝什么？",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应表示 A 喝的饮料属于菜单中的四种之一：白开水、椰汁、橙汁或苹果汁。",
+      "score": 0,
+      "reason": "这是题目给出的候选饮料范围，决定了枚举 A 可能选择时的取值空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "W",
+            "nl": "A喝的是白开水"
+          },
+          {
+            "key": "Co",
+            "nl": "A喝的是椰汁"
+          },
+          {
+            "key": "O",
+            "nl": "A喝的是橙汁"
+          },
+          {
+            "key": "Ap",
+            "nl": "A喝的是苹果汁"
+          }
+        ],
+        "formula": "W | Co | O | Ap",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示 A 的四种饮料选择之间至多只能成立一种，不能同时喝两种不同饮料。",
+      "score": 0,
+      "reason": "该互斥关系保证枚举的是单一饮料选择，而不是多个饮料命题的任意组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "W",
+            "nl": "A喝的是白开水"
+          },
+          {
+            "key": "Co",
+            "nl": "A喝的是椰汁"
+          },
+          {
+            "key": "O",
+            "nl": "A喝的是橙汁"
+          },
+          {
+            "key": "Ap",
+            "nl": "A喝的是苹果汁"
+          }
+        ],
+        "formula": "~(W & Co) & ~(W & O) & ~(W & Ap) & ~(Co & O) & ~(Co & Ap) & ~(O & Ap)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应表示“A 不喝果汁”对应为 A 不喝橙汁且不喝苹果汁。",
+      "score": 0,
+      "reason": "这是题目直接给出的排除条件，会影响 A 的可行饮料集合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "O",
+            "nl": "A喝的是橙汁"
+          },
+          {
+            "key": "Ap",
+            "nl": "A喝的是苹果汁"
+          }
+        ],
+        "formula": "~O & ~Ap",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "形式化应表示 B 喝的是椰汁这一白色饮料。",
+      "score": 0,
+      "reason": "这是题目中关于 B 饮料颜色信息在给定菜单下的具体化，后续会约束 A 是否也能喝椰汁。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "BE",
+            "nl": "B喝的是椰汁"
+          }
+        ],
+        "formula": "BE",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示 B 喝椰汁与 A 喝椰汁不能同时成立。",
+      "score": 0,
+      "reason": "该互斥关系把 B 的饮料信息传递到 A 的可行选择上，是判断 A 是否可能喝椰汁的关键约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Co",
+            "nl": "A喝的是椰汁"
+          },
+          {
+            "key": "BE",
+            "nl": "B喝的是椰汁"
+          }
+        ],
+        "formula": "~(BE & Co)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 enumerate_models 类型，目标是在 A 的四个饮料命题集合中枚举可能情况：A 喝白开水、A 喝椰汁、A 喝橙汁、A 喝苹果汁。",
+      "score": 0,
+      "reason": "题目问“A 可能喝什么”，需要枚举 A 的饮料选择空间，而不是证明某个单一命题必然成立或只查询 B 的饮料。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A喝的是白开水"
+          },
+          {
+            "key": "B",
+            "nl": "A喝的是椰汁"
+          },
+          {
+            "key": "C",
+            "nl": "A喝的是橙汁"
+          },
+          {
+            "key": "D",
+            "nl": "A喝的是苹果汁"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

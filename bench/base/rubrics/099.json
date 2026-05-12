@@ -1,0 +1,93 @@
+{
+  "id": 99,
+  "title": "第一个国际象棋将杀问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：如果 d4 上的棋子是黑马，则白方能够将杀。",
+      "score": 0,
+      "reason": "这是题目中区分黑后与黑马并与将杀能力相联系的关键条件，缺少该蕴含会改变对 d4 棋子性质的形式化判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "N",
+            "nl": "d4上的棋子是黑马"
+          },
+          {
+            "key": "M",
+            "nl": "白方能够将杀"
+          }
+        ],
+        "formula": "N -> M",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应表示：d4 上的棋子在黑后与黑马两种可能中，至少属于其中一种。",
+      "score": 0,
+      "reason": "题干明确给出 d4 棋子的候选类型范围，形式化必须保留这一显式可能性约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Q",
+            "nl": "d4上的棋子是黑后"
+          },
+          {
+            "key": "N",
+            "nl": "d4上的棋子是黑马"
+          }
+        ],
+        "formula": "Q | N",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应表示题设条件：白方无法在题目限定的两步之内将杀黑方。",
+      "score": 0,
+      "reason": "这是问题中的当前假设条件，直接限定了可接受模型，必须作为否定的将杀能力约束进入形式化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "M",
+            "nl": "白方能够将杀"
+          }
+        ],
+        "formula": "~M",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 necessary，目标命题集为：d4 上的棋子是黑后。",
+      "score": 0,
+      "reason": "问题询问在给定条件下该命题是否一定成立，因此形式化查询必须对同一目标命题进行必然性判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "d4上的棋子是黑后"
+          },
+          {
+            "key": "B",
+            "nl": "d4上的棋子是黑马"
+          },
+          {
+            "key": "C",
+            "nl": "白方能够将杀"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "A"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

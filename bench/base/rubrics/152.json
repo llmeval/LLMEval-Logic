@@ -1,0 +1,190 @@
+{
+  "id": 152,
+  "title": "小麦的选科问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表达在物理、化学、天文学、生物学四门理科中恰好选择一门。",
+      "score": 0,
+      "reason": "这是由总共再选两门且不想两门都选文科、也不想两门都选理科共同决定的核心选科结构，缺失会改变可枚举的方案空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "选物理"
+          },
+          {
+            "key": "Q",
+            "nl": "选化学"
+          },
+          {
+            "key": "R",
+            "nl": "选天文学"
+          },
+          {
+            "key": "S",
+            "nl": "选生物学"
+          }
+        ],
+        "formula": "(P & ~Q & ~R & ~S) | (~P & Q & ~R & ~S) | (~P & ~Q & R & ~S) | (~P & ~Q & ~R & S)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表达在历史、政治、地理三门文科中恰好选择一门。",
+      "score": 0,
+      "reason": "这是由总共再选两门且不想两门都选文科、也不想两门都选理科共同决定的核心选科结构，缺失会错误允许文科数量不对的方案。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "选历史"
+          },
+          {
+            "key": "Z",
+            "nl": "选政治"
+          },
+          {
+            "key": "L",
+            "nl": "选地理"
+          }
+        ],
+        "formula": "(H & ~Z & ~L) | (~H & Z & ~L) | (~H & ~Z & L)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表达物理和历史之间必须且只能选择一门，即二者互斥且至少选其一。",
+      "score": 0,
+      "reason": "这是题目直接给出的二选一约束，会显著限制物理和历史的组合关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "选物理"
+          },
+          {
+            "key": "H",
+            "nl": "选历史"
+          }
+        ],
+        "formula": "(P & ~H) | (~P & H)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化必须表达天文学不能和物理同时选择。",
+      "score": 0,
+      "reason": "这是天文学相关的明确不相容关系之一，若漏掉会允许不符合条件的选科组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "R",
+            "nl": "选天文学"
+          },
+          {
+            "key": "P",
+            "nl": "选物理"
+          }
+        ],
+        "formula": "~(R & P)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "形式化必须表达天文学不能和地理同时选择。",
+      "score": 0,
+      "reason": "这是天文学相关的另一个明确不相容关系，独立于天文学与物理的不相容关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "R",
+            "nl": "选天文学"
+          },
+          {
+            "key": "L",
+            "nl": "选地理"
+          }
+        ],
+        "formula": "~(R & L)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留小麦因历史学得不太好且想选擅长科目而不选择历史这一约束。",
+      "score": 0,
+      "reason": "这是题目对小麦个人选择的显式限制，决定历史是否可出现在候选方案中。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "选历史"
+          }
+        ],
+        "formula": "~H",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 enumerate_models 类型，目标是在七个命题“选物理、选化学、选天文学、选生物学、选历史、选政治、选地理”上的所有可能选科组合。",
+      "score": 0,
+      "reason": "题问“小麦可能怎么选科”，需要枚举完整七门科目的可行选择模型，而不是只判断某个单一命题是否可能或必要。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "选物理"
+          },
+          {
+            "key": "B",
+            "nl": "选化学"
+          },
+          {
+            "key": "C",
+            "nl": "选天文学"
+          },
+          {
+            "key": "D",
+            "nl": "选生物学"
+          },
+          {
+            "key": "E",
+            "nl": "选历史"
+          },
+          {
+            "key": "F",
+            "nl": "选政治"
+          },
+          {
+            "key": "G",
+            "nl": "选地理"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "id": 4,
+  "title": "理发师悖论",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：如果理发师给自己理发，那么理发师不给自己理发。",
+      "score": 0,
+      "reason": "这是把理发师的话应用到理发师本人时所需的一个方向，确保形式化包含自指条件导致的否定关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "理发师给自己理发"
+          }
+        ],
+        "formula": "P -> ~P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：如果理发师不给自己理发，那么理发师给自己理发。",
+      "score": 0,
+      "reason": "这是理发师规则在题目所需解释下的另一方向，用于保留悖论所依赖的双向自指关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "理发师给自己理发"
+          }
+        ],
+        "formula": "~P -> P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 possible，目标命题集合为：理发师给自己理发。",
+      "score": 0,
+      "reason": "题目询问的是理发师给自己理发这一命题是否有可能，而不是是否必然、枚举模型或查询其他命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "理发师给自己理发"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "A"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

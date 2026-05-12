@@ -1,0 +1,120 @@
+{
+  "id": 230,
+  "title": "城市规划",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示 X 与 Z 对各自方案的支持态度必须相反，即二者有且仅有一人支持自己的方案。",
+      "score": 0,
+      "reason": "这是题干第1条的核心逻辑关系，决定 X 和 Z 的态度不能同真也不能同假。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "X支持自己的方案"
+          },
+          {
+            "key": "Q",
+            "nl": "Z支持自己的方案"
+          }
+        ],
+        "formula": "(P & ~Q) | (~P & Q)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示如果 Y 支持自己的方案，则 Z 必然反对自己的方案。",
+      "score": 0,
+      "reason": "这是题干第2条给出的单向条件关系，方向不能反置或改成双向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "Y支持自己的方案"
+          },
+          {
+            "key": "Q",
+            "nl": "Z支持自己的方案"
+          }
+        ],
+        "formula": "P -> ~Q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示 X 与 Y 之间有且仅有一人支持自己的方案。",
+      "score": 0,
+      "reason": "这是题干第3条的排他选择关系，要求 X 和 Y 的支持态度恰好一个为真。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "X支持自己的方案"
+          },
+          {
+            "key": "Q",
+            "nl": "Y支持自己的方案"
+          }
+        ],
+        "formula": "(P & ~Q) | (~P & Q)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示如果 Z 反对自己的方案，则 X 必然支持自己的方案。",
+      "score": 0,
+      "reason": "这是题干第4条给出的条件依赖关系，必须保留由 Z 反对到 X 支持的蕴含方向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "Z支持自己的方案"
+          },
+          {
+            "key": "Q",
+            "nl": "X支持自己的方案"
+          }
+        ],
+        "formula": "~P -> Q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标是在所有满足条件的模型中枚举 X、Y、Z 三人是否支持自己方案的完整态度组合。",
+      "score": 0,
+      "reason": "原问题询问三人的态度可能是什么，因此形式化查询应枚举三个人对应命题的可满足取值组合，而不是只判断某个单一命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "X支持自己的方案"
+          },
+          {
+            "key": "B",
+            "nl": "Y支持自己的方案"
+          },
+          {
+            "key": "C",
+            "nl": "Z支持自己的方案"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

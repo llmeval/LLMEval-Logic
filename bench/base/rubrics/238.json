@@ -1,0 +1,178 @@
+{
+  "id": 238,
+  "title": "今天星期几",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "正确表示甲的话为真当且仅当今天是星期四。",
+      "score": 0,
+      "reason": "甲说“明天是星期五”与“今天是星期四”在题目语境中等价，必须保留这个真假对应关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲说的话是正确的"
+          },
+          {
+            "key": "G",
+            "nl": "今天是星期四"
+          }
+        ],
+        "formula": "A <-> G",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "正确表示乙的话为真当且仅当今天是星期五。",
+      "score": 0,
+      "reason": "乙说“昨天是星期四”与“今天是星期五”等价，必须保留这个真假对应关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "乙说的话是正确的"
+          },
+          {
+            "key": "E",
+            "nl": "今天是星期五"
+          }
+        ],
+        "formula": "B <-> E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "正确表示丙的话为真当且仅当甲和乙的话都不对。",
+      "score": 0,
+      "reason": "丙的陈述“你们俩说的都不对”同时否定甲和乙的陈述，且丙话语本身的真假应与该合取条件对应。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "丙说的话是正确的"
+          },
+          {
+            "key": "A",
+            "nl": "甲说的话是正确的"
+          },
+          {
+            "key": "B",
+            "nl": "乙说的话是正确的"
+          }
+        ],
+        "formula": "C <-> (~A & ~B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "正确表示丁的话为真当且仅当今天不是星期六。",
+      "score": 0,
+      "reason": "丁说“今天不是星期六”，其话语真假必须与“今天不是星期六”对应。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "丁说的话是正确的"
+          },
+          {
+            "key": "F",
+            "nl": "今天是星期六"
+          }
+        ],
+        "formula": "D <-> ~F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "明确约束甲、乙、丙、丁四人中恰好只有一个人说对。",
+      "score": 0,
+      "reason": "题干直接给出“只有一个人说对了”，这是决定可行情形的核心数量约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲说的话是正确的"
+          },
+          {
+            "key": "B",
+            "nl": "乙说的话是正确的"
+          },
+          {
+            "key": "C",
+            "nl": "丙说的话是正确的"
+          },
+          {
+            "key": "D",
+            "nl": "丁说的话是正确的"
+          }
+        ],
+        "formula": "(A & ~B & ~C & ~D) | (~A & B & ~C & ~D) | (~A & ~B & C & ~D) | (~A & ~B & ~C & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "约束今天不可能同时是星期四、星期五、星期六中的两个或多个。",
+      "score": 0,
+      "reason": "同一天不能同时属于多个不同星期几；对被枚举的目标星期项必须保留互斥性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "今天是星期五"
+          },
+          {
+            "key": "F",
+            "nl": "今天是星期六"
+          },
+          {
+            "key": "G",
+            "nl": "今天是星期四"
+          }
+        ],
+        "formula": "~(E & F) & ~(E & G) & ~(F & G)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标 proposition set 为“今天是星期五、今天是星期六、今天是星期四”的可能取值组合。",
+      "score": 0,
+      "reason": "原问题询问“今天可能是星期几”，形式化查询必须枚举相关星期命题的可行模型，而不是证明某个单一结论或查询说话人真假。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "今天是星期五"
+          },
+          {
+            "key": "F",
+            "nl": "今天是星期六"
+          },
+          {
+            "key": "G",
+            "nl": "今天是星期四"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "E",
+          "F",
+          "G"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

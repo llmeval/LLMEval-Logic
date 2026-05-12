@@ -1,0 +1,131 @@
+{
+  "id": 143,
+  "title": "英语专业怎么选课",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示如果选择英国文学史，则必须同时选择英语精读。",
+      "score": 0,
+      "reason": "这是课程依赖关系，方向不能反过来或改成无关的合取/析取，否则会改变可行选课组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "英国文学史"
+          },
+          {
+            "key": "R",
+            "nl": "英语精读"
+          }
+        ],
+        "formula": "H -> R",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示如果选择英语精听，则必须同时选择英语精读。",
+      "score": 0,
+      "reason": "“要选就得一起选”的一方向要求英语精听不能单独出现，需要保留该依赖。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "L",
+            "nl": "英语精听"
+          },
+          {
+            "key": "R",
+            "nl": "英语精读"
+          }
+        ],
+        "formula": "L -> R",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示如果选择英语精读，则必须同时选择英语精听。",
+      "score": 0,
+      "reason": "“一起选”还包含英语精读不能在没有英语精听时单独选择，需保留反向依赖。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "R",
+            "nl": "英语精读"
+          },
+          {
+            "key": "L",
+            "nl": "英语精听"
+          }
+        ],
+        "formula": "R -> L",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应表示三门课中至少选择两门。",
+      "score": 0,
+      "reason": "这是题干明确给出的数量下限，决定哪些课程组合满足专业要求。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "L",
+            "nl": "英语精听"
+          },
+          {
+            "key": "H",
+            "nl": "英国文学史"
+          },
+          {
+            "key": "R",
+            "nl": "英语精读"
+          }
+        ],
+        "formula": "(R & H) | (R & L) | (H & L)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留“至少两门”的含义，不应误形式化为“至多两门”或“恰好两门”。",
+      "score": 0,
+      "reason": "题干允许满足其他条件时三门都选，若加入至多或恰好两门会额外排除组合。z3_check omitted: 需要检查非蕴含关系"
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标是在英语精听、英国文学史、英语精读三个命题上的所有可能选课组合。",
+      "score": 0,
+      "reason": "问题要求列举 Claire 可能的选课组合，因此查询必须枚举这三门课的真假组合，而不是只判断某一门课是否必选或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "英语精听"
+          },
+          {
+            "key": "B",
+            "nl": "英国文学史"
+          },
+          {
+            "key": "C",
+            "nl": "英语精读"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

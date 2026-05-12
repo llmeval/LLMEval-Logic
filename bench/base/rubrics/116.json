@@ -1,0 +1,171 @@
+{
+  "id": 116,
+  "title": "乐曲创作",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：如果加入圆号，则必须加入大号。",
+      "score": 0,
+      "reason": "这是题目给出的声部加入依赖关系，缺失会改变可行组合的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "加入圆号"
+          },
+          {
+            "key": "T",
+            "nl": "加入大号"
+          }
+        ],
+        "formula": "H -> T",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：加入中音号当且仅当加入小号且不加入圆号。",
+      "score": 0,
+      "reason": "这是双向条件关系，既限制中音号何时加入，也限制小号和圆号状态对中音号的决定。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "加入中音号"
+          },
+          {
+            "key": "P",
+            "nl": "加入小号"
+          },
+          {
+            "key": "H",
+            "nl": "加入圆号"
+          }
+        ],
+        "formula": "E <-> (P & ~H)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示：如果加入大号，则不加入中音号。",
+      "score": 0,
+      "reason": "这是大号与中音号之间的单向排斥约束，影响可行组合筛选。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "T",
+            "nl": "加入大号"
+          },
+          {
+            "key": "E",
+            "nl": "加入中音号"
+          }
+        ],
+        "formula": "T -> ~E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示：要么加入小号且不加入大号，要么加入大号且不加入小号。",
+      "score": 0,
+      "reason": "这是小号与大号之间的异或式约束，要求二者恰好加入一个。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "加入小号"
+          },
+          {
+            "key": "T",
+            "nl": "加入大号"
+          }
+        ],
+        "formula": "(P & ~T) | (~P & T)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "应表示：小号和中音号不能同时加入。",
+      "score": 0,
+      "reason": "这是小号与中音号之间的互斥约束，直接排除包含二者同时加入的组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "加入小号"
+          },
+          {
+            "key": "E",
+            "nl": "加入中音号"
+          }
+        ],
+        "formula": "~(P & E)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR6",
+      "group": "logical_relation",
+      "desc": "应表示：小号和圆号不能同时都不加入。",
+      "score": 0,
+      "reason": "这是对小号与圆号的至少一个加入约束，缺失会允许不符合题意的组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "加入小号"
+          },
+          {
+            "key": "H",
+            "nl": "加入圆号"
+          }
+        ],
+        "formula": "~(~P & ~H)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标是枚举中音号、圆号、小号、大号四个声部最终可能加入的组合。",
+      "score": 0,
+      "reason": "题目要求列出所有可能加入的声部组合，因此形式化查询必须枚举这四个布尔命题的模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "加入中音号"
+          },
+          {
+            "key": "B",
+            "nl": "加入圆号"
+          },
+          {
+            "key": "C",
+            "nl": "加入小号"
+          },
+          {
+            "key": "D",
+            "nl": "加入大号"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

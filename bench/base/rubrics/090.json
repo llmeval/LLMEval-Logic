@@ -1,0 +1,137 @@
+{
+  "id": 90,
+  "title": "寒假去哪玩",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须表示男生的话：如果不去威海，则不去沈阳。",
+      "score": 0,
+      "reason": "这是地点选择之间的关键条件关系，方向不能反置或弱化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "去沈阳"
+          },
+          {
+            "key": "C",
+            "nl": "去威海"
+          }
+        ],
+        "formula": "~C -> ~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "必须表示女生的话：如果不去沈阳，则至少要去威海。",
+      "score": 0,
+      "reason": "这是另一个关键条件关系，用来约束沈阳与威海之间的可行组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "去沈阳"
+          },
+          {
+            "key": "C",
+            "nl": "去威海"
+          }
+        ],
+        "formula": "~B -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "必须保留预算限制下重庆这一地点被纳入最终方案的约束。",
+      "score": 0,
+      "reason": "金标准形式化将重庆作为固定选择，若遗漏会改变后续枚举的模型空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "去重庆"
+          }
+        ],
+        "formula": "A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "必须表示在沈阳和威海这两个地点中至少选择一个。",
+      "score": 0,
+      "reason": "“只能在剩下两个地点中选择一个”包含不能两个都不去的限制。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "去沈阳"
+          },
+          {
+            "key": "C",
+            "nl": "去威海"
+          }
+        ],
+        "formula": "B | C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "必须表示沈阳和威海不能同时都去。",
+      "score": 0,
+      "reason": "“选择一个”还包含至多选择一个的排他约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "去沈阳"
+          },
+          {
+            "key": "C",
+            "nl": "去威海"
+          }
+        ],
+        "formula": "~(B & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 enumerate_models，目标命题集合必须是他们最后是否去重庆、是否去沈阳、是否去威海这三个地点的组合。",
+      "score": 0,
+      "reason": "问题问“最后可能去哪里”，需要枚举三个地点选择命题的可行模型，而不是证明某个单一地点必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "去重庆"
+          },
+          {
+            "key": "B",
+            "nl": "去沈阳"
+          },
+          {
+            "key": "C",
+            "nl": "去威海"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

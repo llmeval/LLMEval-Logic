@@ -1,0 +1,110 @@
+{
+  "id": 183,
+  "title": "奖学金问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示：成功申请奖学金是以满足两个条件之一为必要条件，即要么是理科生且竞赛获奖，要么是文科生且发表过论文。",
+      "score": 0,
+      "reason": "这是题干中决定奖学金申请资格的核心逻辑关系，必须保留成功申请到两类资格组合的必要条件关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "是文科生"
+          },
+          {
+            "key": "B",
+            "nl": "成功申请奖学金"
+          },
+          {
+            "key": "C",
+            "nl": "发表过论文"
+          },
+          {
+            "key": "D",
+            "nl": "是理科生"
+          },
+          {
+            "key": "E",
+            "nl": "竞赛获奖"
+          }
+        ],
+        "formula": "B -> ((D & E) | (A & C))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应包含当前学生是理科生这一明确事实。",
+      "score": 0,
+      "reason": "这是题干直接给出的当前学生状态，会影响是否能推出竞赛获奖。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "是理科生"
+          }
+        ],
+        "formula": "D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应包含当前学生没有发表过论文这一明确事实。",
+      "score": 0,
+      "reason": "这是题干直接给出的否定事实，用于排除文科生且发表论文这一资格组合中的论文条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "发表过论文"
+          }
+        ],
+        "formula": "~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "形式化应包含当前学生最终成功申请到了奖学金这一明确事实。",
+      "score": 0,
+      "reason": "这是触发奖学金必要条件的当前事实，缺少它就无法表达题目中的实际情形。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "成功申请奖学金"
+          }
+        ],
+        "formula": "B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 necessary 类型，目标命题是这名学生是否一定竞赛获奖。",
+      "score": 0,
+      "reason": "题目询问的是在给定条件下竞赛获奖是否必然成立，查询类型和目标命题都必须对应。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "竞赛获奖"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "E"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "id": 147,
+  "title": "去哪里旅游",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果去香港，那么不去西安且不去济南。",
+      "score": 0,
+      "reason": "这是小金想法的条件关系，必须保留从“去香港”到两个不去地点的合取后件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "去香港"
+          },
+          {
+            "key": "E",
+            "nl": "去西安"
+          },
+          {
+            "key": "C",
+            "nl": "去济南"
+          }
+        ],
+        "formula": "B -> (~E & ~C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果不去济南，那么去香港且去西安。",
+      "score": 0,
+      "reason": "这是小黄想法的条件关系，必须保留否定前件以及“去香港”和“去西安”的合取后件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "去济南"
+          },
+          {
+            "key": "B",
+            "nl": "去香港"
+          },
+          {
+            "key": "E",
+            "nl": "去西安"
+          }
+        ],
+        "formula": "~C -> (B & E)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果不去香港，那么去成都且去重庆。",
+      "score": 0,
+      "reason": "这是小陶想法的条件关系，必须保留否定前件以及“去成都”和“去重庆”的合取后件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "去香港"
+          },
+          {
+            "key": "A",
+            "nl": "去成都"
+          },
+          {
+            "key": "D",
+            "nl": "去重庆"
+          }
+        ],
+        "formula": "~B -> (A & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合为她们是否去成都、香港、济南、重庆、西安这五个地点的所有可能组合。",
+      "score": 0,
+      "reason": "题目询问在所有人想法被满足前提下可能去哪些地方，因此应枚举五个地点命题的可满足取值组合，而不是只判断某个单一地点是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "去成都"
+          },
+          {
+            "key": "B",
+            "nl": "去香港"
+          },
+          {
+            "key": "C",
+            "nl": "去济南"
+          },
+          {
+            "key": "D",
+            "nl": "去重庆"
+          },
+          {
+            "key": "E",
+            "nl": "去西安"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

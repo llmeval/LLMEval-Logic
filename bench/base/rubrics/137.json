@@ -1,0 +1,135 @@
+{
+  "id": 137,
+  "title": "存在的荒谬",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：如果选择与世俗妥协，则必然获得人群的掌声。",
+      "score": 0,
+      "reason": "这是题干第一句话给出的条件关系，决定妥协状态如何约束掌声状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "与世俗妥协"
+          },
+          {
+            "key": "B",
+            "nl": "获得人群的掌声"
+          }
+        ],
+        "formula": "A -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：只要获得人群的掌声，就会内心陷入麻木。",
+      "score": 0,
+      "reason": "这是题干第二句话给出的条件关系，连接掌声与内心麻木状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "获得人群的掌声"
+          },
+          {
+            "key": "C",
+            "nl": "内心陷入麻"
+          }
+        ],
+        "formula": "B -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示：如果不与世俗妥协，则会感受到存在的荒谬。",
+      "score": 0,
+      "reason": "这是题干第三句话的关键条件关系，直接影响被查询的荒谬感是否成立。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "与世俗妥协"
+          },
+          {
+            "key": "D",
+            "nl": "感受到存在的荒谬"
+          }
+        ],
+        "formula": "~A -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示：内心陷入麻木与获得真正的自由不能同时成立。",
+      "score": 0,
+      "reason": "这是题干第四句话给出的互斥约束，用于限制麻木和自由的共同可能性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "内心陷入麻"
+          },
+          {
+            "key": "E",
+            "nl": "获得真正的自由"
+          }
+        ],
+        "formula": "~(C & E)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "应表示：只有没有感受到存在的荒谬时，才能获得人群的掌声，即获得掌声蕴含没有感受到存在的荒谬。",
+      "score": 0,
+      "reason": "这是题干第五句话的必要条件关系，必须保持“只有当”的方向，避免误写为反向蕴含。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "获得人群的掌声"
+          },
+          {
+            "key": "D",
+            "nl": "感受到存在的荒谬"
+          }
+        ],
+        "formula": "B -> ~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留明确事实：哲学家确认自己获得了真正的自由。",
+      "score": 0,
+      "reason": "这是题干第六句话给出的当前确定状态，是后续约束推理的显式前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "获得真正的自由"
+          }
+        ],
+        "formula": "E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应同时包含 possible 与 necessary，目标命题均为哲学家是否感受到存在的荒谬。",
+      "score": 0,
+      "reason": "原问题同时询问该命题是否有可能成立以及是否必然成立，形式化查询必须对准同一目标命题并区分两种模态。z3_check omitted: 查询包含两个类型"
+    }
+  ]
+}

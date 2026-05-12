@@ -1,0 +1,108 @@
+{
+  "id": 76,
+  "title": "买保险难题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：如果买保险并且出险，那么会很沮丧。",
+      "score": 0,
+      "reason": "这是论证中从“买保险且出险”推出“很沮丧”的关键条件关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "买保险"
+          },
+          {
+            "key": "B",
+            "nl": "出险"
+          },
+          {
+            "key": "C",
+            "nl": "很沮丧"
+          }
+        ],
+        "formula": "(A & B) -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：如果买保险并且没有出险，那么等于白花钱。",
+      "score": 0,
+      "reason": "这是论证中“不出险”分支通向“白花钱”的必要条件关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "买保险"
+          },
+          {
+            "key": "B",
+            "nl": "出险"
+          },
+          {
+            "key": "D",
+            "nl": "白花钱"
+          }
+        ],
+        "formula": "(A & ~B) -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示：白花钱会导致很沮丧。",
+      "score": 0,
+      "reason": "这是把“不出险导致白花钱”的分支进一步连接到“很沮丧”的必要条件关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "白花钱"
+          },
+          {
+            "key": "C",
+            "nl": "很沮丧"
+          }
+        ],
+        "formula": "D -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示：在买保险的情况下，出险与不出险构成覆盖所有可能的两种情况。",
+      "score": 0,
+      "reason": "这是背景中进行分情况推理的结构，确保买保险后按出险或不出险两类讨论。z3_check omitted: 该式在经典逻辑中为重言式"
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时包含两类问题：possible 与 necessary，目标命题都是“买保险会让我们很沮丧”，即买保险蕴含很沮丧。",
+      "score": 0,
+      "reason": "原问题分别询问该条件命题是否可能以及是否必然，形式化必须对准同一个目标条件命题和两种查询类型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "买保险"
+          },
+          {
+            "key": "C",
+            "nl": "很沮丧"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "A -> C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

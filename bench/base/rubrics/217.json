@@ -1,0 +1,134 @@
+{
+  "id": 217,
+  "title": "系统在线（谓词）",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "候选形式化必须表达：主节点激活当且仅当从节点不激活，且是双向等价关系而不是单向蕴含。",
+      "score": 0,
+      "reason": "该双条件关系是连接主节点状态与从节点激活状态的核心约束，方向或否定错误会改变问题的可满足性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "Master node (常元：主节点)"
+          },
+          {
+            "key": "b",
+            "nl": "Slave node (常元：从节点)"
+          },
+          {
+            "key": "F",
+            "nl": "x is Active (谓词：x是激活的)"
+          }
+        ],
+        "formula": "F(a) <-> ~F(b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "候选形式化必须表达：任意机器如果受损，则它一定是激活的，并保留对任意机器的普遍量化范围。",
+      "score": 0,
+      "reason": "该规则把受损状态蕴含到激活状态，且适用于集群中的任意机器；若只写成无关个体或错误方向，会破坏推理结构。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "x",
+            "nl": "集群中的任意一台机器"
+          },
+          {
+            "key": "F",
+            "nl": "x is Active (谓词：x是激活的)"
+          },
+          {
+            "key": "G",
+            "nl": "x is Corrupted (谓词：x是受损的)"
+          }
+        ],
+        "formula": "forall x. (G(x) -> F(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "候选形式化必须表达：如果从节点没有激活，那么主节点一定受损。",
+      "score": 0,
+      "reason": "该蕴含是从从节点未激活推出主节点受损的必要链条，主体、客体或蕴含方向不能颠倒。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "Master node (常元：主节点)"
+          },
+          {
+            "key": "b",
+            "nl": "Slave node (常元：从节点)"
+          },
+          {
+            "key": "F",
+            "nl": "x is Active (谓词：x是激活的)"
+          },
+          {
+            "key": "G",
+            "nl": "x is Corrupted (谓词：x是受损的)"
+          }
+        ],
+        "formula": "~F(b) -> G(a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "候选形式化必须表达：主节点不可能同时既受损又激活，即排除主节点受损与主节点激活的合取。",
+      "score": 0,
+      "reason": "该互斥约束限制主节点两种属性不能并存，是判断从节点激活可能性的关键约束之一。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "Master node (常元：主节点)"
+          },
+          {
+            "key": "F",
+            "nl": "x is Active (谓词：x是激活的)"
+          },
+          {
+            "key": "G",
+            "nl": "x is Corrupted (谓词：x是受损的)"
+          }
+        ],
+        "formula": "~(G(a) & F(a))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 possible 类型，目标命题集为“从节点是激活的”这一单个命题。",
+      "score": 0,
+      "reason": "原问题询问从节点被激活是否有可能，因此候选形式化需要检查该目标命题的可满足性，而不是必然性、枚举或其他节点的状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "Slave node (常元：从节点)"
+          },
+          {
+            "key": "F",
+            "nl": "x is Active (谓词：x是激活的)"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "F(b)"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

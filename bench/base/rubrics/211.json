@@ -1,0 +1,114 @@
+{
+  "id": 211,
+  "title": "网络安全警报系统",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：如果今天检测到异常登录，则系统会触发一级警报。",
+      "score": 0,
+      "reason": "这是从异常登录到后续处置链条的第一步，方向不能反置或弱化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "abnormal_login",
+            "nl": "检测到异常登录"
+          },
+          {
+            "key": "level_alert",
+            "nl": "系统触发一级警报"
+          }
+        ],
+        "formula": "abnormal_login -> level_alert",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：如果系统触发一级警报，则安全团队必须立即检查。",
+      "score": 0,
+      "reason": "这是警报触发到安全团队行动要求的必要蕴含关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "level_alert",
+            "nl": "系统触发一级警报"
+          },
+          {
+            "key": "immediate_check",
+            "nl": "安全团队必须立即检查"
+          }
+        ],
+        "formula": "level_alert -> immediate_check",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：如果安全团队必须立即检查，则值班工程师会收到通知。",
+      "score": 0,
+      "reason": "这是检查要求到工程师通知之间的任务相关因果链条。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "immediate_check",
+            "nl": "安全团队必须立即检查"
+          },
+          {
+            "key": "notified",
+            "nl": "值班工程师收到通知"
+          }
+        ],
+        "formula": "immediate_check -> notified",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：如果值班工程师收到通知，则值班工程师会启动应急协议。",
+      "score": 0,
+      "reason": "这是从收到通知到启动应急协议的最后一条蕴含，直接关系到已知否定事实如何约束前件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "notified",
+            "nl": "值班工程师收到通知"
+          },
+          {
+            "key": "protocol",
+            "nl": "值班工程师启动应急协议"
+          }
+        ],
+        "formula": "notified -> protocol",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留明确已知事实：今天值班工程师没有启动应急协议。",
+      "score": 0,
+      "reason": "这是题目给出的当前状态约束，是判断异常登录是否可能或必然的关键前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "protocol",
+            "nl": "值班工程师启动应急协议"
+          }
+        ],
+        "formula": "~protocol",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须同时对应两个目标：询问“今天检测到异常登录”是否可能，以及询问“今天检测到异常登录”是否一定成立。",
+      "score": 0,
+      "reason": "原问题包含可能性查询和必然性查询，且二者都以检测到异常登录为目标命题。"
+    }
+  ]
+}

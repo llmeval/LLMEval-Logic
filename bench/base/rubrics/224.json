@@ -1,0 +1,131 @@
+{
+  "id": 224,
+  "title": "基建问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表达“如果该市修了池塘，那么该市必须架桥”的条件关系。",
+      "score": 0,
+      "reason": "这是题干限制之一，决定池塘建设与架桥之间的必要关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "pond",
+            "nl": "该市修了池塘"
+          },
+          {
+            "key": "bridge",
+            "nl": "该市架了桥"
+          }
+        ],
+        "formula": "pond -> bridge",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表达“如果该市架了桥，那么该市不能建花园”的条件关系。",
+      "score": 0,
+      "reason": "这是题干限制之一，要求正确处理架桥对建花园的否定影响。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "bridge",
+            "nl": "该市架了桥"
+          },
+          {
+            "key": "garden",
+            "nl": "该市建了花园"
+          }
+        ],
+        "formula": "bridge -> ~garden",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表达“如果该市建了花园，那么该市必须植树”的条件关系。",
+      "score": 0,
+      "reason": "这是题干限制之一，连接建花园与植树，不能反向或遗漏。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "garden",
+            "nl": "该市建了花园"
+          },
+          {
+            "key": "tree",
+            "nl": "该市植了树"
+          }
+        ],
+        "formula": "garden -> tree",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化应表达“如果该市植了树，那么该市必须架桥”的条件关系。",
+      "score": 0,
+      "reason": "这是题干限制之一，连接植树与架桥，是判断是否必然架桥的重要链条。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "tree",
+            "nl": "该市植了树"
+          },
+          {
+            "key": "bridge",
+            "nl": "该市架了桥"
+          }
+        ],
+        "formula": "tree -> bridge",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留题干明确给出的“该市要建设花园或池塘”的至少一项建设约束。",
+      "score": 0,
+      "reason": "这是问题的显式初始约束，限定了可行情形中花园和池塘至少有一个成立。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "garden",
+            "nl": "该市建了花园"
+          },
+          {
+            "key": "pond",
+            "nl": "该市修了池塘"
+          }
+        ],
+        "formula": "garden | pond",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 necessary，目标命题集为“该市架了桥”这一命题是否在所有满足限制的情形下必然成立。",
+      "score": 0,
+      "reason": "该项检查候选形式化是否询问同一个必然性问题，而不是可满足性、枚举或其他目标。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "该市架了桥"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

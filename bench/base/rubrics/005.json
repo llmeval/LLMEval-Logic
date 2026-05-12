@@ -1,0 +1,120 @@
+{
+  "id": 5,
+  "title": "参加会议",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "正确表示“小李参加”蕴含“小陈参加”的条件，方向不能反置。",
+      "score": 0,
+      "reason": "该蕴含关系直接限制小李与小陈的参会组合，是枚举可行组合所必需的。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Li",
+            "nl": "小李参加"
+          },
+          {
+            "key": "Chen",
+            "nl": "小陈参加"
+          }
+        ],
+        "formula": "Li -> Chen",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "正确表示“小陈参加”和“小刘参加”至少有一人为真的条件。",
+      "score": 0,
+      "reason": "该至少一人参加的析取约束排除了两人都不参加的组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Chen",
+            "nl": "小陈参加"
+          },
+          {
+            "key": "Liu",
+            "nl": "小刘参加"
+          }
+        ],
+        "formula": "Chen | Liu",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "正确表示“小刘参加”和“小李参加”二者恰好一人为真，即至少一人参加且不能同时参加。",
+      "score": 0,
+      "reason": "该互斥且穷尽的关系决定小刘与小李之间的可行搭配，不能弱化为普通析取或仅互斥。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Liu",
+            "nl": "小刘参加"
+          },
+          {
+            "key": "Li",
+            "nl": "小李参加"
+          }
+        ],
+        "formula": "(Liu & ~Li) | (~Liu & Li)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "正确表示“小陈不参加”当且仅当“小李参加”的双条件关系。",
+      "score": 0,
+      "reason": "该双向关系同时约束小陈缺席与小李参加两个方向，缺任一方向都会改变可行组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Chen",
+            "nl": "小陈参加"
+          },
+          {
+            "key": "Li",
+            "nl": "小李参加"
+          }
+        ],
+        "formula": "(~Chen) <-> Li",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合为“小陈参加”“小李参加”“小刘参加”的所有可能参会组合。",
+      "score": 0,
+      "reason": "题目要求列举满足全部条件的三人参会组合，因此形式化查询必须枚举这三个参会命题的模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小陈参加"
+          },
+          {
+            "key": "B",
+            "nl": "小李参加"
+          },
+          {
+            "key": "C",
+            "nl": "小刘参加"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "id": 77,
+  "title": "技术方案选择",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示“如果不选择A，则必须选择R”的条件关系，且方向不能反置。",
+      "score": 0,
+      "reason": "这是题干给出的关键依赖关系之一，决定未选A时对R的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "选择A"
+          },
+          {
+            "key": "B",
+            "nl": "选择R"
+          }
+        ],
+        "formula": "~A -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示“如果不选择R，则必须选择V”的条件关系，且方向不能反置。",
+      "score": 0,
+      "reason": "这是题干给出的另一条关键依赖关系，用于约束未选R时对V的选择。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "选择R"
+          },
+          {
+            "key": "C",
+            "nl": "选择V"
+          }
+        ],
+        "formula": "~B -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留已确定使用 TypeScript 因而不能选择V这一明确限制。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前约束，会直接排除包含V的方案。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "选择V"
+          }
+        ],
+        "formula": "~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 enumerate_models 类型，枚举最终可能技术方案中“选择A、选择R、选择V”三个命题的所有可行取值组合。",
+      "score": 0,
+      "reason": "题目询问最终可能的技术方案，需要枚举三个框架选择命题的可行模型，而不是只判断单个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "选择A"
+          },
+          {
+            "key": "B",
+            "nl": "选择R"
+          },
+          {
+            "key": "C",
+            "nl": "选择V"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

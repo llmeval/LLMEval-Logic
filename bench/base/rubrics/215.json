@@ -1,0 +1,115 @@
+{
+  "id": 215,
+  "title": "抽盲盒",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果抽到的是小美喜欢而小丽不喜欢的款式，那么小美会拿走。",
+      "score": 0,
+      "reason": "这是小丽分配规则的第一条，决定了小美单独喜欢的情形会被排除或保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小丽喜欢的款式"
+          },
+          {
+            "key": "B",
+            "nl": "小美喜欢的款式"
+          },
+          {
+            "key": "C",
+            "nl": "小美拿走"
+          }
+        ],
+        "formula": "(~A & B) -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果抽到的是小丽和小美都不喜欢的款式，那么路人会拿走。",
+      "score": 0,
+      "reason": "这是小丽分配规则的第二条，决定了双方都不喜欢的情形会被排除或保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小丽喜欢的款式"
+          },
+          {
+            "key": "B",
+            "nl": "小美喜欢的款式"
+          },
+          {
+            "key": "D",
+            "nl": "路人拿走"
+          }
+        ],
+        "formula": "(~A & ~B) -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留当前事实：盲盒款式没有被小美拿走。",
+      "score": 0,
+      "reason": "题干说小丽拿着盲盒走了，因此需要排除小美拿走这一当前状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "小美拿走"
+          }
+        ],
+        "formula": "~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应保留当前事实：盲盒款式没有被路人拿走。",
+      "score": 0,
+      "reason": "题干说小丽拿着盲盒走了，因此需要排除路人拿走这一当前状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "路人拿走"
+          }
+        ],
+        "formula": "~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标是在“小丽喜欢的款式”和“小美喜欢的款式”这两个命题上的可能取值组合。",
+      "score": 0,
+      "reason": "原问题问“小丽抽到的款式，可能是谁喜欢的”，需要枚举两人是否喜欢该款式的可能组合，而不是判断单个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小丽喜欢的款式"
+          },
+          {
+            "key": "B",
+            "nl": "小美喜欢的款式"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

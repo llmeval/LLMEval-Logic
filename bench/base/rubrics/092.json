@@ -1,0 +1,141 @@
+{
+  "id": 92,
+  "title": "抓罪犯",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示：若甲、乙、丙三人都是罪犯，则案件已经被破获。",
+      "score": 0,
+      "reason": "这是题干中“只有案件破获后，才能确定三人都是罪犯”的关键条件，决定三人同时为罪犯与案件破获之间的逻辑方向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "这个案件被破获"
+          },
+          {
+            "key": "b",
+            "nl": "甲是罪犯"
+          },
+          {
+            "key": "c",
+            "nl": "乙是罪犯"
+          },
+          {
+            "key": "d",
+            "nl": "丙是罪犯"
+          }
+        ],
+        "formula": "(b & c & d) -> a",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果甲不是罪犯，则甲说“乙不是罪犯”为真，即乙不是罪犯。",
+      "score": 0,
+      "reason": "这保留了甲是否为罪犯与其口供内容之间的条件关系，是推理乙身份所需的关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "甲是罪犯"
+          },
+          {
+            "key": "c",
+            "nl": "乙是罪犯"
+          }
+        ],
+        "formula": "~b -> ~c",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果乙不是罪犯，则乙说“乙和丙认识”为真。",
+      "score": 0,
+      "reason": "这保留了乙是否为罪犯与其口供内容之间的条件关系，是连接乙身份和乙丙认识关系的必要约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "c",
+            "nl": "乙是罪犯"
+          },
+          {
+            "key": "e",
+            "nl": "乙和丙认识"
+          }
+        ],
+        "formula": "~c -> e",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应包含当前案件还没有破获这一明确事实。",
+      "score": 0,
+      "reason": "这是题干直接给出的当前状态，约束案件破获命题为假。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "这个案件被破获"
+          }
+        ],
+        "formula": "~a",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应包含已经查明乙和丙不认识这一明确事实。",
+      "score": 0,
+      "reason": "这是题干直接给出的调查事实，约束乙丙认识命题为假。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "e",
+            "nl": "乙和丙认识"
+          }
+        ],
+        "formula": "~e",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合是甲是否为罪犯、乙是否为罪犯、丙是否为罪犯。",
+      "score": 0,
+      "reason": "原问题询问“罪犯是谁”，需要枚举三个人各自是否为罪犯的模型，而不是只查询单个命题或判断可能性/必然性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "甲是罪犯"
+          },
+          {
+            "key": "C",
+            "nl": "乙是罪犯"
+          },
+          {
+            "key": "D",
+            "nl": "丙是罪犯"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

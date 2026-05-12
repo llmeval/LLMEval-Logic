@@ -1,0 +1,126 @@
+{
+  "id": 72,
+  "title": "系统规范验证",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表达“所有已优化的状态都是稳定的”这一全称蕴含关系。",
+      "score": 0,
+      "reason": "这是系统规范中的第一条核心依赖关系，若遗漏或方向错误会改变可满足性判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "状态x已优化"
+          },
+          {
+            "key": "G",
+            "nl": "状态x稳定"
+          },
+          {
+            "key": "x",
+            "nl": "状态变量"
+          }
+        ],
+        "formula": "forall x. (F(x) -> G(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表达“所有稳定的状态都启用了特性B”这一全称蕴含关系。",
+      "score": 0,
+      "reason": "这是系统规范中的第二条核心依赖关系，决定稳定状态与启用特性B之间的必然联系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "状态x稳定"
+          },
+          {
+            "key": "H",
+            "nl": "状态x启用特性B"
+          },
+          {
+            "key": "x",
+            "nl": "状态变量"
+          }
+        ],
+        "formula": "forall x. (G(x) -> H(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留“存在至少一个状态未启用特性B”的显式存在约束。",
+      "score": 0,
+      "reason": "该存在性条件是题目明确给出的规范之一，影响系统是否能同时满足所有规范。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "状态x启用特性B"
+          },
+          {
+            "key": "x",
+            "nl": "状态变量"
+          }
+        ],
+        "formula": "exists x. (~H(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留“存在至少一个状态是已优化的”的显式存在约束。",
+      "score": 0,
+      "reason": "该存在性条件是题目明确给出的规范之一，不能被误写为全称条件或遗漏。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "状态x已优化"
+          },
+          {
+            "key": "x",
+            "nl": "状态变量"
+          }
+        ],
+        "formula": "exists x. (F(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 possible，目标命题集是四条系统规范的合取：所有已优化状态都是稳定的、所有稳定状态都启用特性B、存在未启用特性B的状态、存在已优化状态。",
+      "score": 0,
+      "reason": "题目询问系统是否有可能同时满足所有规范，因此查询必须针对这些规范整体的可满足性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "状态x已优化"
+          },
+          {
+            "key": "G",
+            "nl": "状态x稳定"
+          },
+          {
+            "key": "H",
+            "nl": "状态x启用特性B"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "(forall x. (F(x) -> G(x))) & (forall x. (G(x) -> H(x))) & (exists x. (~H(x))) & (exists x. (F(x)))"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

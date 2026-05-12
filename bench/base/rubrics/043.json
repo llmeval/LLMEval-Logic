@@ -1,0 +1,95 @@
+{
+  "id": 43,
+  "title": "今天究竟应该吃什么",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须把“我只吃一样”形式化为米粉、米饭、面条三者中恰好选择一种，既不能多选，也不能全不选。",
+      "score": 0,
+      "reason": "这是决定可行饮食选择空间的核心约束，缺失或弱化为至多一个、至少一个都会改变形式化问题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "今天吃米粉"
+          },
+          {
+            "key": "R",
+            "nl": "今天吃米饭"
+          },
+          {
+            "key": "N",
+            "nl": "今天吃面条"
+          }
+        ],
+        "formula": "(F & ~R & ~N) | (~F & R & ~N) | (~F & ~R & N)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "必须表示由于没吃过米粉，所以今天不吃米粉这一明确排除条件。",
+      "score": 0,
+      "reason": "这是文本直接给出的当前限制，会排除米粉作为可行选择。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "今天吃米粉"
+          }
+        ],
+        "formula": "~F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "必须表示米饭已经卖完，因此今天不能吃米饭这一明确排除条件。",
+      "score": 0,
+      "reason": "这是文本直接给出的当前状态，会排除米饭作为可行选择。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "R",
+            "nl": "今天吃米饭"
+          }
+        ],
+        "formula": "~R",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 enumerate_models，目标命题集合是今天是否吃米粉、今天是否吃米饭、今天是否吃面条这三个选择变量。",
+      "score": 0,
+      "reason": "原问题询问在约束下还能吃什么，需要枚举这三个菜单选项的可行取值组合，而不是证明某个单一命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "今天吃米粉"
+          },
+          {
+            "key": "C",
+            "nl": "今天吃米饭"
+          },
+          {
+            "key": "D",
+            "nl": "今天吃面条"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

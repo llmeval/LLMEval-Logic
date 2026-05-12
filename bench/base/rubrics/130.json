@@ -1,0 +1,114 @@
+{
+  "id": 130,
+  "title": "和珅与老纪的大辩斗",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表达“如果这生物尾巴上竖，那么这生物是狗”的条件关系，方向不能反过来。",
+      "score": 0,
+      "reason": "这是判断该动物是否为狗的核心规则，必须保留由尾巴上竖推出是狗的蕴含关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "这生物尾巴上竖"
+          },
+          {
+            "key": "B",
+            "nl": "这生物是狗"
+          }
+        ],
+        "formula": "C -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表达“如果这生物尾巴下垂，那么这生物是狼”的条件关系，方向不能反过来。",
+      "score": 0,
+      "reason": "这是老纪给出的另一条分类规则，影响狼狗身份之间的逻辑结构。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "这生物尾巴下垂"
+          },
+          {
+            "key": "D",
+            "nl": "这生物是狼"
+          }
+        ],
+        "formula": "A -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表达尾巴上竖与尾巴下垂不能同时成立。",
+      "score": 0,
+      "reason": "“上竖”和“下垂”是同一尾巴状态的互斥取值，若不互斥会扭曲分类条件的含义。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "这生物尾巴上竖"
+          },
+          {
+            "key": "A",
+            "nl": "这生物尾巴下垂"
+          }
+        ],
+        "formula": "~(C & A)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化应表达这生物是狗与这生物是狼不能同时成立。",
+      "score": 0,
+      "reason": "题干询问“是狼是狗”并区分两类动物，狼和狗身份的互斥关系是保持分类语义所需的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "这生物是狗"
+          },
+          {
+            "key": "D",
+            "nl": "这生物是狼"
+          }
+        ],
+        "formula": "~(B & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应包含题干明确观察到的当前事实：这生物尾巴上竖。",
+      "score": 0,
+      "reason": "问题问的是这只闯进院子的动物，当前尾巴上竖这一观察事实必须作为约束加入。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "这生物尾巴上竖"
+          }
+        ],
+        "formula": "C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时对应两类问题：possible 查询目标为“这生物是狗”是否可能，necessary 查询目标为“这生物是狗”是否必然。",
+      "score": 0,
+      "reason": "原问题同时询问可能是狗和一定是狗，形式化查询必须保持这两个查询类型及同一目标命题。"
+    }
+  ]
+}

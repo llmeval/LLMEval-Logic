@@ -1,0 +1,184 @@
+{
+  "id": 166,
+  "title": "早八谁没来",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应表示丁当时在厕所这一明确事实。",
+      "score": 0,
+      "reason": "这是题目直接给出的当前状态，会影响丁与甲不能同时在厕所这一约束的作用。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "x在厕所"
+          },
+          {
+            "key": "d",
+            "nl": "丁"
+          }
+        ],
+        "formula": "H(d)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应表示甲、乙、丙、丁四人当时都不在座位上。",
+      "score": 0,
+      "reason": "四人都不在座位是题目点名发现的明确观察，是判断其是否出勤的基础。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x在座位上"
+          },
+          {
+            "key": "a",
+            "nl": "甲"
+          },
+          {
+            "key": "b",
+            "nl": "乙"
+          },
+          {
+            "key": "c",
+            "nl": "丙"
+          },
+          {
+            "key": "d",
+            "nl": "丁"
+          }
+        ],
+        "formula": "~F(a) & ~F(b) & ~F(c) & ~F(d)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示甲和乙的出勤状况完全一致，即甲出勤当且仅当乙出勤。",
+      "score": 0,
+      "reason": "该双向关系约束甲乙的出勤状态，不能只表示单向蕴含或普通相关。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "x出勤"
+          },
+          {
+            "key": "a",
+            "nl": "甲"
+          },
+          {
+            "key": "b",
+            "nl": "乙"
+          }
+        ],
+        "formula": "G(a) <-> G(b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示只要丙来上课，乙一定在，即丙出勤蕴含乙出勤。",
+      "score": 0,
+      "reason": "该条件关系的方向是从丙出勤到乙出勤，方向反置会改变可推出的翘课对象。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "x出勤"
+          },
+          {
+            "key": "b",
+            "nl": "乙"
+          },
+          {
+            "key": "c",
+            "nl": "丙"
+          }
+        ],
+        "formula": "G(c) -> G(b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示丁和甲不可能同时出现在厕所。",
+      "score": 0,
+      "reason": "该互斥关系与丁在厕所的事实结合后限制甲是否可能在厕所。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "x在厕所"
+          },
+          {
+            "key": "a",
+            "nl": "甲"
+          },
+          {
+            "key": "d",
+            "nl": "丁"
+          }
+        ],
+        "formula": "~(H(d) & H(a))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示一个人出勤当且仅当其在座位上或在厕所。",
+      "score": 0,
+      "reason": "这是把“在座位上”“在厕所”和“出勤/没来”连接起来的核心定义，决定不在座位且不在厕所时是否属于翘课。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "x出勤"
+          },
+          {
+            "key": "F",
+            "nl": "x在座位上"
+          },
+          {
+            "key": "H",
+            "nl": "x在厕所"
+          },
+          {
+            "key": "x",
+            "nl": "任意学生"
+          }
+        ],
+        "formula": "forall x. (G(x) <-> (F(x) | H(x)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标是枚举哪些人满足未出勤、也就是翘课。",
+      "score": 0,
+      "reason": "原问题问“谁翘课了”，形式化应枚举满足未出勤条件的人员，而不是询问某个单一命题是否可能或必然。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "x出勤"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "~G(x)"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

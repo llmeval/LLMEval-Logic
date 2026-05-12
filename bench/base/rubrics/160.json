@@ -1,0 +1,93 @@
+{
+  "id": 160,
+  "title": "谁是本科生",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示：思政大课上至少存在一个哲学生，即存在某个对象同时是哲学生并且在思政大课上。",
+      "score": 0,
+      "reason": "这是题干明确给出的存在性约束，是后续判断是否存在本科生的关键前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x是哲学生"
+          },
+          {
+            "key": "G",
+            "nl": "x在思政大课上"
+          }
+        ],
+        "formula": "exists x. (F(x) & G(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：所有哲学生都是本科生，即任意对象如果是哲学生，则它是本科生。",
+      "score": 0,
+      "reason": "该全称蕴含关系把哲学生与本科生联系起来，是从已知存在的哲学生推出本科生存在的必要逻辑关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x是哲学生"
+          },
+          {
+            "key": "H",
+            "nl": "x是本科生"
+          }
+        ],
+        "formula": "forall x. (F(x) -> H(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须表示：思政大课上至多有一个本科生，即任意两个在思政大课上且是本科生的对象必须是同一个对象。",
+      "score": 0,
+      "reason": "这是题干明确给出的数量上界约束，用于判断是否能达到“恰好一个”的唯一性部分。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "x在思政大课上"
+          },
+          {
+            "key": "H",
+            "nl": "x是本科生"
+          }
+        ],
+        "formula": "forall x. forall y. (((G(x) & H(x)) & (G(y) & H(y))) -> x = y)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 necessary 类型，目标命题集为：思政大课上恰好存在一个本科生，即存在某个对象在思政大课上且是本科生，并且所有在思政大课上且是本科生的对象都与它相同。",
+      "score": 0,
+      "reason": "题目询问的是该唯一存在命题是否必然成立，形式化需要对准同一查询类型和同一目标命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "x在思政大课上"
+          },
+          {
+            "key": "H",
+            "nl": "x是本科生"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "exists x. (G(x) & H(x) & forall y. ((G(y) & H(y)) -> x = y))"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

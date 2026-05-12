@@ -1,0 +1,101 @@
+{
+  "id": 144,
+  "title": "有点像杨幂",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表达选拔标准中的必要条件：对任何人，如果她是真正的“小杨幂”，那么在她摘下口罩的情况下她应当长得像杨幂。",
+      "score": 0,
+      "reason": "这是从“只有当她摘下口罩后依然长得像杨幂，她才会被认定为真正的小杨幂”得到否定结论所需的核心逻辑关系，必须保留全称范围和蕴含方向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x是真正的小杨幂"
+          },
+          {
+            "key": "G",
+            "nl": "x摘下了口罩"
+          },
+          {
+            "key": "H",
+            "nl": "x长得像杨幂"
+          },
+          {
+            "key": "x",
+            "nl": "任意人"
+          }
+        ],
+        "formula": "forall x. (F(x) -> (G(x) -> H(x)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须包含小美摘下了口罩这一当前事实。",
+      "score": 0,
+      "reason": "题干说明判断发生在小美摘下口罩之后；该事实是应用选拔标准推出相关结论的显式条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "x摘下了口罩"
+          },
+          {
+            "key": "a",
+            "nl": "小美"
+          }
+        ],
+        "formula": "G(a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须表达小美摘下口罩后并不长得像杨幂。",
+      "score": 0,
+      "reason": "题干用“小美摘下口罩后长得像曾志伟”来排除她摘下口罩后依然像杨幂；这是判断她是否满足必要条件的显式状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "x长得像杨幂"
+          },
+          {
+            "key": "a",
+            "nl": "小美"
+          }
+        ],
+        "formula": "~H(a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 necessary 类型，目标命题是“小美不是真正的‘小杨幂’”。",
+      "score": 0,
+      "reason": "原问题问能否据此认定该否定命题，形式化查询应检验该结论是否由前提必然推出，而不是检验可能性或其他人物、其他性质。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x是真正的小杨幂"
+          },
+          {
+            "key": "a",
+            "nl": "小美"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "~F(a)"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

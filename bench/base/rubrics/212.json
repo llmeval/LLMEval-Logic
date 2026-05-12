@@ -1,0 +1,152 @@
+{
+  "id": 212,
+  "title": "智能家居的安全系统",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果检测到异常移动，则会启动警报模式。",
+      "score": 0,
+      "reason": "这是从异常移动到警报模式的直接规则，是判断目标命题是否可能或必然发生的起点。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "检测到异常移动"
+          },
+          {
+            "key": "A",
+            "nl": "启动警报模式"
+          }
+        ],
+        "formula": "D -> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示：只有在启动警报模式且系统处于外出布防状态时，才会发送警报到安全公司。",
+      "score": 0,
+      "reason": "该规则连接警报模式、外出布防状态和发送警报，是由异常移动推出后续联系业主的关键中间关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "启动警报模式"
+          },
+          {
+            "key": "G",
+            "nl": "系统处于外出布防状态"
+          },
+          {
+            "key": "F",
+            "nl": "发送警报到安全公司"
+          }
+        ],
+        "formula": "(A & G) -> F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果发送警报到安全公司，则安全公司会联系业主。",
+      "score": 0,
+      "reason": "该规则把发送警报与联系业主相连，配合已知未联系业主会影响异常移动是否可发生。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "发送警报到安全公司"
+          },
+          {
+            "key": "B",
+            "nl": "安全公司联系业主"
+          }
+        ],
+        "formula": "F -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果安全公司联系业主且业主确认是误报，则会取消出警。",
+      "score": 0,
+      "reason": "这是题干明确给出的条件规则，虽不直接作为查询目标，但属于安全系统规则中需要保留的任务相关逻辑关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "安全公司联系业主"
+          },
+          {
+            "key": "C",
+            "nl": "业主确认是误报"
+          },
+          {
+            "key": "E",
+            "nl": "取消出警"
+          }
+        ],
+        "formula": "(B & C) -> E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留已知事实：安全公司没有联系业主。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前状态，会直接约束与异常移动相关的可满足情形。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "安全公司联系业主"
+          }
+        ],
+        "formula": "~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应保留已知事实：系统处于外出布防状态。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前状态，是触发向安全公司发送警报规则所需的条件之一。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "系统处于外出布防状态"
+          }
+        ],
+        "formula": "G",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时包含两个问题：possible 类型查询“检测到异常移动”是否可能发生，以及 necessary 类型查询“检测到异常移动”是否一定发生；目标命题集均为“检测到异常移动”。",
+      "score": 0,
+      "reason": "题目要求分别判断同一目标命题的可能性与必然性，形式化查询必须对准该命题和这两种查询类型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "检测到异常移动"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

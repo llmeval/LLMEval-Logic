@@ -1,0 +1,110 @@
+{
+  "id": 187,
+  "title": "商务会议问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "正确表示“如果广州刮台风，那么航班会延误”的单向蕴含关系。",
+      "score": 0,
+      "reason": "这是判断台风是否会导致后续错过会议链条的起点，方向不能反转或改成等价关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "T",
+            "nl": "广州刮台风"
+          },
+          {
+            "key": "F",
+            "nl": "航班延误"
+          }
+        ],
+        "formula": "T -> F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "正确表示“如果航班延误，那么他会错过会议”的单向蕴含关系。",
+      "score": 0,
+      "reason": "该关系连接航班延误与错过会议，是判断台风可能性和必然性的关键链条之一。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "航班延误"
+          },
+          {
+            "key": "M",
+            "nl": "错过会议"
+          }
+        ],
+        "formula": "F -> M",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "正确表示“如果他不喝咖啡，那么他就无法保持清醒”的单向蕴含关系。",
+      "score": 0,
+      "reason": "该关系把喝咖啡与保持清醒联系起来，是判断喝咖啡可能性和必然性的核心约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "喝咖啡"
+          },
+          {
+            "key": "E",
+            "nl": "保持清醒"
+          }
+        ],
+        "formula": "~D -> ~E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "正确保留已知事实：他没有错过会议。",
+      "score": 0,
+      "reason": "“参加了会议”需要形式化为未错过会议，否则会改变对台风及航班延误的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "M",
+            "nl": "错过会议"
+          }
+        ],
+        "formula": "~M",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "正确保留已知事实：他保持清醒。",
+      "score": 0,
+      "reason": "“清醒地参加了会议”明确给出保持清醒这一当前状态，是约束喝咖啡命题的必要事实。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "保持清醒"
+          }
+        ],
+        "formula": "E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时包含四个目标：广州刮台风是否可能、广州刮台风是否必然、他喝咖啡是否可能、他喝咖啡是否必然；查询类型分别为 possible 和 necessary，目标命题为“广州刮台风”和“喝咖啡”。",
+      "score": 0,
+      "reason": "该项检查形式化的问题是否与原题四个模态查询完全对齐，而不是只查询其中一个命题或只使用一种查询类型。"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": 245,
+  "title": "实质蕴涵之哥德巴赫猜想",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应将“如果 87920384487 是素数，则哥德巴赫猜想成立”表示为以前者为前件、以后者为后件的实质蕴涵。",
+      "score": 0,
+      "reason": "条件句的方向和蕴涵关系是本题要判断的核心命题，若形式化为反向蕴涵、合取或双条件都会改变问题含义。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "87920384487 is prime."
+          },
+          {
+            "key": "g",
+            "nl": "Goldbach conjecture holds."
+          }
+        ],
+        "formula": "p -> g",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留数论事实：87920384487 不是素数。",
+      "score": 0,
+      "reason": "该事实使条件句在实质蕴涵语义下得到评估，是判断必然性时需要纳入前提的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "87920384487 is prime."
+          }
+        ],
+        "formula": "~p",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 necessary，目标命题集为单个命题：“如果 87920384487 是素数，则哥德巴赫猜想成立”。",
+      "score": 0,
+      "reason": "题目问该条件命题是否一定成立，因此形式化查询必须对同一个蕴涵命题做必然性判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "87920384487 is prime."
+          },
+          {
+            "key": "B",
+            "nl": "Goldbach conjecture holds."
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "A -> B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

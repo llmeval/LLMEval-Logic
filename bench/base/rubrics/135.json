@@ -1,0 +1,110 @@
+{
+  "id": 135,
+  "title": "爱与尊重的难题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "正确表示“不爱自己的人，要么得不到他人的爱，要么不相信别人会爱自己”这一条件关系。",
+      "score": 0,
+      "reason": "这是题中关于不爱自己时产生的两种可能后果的核心蕴含关系，方向和析取结构会影响可满足性判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "爱自己"
+          },
+          {
+            "key": "q",
+            "nl": "被他人爱"
+          },
+          {
+            "key": "r",
+            "nl": "相信别人会爱自己"
+          }
+        ],
+        "formula": "~p -> (~q | ~r)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "正确表示“没有感受到被尊重且爱自己的人，不会被他人爱”这一合取条件推出否定结果的关系。",
+      "score": 0,
+      "reason": "这是题中把未感受到尊重、爱自己与不被他人爱联系起来的关键约束，必须保留合取前件和蕴含方向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "爱自己"
+          },
+          {
+            "key": "q",
+            "nl": "被他人爱"
+          },
+          {
+            "key": "s",
+            "nl": "感受到被尊重"
+          }
+        ],
+        "formula": "(~s & p) -> ~q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "明确表示 fqfq 曾经被他人爱过，即当前前提中“被他人爱”为真。",
+      "score": 0,
+      "reason": "这是题目直接给出的事实，用于与其他条件共同限制模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "q",
+            "nl": "被他人爱"
+          }
+        ],
+        "formula": "q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "明确表示 fqfq 从来没有感受到被尊重，即“感受到被尊重”为假。",
+      "score": 0,
+      "reason": "这是题目直接给出的否定事实，是触发第二个条件关系的重要前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "s",
+            "nl": "感受到被尊重"
+          }
+        ],
+        "formula": "~s",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 possible，目标命题集为“fqfq 爱自己”这一单一命题是否可能成立。",
+      "score": 0,
+      "reason": "问题问的是在前提下 fqfq 爱自己是否有可能，而不是是否必然、列举模型或计数模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "爱自己"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "A"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

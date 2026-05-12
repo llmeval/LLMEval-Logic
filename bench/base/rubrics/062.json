@@ -1,0 +1,93 @@
+{
+  "id": 62,
+  "title": "仁义问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“如果齐宣王用羊祭祀，则齐宣王是仁义的”这一充分条件关系。",
+      "score": 0,
+      "reason": "这是题干中一种关于仁义判定的关键条件，影响对可行祭祀组合的排除。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "S",
+            "nl": "齐宣王用羊祭祀"
+          },
+          {
+            "key": "R",
+            "nl": "齐宣王是仁义的"
+          }
+        ],
+        "formula": "S -> R",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示“如果齐宣王既不用牛也不用羊祭祀，则齐宣王是仁义的”这一合取前提推出仁义的关系。",
+      "score": 0,
+      "reason": "这是题干中另一种关于仁义判定的关键条件，用来约束不用牛且不用羊的情形。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "O",
+            "nl": "齐宣王用牛祭祀"
+          },
+          {
+            "key": "S",
+            "nl": "齐宣王用羊祭祀"
+          },
+          {
+            "key": "R",
+            "nl": "齐宣王是仁义的"
+          }
+        ],
+        "formula": "(~O & ~S) -> R",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留题干明确给出的当前事实：齐宣王并不仁义。",
+      "score": 0,
+      "reason": "这是显式已知条件，必须作为前提约束所有可考虑情形。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "R",
+            "nl": "齐宣王是仁义的"
+          }
+        ],
+        "formula": "~R",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 possible，目标命题集合为“齐宣王用牛祭祀且不用羊祭祀”这一组合是否可能。",
+      "score": 0,
+      "reason": "原问题询问在给定前提下某个祭祀组合是否有可能，形式化查询必须对准该可能性目标。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "齐宣王用牛祭祀"
+          },
+          {
+            "key": "B",
+            "nl": "齐宣王用羊祭祀"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "A & ~B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

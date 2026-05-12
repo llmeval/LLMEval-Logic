@@ -1,0 +1,137 @@
+{
+  "id": 104,
+  "title": "零食采购",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：如果买饼干，那么可乐和雪糕至多买一个，即不能同时买可乐和雪糕。",
+      "score": 0,
+      "reason": "这是题干中关于买饼干时对可乐和雪糕组合的核心条件，影响可行购买组合的排除。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "买饼干"
+          },
+          {
+            "key": "q",
+            "nl": "买可乐"
+          },
+          {
+            "key": "r",
+            "nl": "买雪糕"
+          }
+        ],
+        "formula": "p -> (~q | ~r)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：如果不买饼干，那么一定买牛奶。",
+      "score": 0,
+      "reason": "这是题干中不买饼干与买牛奶之间的条件关系，决定无饼干情形下的必选项。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "买饼干"
+          },
+          {
+            "key": "q",
+            "nl": "买牛奶"
+          }
+        ],
+        "formula": "~p -> q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示：如果买牛奶，那么不会买可乐。",
+      "score": 0,
+      "reason": "这是题干中买牛奶对买可乐的排斥关系，直接限制可行购买组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "买牛奶"
+          },
+          {
+            "key": "q",
+            "nl": "买可乐"
+          }
+        ],
+        "formula": "p -> ~q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留明确约束：四种零食中最后恰好买三种，而不是任意数量。",
+      "score": 0,
+      "reason": "题目要求从四种零食中买三种；该数量约束是枚举可能购买组合的基础。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "买饼干"
+          },
+          {
+            "key": "q",
+            "nl": "买牛奶"
+          },
+          {
+            "key": "r",
+            "nl": "买可乐"
+          },
+          {
+            "key": "s",
+            "nl": "买雪糕"
+          }
+        ],
+        "formula": "((~p & q & r & s) | (p & ~q & r & s) | (p & q & ~r & s) | (p & q & r & ~s))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标是在买饼干、买牛奶、买可乐、买雪糕四个命题上枚举小明最后可能买的三种零食组合。",
+      "score": 0,
+      "reason": "原问题询问可能买哪三种零食，形式化查询必须枚举四个购买命题的可满足组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "买饼干"
+          },
+          {
+            "key": "B",
+            "nl": "买牛奶"
+          },
+          {
+            "key": "C",
+            "nl": "买可乐"
+          },
+          {
+            "key": "D",
+            "nl": "买雪糕"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

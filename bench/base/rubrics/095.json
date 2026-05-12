@@ -1,0 +1,192 @@
+{
+  "id": 95,
+  "title": "思念问题（二）",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示思念关系的传递性：对任意三个人，如果第一个人思念第二个人，且第二个人思念第三个人，则第一个人思念第三个人。",
+      "score": 0,
+      "reason": "这是题干给出的核心全称规则之一，会影响由已知思念关系推出新的思念关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x思念y"
+          },
+          {
+            "key": "x",
+            "nl": "任意第一个人"
+          },
+          {
+            "key": "y",
+            "nl": "任意第二个人"
+          },
+          {
+            "key": "z",
+            "nl": "任意第三个人"
+          }
+        ],
+        "formula": "forall x. forall y. forall z. ((P(x,y) & P(y,z)) -> P(x,z))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示共同思念规则：对任意两个人同时思念同一个人，且这个被共同思念的人思念其中一人时，该被共同思念的人也思念另一人。",
+      "score": 0,
+      "reason": "这是题干给出的第二个核心全称规则，直接关系到能否得到目标思念关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x思念y"
+          },
+          {
+            "key": "x",
+            "nl": "其中一个共同思念者"
+          },
+          {
+            "key": "y",
+            "nl": "另一个共同思念者"
+          },
+          {
+            "key": "z",
+            "nl": "被两人共同思念的人"
+          }
+        ],
+        "formula": "forall x. forall y. forall z. ((P(x,z) & P(y,z) & P(z,x)) -> P(z,y))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应包含已知事实：伊万思念冬妮娅。",
+      "score": 0,
+      "reason": "这是题干明确给出的初始思念关系之一，是推理链的必要前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x思念y"
+          },
+          {
+            "key": "a",
+            "nl": "冬妮娅"
+          },
+          {
+            "key": "b",
+            "nl": "伊万"
+          }
+        ],
+        "formula": "P(b,a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应包含已知事实：娜塔莎思念冬妮娅。",
+      "score": 0,
+      "reason": "这是题干明确给出的初始思念关系之一，参与共同思念规则的适用。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x思念y"
+          },
+          {
+            "key": "a",
+            "nl": "冬妮娅"
+          },
+          {
+            "key": "c",
+            "nl": "娜塔莎"
+          }
+        ],
+        "formula": "P(c,a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "形式化应包含已知事实：冬妮娅思念托里斯。",
+      "score": 0,
+      "reason": "这是题干明确给出的初始思念关系之一，会与其他事实结合产生新的思念关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x思念y"
+          },
+          {
+            "key": "a",
+            "nl": "冬妮娅"
+          },
+          {
+            "key": "d",
+            "nl": "托里斯"
+          }
+        ],
+        "formula": "P(a,d)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC4",
+      "group": "stated_constraint",
+      "desc": "形式化应包含已知事实：托里斯思念伊万。",
+      "score": 0,
+      "reason": "这是题干明确给出的初始思念关系之一，会与传递性规则共同作用。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x思念y"
+          },
+          {
+            "key": "b",
+            "nl": "伊万"
+          },
+          {
+            "key": "d",
+            "nl": "托里斯"
+          }
+        ],
+        "formula": "P(d,b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时对命题“冬妮娅思念娜塔莎”进行 possible 与 necessary 两类判断，目标命题集合为冬妮娅思念娜塔莎。",
+      "score": 0,
+      "reason": "题目问的是同一个目标关系是否可能以及是否必然，形式化查询必须保持查询类型和目标关系一致。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x思念y"
+          },
+          {
+            "key": "a",
+            "nl": "冬妮娅"
+          },
+          {
+            "key": "c",
+            "nl": "娜塔莎"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "P(a,c)"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

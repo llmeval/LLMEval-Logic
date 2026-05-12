@@ -1,0 +1,72 @@
+{
+  "id": 118,
+  "title": "情话",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "premise 蕴含「如果世界只是感知，则我们身处幻觉」（A → B）。",
+      "score": 0,
+      "reason": "这是女友陈述的第一个条件关系，是推理的核心前提之一。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "世界只是我们的感知（像摄影）。"
+          },
+          {
+            "key": "B",
+            "nl": "我们正身处一场美丽的幻觉。"
+          }
+        ],
+        "formula": "A -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "premise 蕴含「如果世界是客观存在，则我们是微不足道的原子」（C → D）。",
+      "score": 0,
+      "reason": "这是女友陈述的第二个条件关系，与 LR1 并列构成完整的逻辑前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "世界是超越感知的客观存在（像哲学）。"
+          },
+          {
+            "key": "D",
+            "nl": "我们是两个微不足道的原子。"
+          }
+        ],
+        "formula": "C -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询为 necessary 类型，且目标命题是「A ∨ C」（世界要么是感知，要么是客观存在）。",
+      "score": 0,
+      "reason": "题目问「是否一定只可能是这两种之一」，对应判断 A∨C 是否必然成立。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "世界只是我们的感知（像摄影）。"
+          },
+          {
+            "key": "C",
+            "nl": "世界是超越感知的客观存在（像哲学）。"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "A | C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

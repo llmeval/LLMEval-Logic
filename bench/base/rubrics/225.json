@@ -1,0 +1,154 @@
+{
+  "id": 225,
+  "title": "四级考试",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“甲通过当且仅当乙没通过”的双条件关系，包含两个方向：甲通过推出乙没通过，乙没通过也推出甲通过。",
+      "score": 0,
+      "reason": "该双条件是限制可行通过组合的核心关系，若只写成单向蕴含会改变模型空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "甲通过"
+          },
+          {
+            "key": "b",
+            "nl": "乙通过"
+          }
+        ],
+        "formula": "a <-> ~b",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示“如果丙通过，那么丁也通过”的蕴含关系，方向必须是丙通过推出丁通过。",
+      "score": 0,
+      "reason": "该条件规定丙与丁之间的依赖方向，方向反转或写成双条件都会改变可行组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "c",
+            "nl": "丙通过"
+          },
+          {
+            "key": "d",
+            "nl": "丁通过"
+          }
+        ],
+        "formula": "c -> d",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示“甲和丙至少有一人通过”，即甲通过或丙通过的析取关系。",
+      "score": 0,
+      "reason": "该至少一人通过条件排除了甲、丙同时不通过的情况，是确定可行模型所必需的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "甲通过"
+          },
+          {
+            "key": "c",
+            "nl": "丙通过"
+          }
+        ],
+        "formula": "a | c",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示“丁没通过，或者乙没通过”，即丁不通过或乙不通过的析取关系。",
+      "score": 0,
+      "reason": "该条件要求乙和丁不能同时通过，误写成合取或去掉否定都会改变模型空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "乙通过"
+          },
+          {
+            "key": "d",
+            "nl": "丁通过"
+          }
+        ],
+        "formula": "~d | ~b",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留题干明确给出的约束：四人中恰好有两人通过。",
+      "score": 0,
+      "reason": "“恰好两人通过”是当前已知的显式数量约束，缺失或写成至少/至多两人会改变待枚举的可行情况。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "甲通过"
+          },
+          {
+            "key": "b",
+            "nl": "乙通过"
+          },
+          {
+            "key": "c",
+            "nl": "丙通过"
+          },
+          {
+            "key": "d",
+            "nl": "丁通过"
+          }
+        ],
+        "formula": "(a & b & ~c & ~d) | (a & ~b & c & ~d) | (a & ~b & ~c & d) | (~a & b & c & ~d) | (~a & b & ~c & d) | (~a & ~b & c & d)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合应是甲、乙、丙、丁四人分别是否通过四级考试的所有可能组合。",
+      "score": 0,
+      "reason": "题目询问“可能是谁通过”，需要枚举四个通过命题的可行赋值，而不是判断某一个人是否必然或可能通过。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲通过"
+          },
+          {
+            "key": "B",
+            "nl": "乙通过"
+          },
+          {
+            "key": "C",
+            "nl": "丙通过"
+          },
+          {
+            "key": "D",
+            "nl": "丁通过"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

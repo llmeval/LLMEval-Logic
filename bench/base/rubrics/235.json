@@ -1,0 +1,72 @@
+{
+  "id": 235,
+  "title": "同学的爱好",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“小李喜欢篮球”会推出“小王喜欢足球”的条件关系。",
+      "score": 0,
+      "reason": "这是题干中从小李的爱好到小王的爱好的关键蕴含关系，方向不能颠倒或弱化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小李喜欢篮球"
+          },
+          {
+            "key": "B",
+            "nl": "小王喜欢足球"
+          }
+        ],
+        "formula": "A -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示“小王不喜欢足球，或者小赵喜欢网球”的析取关系，其中前一项是否定“小王喜欢足球”。",
+      "score": 0,
+      "reason": "该析取关系连接小王不喜欢足球与小赵喜欢网球，是判断小赵喜欢网球是否被迫成立的关键条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "小王喜欢足球"
+          },
+          {
+            "key": "C",
+            "nl": "小赵喜欢网球"
+          }
+        ],
+        "formula": "~B | C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留已知事实：小李喜欢篮球。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前事实，用于触发关于小王喜欢足球的条件关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小李喜欢篮球"
+          }
+        ],
+        "formula": "A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时包含两类目标：possible 和 necessary，目标命题均为“小赵喜欢网球”。",
+      "score": 0,
+      "reason": "原问题分别询问小赵喜欢网球是否有可能以及是否一定成立，形式化必须对准这两个查询目标。z3_check omitted: 多重查询类型"
+    }
+  ]
+}

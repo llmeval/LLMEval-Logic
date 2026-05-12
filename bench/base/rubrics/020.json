@@ -1,0 +1,136 @@
+{
+  "id": 20,
+  "title": "三人餐厅的选择困难症",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示甲说真话当且仅当其陈述内容成立，即“如果乙说真话，那么去X餐厅”成立。",
+      "score": 0,
+      "reason": "甲的真假身份必须与甲所说的条件句真值对应，否则无法正确约束可去的餐厅。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "去X餐厅"
+          },
+          {
+            "key": "D",
+            "nl": "甲说真话"
+          },
+          {
+            "key": "E",
+            "nl": "乙说真话"
+          }
+        ],
+        "formula": "D <-> (E -> A)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示乙说真话当且仅当其陈述内容成立，即“如果丙说真话，那么去Y餐厅”成立。",
+      "score": 0,
+      "reason": "乙的真假身份必须与乙所说的条件句真值对应，这是餐厅选择约束链的一部分。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "去Y餐厅"
+          },
+          {
+            "key": "E",
+            "nl": "乙说真话"
+          },
+          {
+            "key": "F",
+            "nl": "丙说真话"
+          }
+        ],
+        "formula": "E <-> (F -> B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示丙说真话当且仅当其陈述内容成立，即“如果甲说真话，那么去Z餐厅”成立。",
+      "score": 0,
+      "reason": "丙的真假身份必须与丙所说的条件句真值对应，否则会遗漏或错误加入可行餐厅。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "去Z餐厅"
+          },
+          {
+            "key": "D",
+            "nl": "甲说真话"
+          },
+          {
+            "key": "F",
+            "nl": "丙说真话"
+          }
+        ],
+        "formula": "F <-> (D -> C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留三人最终在X、Y、Z三家餐厅中恰好选择一家共同就餐的约束。",
+      "score": 0,
+      "reason": "题目明确限定只能且必须在三家餐厅中选同一家，这是枚举可能餐厅的基础约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "去X餐厅"
+          },
+          {
+            "key": "B",
+            "nl": "去Y餐厅"
+          },
+          {
+            "key": "C",
+            "nl": "去Z餐厅"
+          }
+        ],
+        "formula": "(A | B | C) & ~(A & B) & ~(B & C) & ~(A & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为enumerate_models，目标是在“去X餐厅、去Y餐厅、去Z餐厅”这三个命题空间中枚举他们最后可能去的餐厅。",
+      "score": 0,
+      "reason": "问题要求找出可能去的是哪家餐厅，因此查询必须对三种餐厅选择命题进行模型枚举，而不是查询某个单一命题的必然性或可满足性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "去X餐厅"
+          },
+          {
+            "key": "B",
+            "nl": "去Y餐厅"
+          },
+          {
+            "key": "C",
+            "nl": "去Z餐厅"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

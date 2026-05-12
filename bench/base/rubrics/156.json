@@ -1,0 +1,106 @@
+{
+  "id": 156,
+  "title": "动森主线任务",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "正确表示“歌手kk来开演唱会”会推出“无人岛评价达到三星”的单向条件关系。",
+      "score": 0,
+      "reason": "这是题干中主线任务规则的一条关键蕴含关系，方向不能反转，也不能表示成双条件或无关合取。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "歌手kk来开演唱会"
+          },
+          {
+            "key": "D",
+            "nl": "无人岛评价达到三星"
+          }
+        ],
+        "formula": "A -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "正确表示“歌手kk没有来开演唱会”且“无人岛上有正在出售的空地”共同推出“新的小动物可以入住无人岛”。",
+      "score": 0,
+      "reason": "这是决定新小动物是否可入住的核心规则，必须保留前件中的否定和合取结构以及到入住命题的蕴含方向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "歌手kk来开演唱会"
+          },
+          {
+            "key": "B",
+            "nl": "无人岛上有正在出售的空地"
+          },
+          {
+            "key": "C",
+            "nl": "新的小动物可以入住无人岛"
+          }
+        ],
+        "formula": "(~A & B) -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "明确保留当前条件：无人岛评价没有达到三星。",
+      "score": 0,
+      "reason": "这是题干直接给出的当前状态，会影响对歌手kk是否来开演唱会及后续入住条件的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "无人岛评价达到三星"
+          }
+        ],
+        "formula": "~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "明确保留当前条件：无人岛上有正在出售的空地。",
+      "score": 0,
+      "reason": "这是题干直接给出的当前状态，是触发新小动物可入住规则所需的条件之一。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "无人岛上有正在出售的空地"
+          }
+        ],
+        "formula": "B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应同时包含 possible 和 necessary，目标命题集为“新的小动物可以入住无人岛”。",
+      "score": 0,
+      "reason": "原问题分别询问在给定情况下该命题是否可能成立以及是否必然成立，形式化查询必须对齐这两个目标。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "新的小动物可以入住无人岛"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

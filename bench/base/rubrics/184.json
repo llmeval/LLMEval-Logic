@@ -1,0 +1,80 @@
+{
+  "id": 184,
+  "title": "Au🐱（空真）",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“所有克莱因猫都是肉食动物”，即对任意对象，如果它是克莱因猫，则它是肉食动物。",
+      "score": 0,
+      "reason": "这是激进派观点被公理系统接纳为真的核心全称蕴含关系，决定前提系统的逻辑内容。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x is a Klein Cat"
+          },
+          {
+            "key": "G",
+            "nl": "x is a Meat-eater"
+          },
+          {
+            "key": "x",
+            "nl": "任意对象"
+          }
+        ],
+        "formula": "forall x. (F(x) -> G(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“所有克莱因猫都不是肉食动物”，即对任意对象，如果它是克莱因猫，则它不是肉食动物。",
+      "score": 0,
+      "reason": "这是保守派观点被公理系统接纳为真的核心全称否定蕴含关系，必须与另一观点同时保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x is a Klein Cat"
+          },
+          {
+            "key": "G",
+            "nl": "x is a Meat-eater"
+          },
+          {
+            "key": "x",
+            "nl": "任意对象"
+          }
+        ],
+        "formula": "forall x. (F(x) -> ~G(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 necessary，查询目标必须是“所有克莱因猫都由纯金构成”这一全称命题。",
+      "score": 0,
+      "reason": "问题询问该全称命题是否必然成立，因此需要把查询对准克莱因猫与由纯金构成之间的全称蕴含，而不是查询肉食性或价值。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x is a Klein Cat"
+          },
+          {
+            "key": "H",
+            "nl": "x is made of Gold"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "forall x. (F(x) -> H(x))"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

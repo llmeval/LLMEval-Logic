@@ -1,0 +1,179 @@
+{
+  "id": 79,
+  "title": "拍电影问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示选择购买优秀设备会排除请优秀演员，即二者不能同时被选择，且方向是从优秀设备推出不请优秀演员。",
+      "score": 0,
+      "reason": "这是预算取舍规则中的关键排斥关系，影响后续哪些配置组合可行。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "购买优秀的设备"
+          },
+          {
+            "key": "G",
+            "nl": "请优秀演员"
+          }
+        ],
+        "formula": "E -> ~G",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示租借豪华场地需要配合购买优秀设备，即选择豪华场地时必须同时选择优秀设备。",
+      "score": 0,
+      "reason": "这是场地与设备之间的依赖关系，决定场地选择是否可行。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "V",
+            "nl": "租借豪华的场地"
+          },
+          {
+            "key": "E",
+            "nl": "购买优秀的设备"
+          }
+        ],
+        "formula": "V -> E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示如果请优秀演员，则必须请专业团队。",
+      "score": 0,
+      "reason": "这是优秀演员配置触发后勤团队配置的必要关系，不能遗漏或反向表达。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "请优秀演员"
+          },
+          {
+            "key": "T",
+            "nl": "请专业的团队"
+          }
+        ],
+        "formula": "G -> T",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示如果请优秀演员，则必须舍弃购买优秀设备。",
+      "score": 0,
+      "reason": "这是突出演员表演时与优秀设备之间的排斥要求，影响可行组合判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "请优秀演员"
+          },
+          {
+            "key": "E",
+            "nl": "购买优秀的设备"
+          }
+        ],
+        "formula": "G -> ~E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "应表示如果请优秀演员，则必须舍弃租借豪华场地。",
+      "score": 0,
+      "reason": "这是突出演员表演时与豪华场地之间的排斥要求，影响可行组合判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "请优秀演员"
+          },
+          {
+            "key": "V",
+            "nl": "租借豪华的场地"
+          }
+        ],
+        "formula": "G -> ~V",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR6",
+      "group": "logical_relation",
+      "desc": "应表示如果没有请优秀演员，则不需要请专业团队。",
+      "score": 0,
+      "reason": "这是题干中“反过来”给出的条件关系，约束不请优秀演员时专业团队的选择。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "请优秀演员"
+          },
+          {
+            "key": "T",
+            "nl": "请专业的团队"
+          }
+        ],
+        "formula": "~G -> ~T",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留已知当前事实：导演最后选择了购买优秀的拍摄设备。",
+      "score": 0,
+      "reason": "这是题目明确给定的当前状态，会直接限制所有可能组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "购买优秀的设备"
+          }
+        ],
+        "formula": "E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标集合至少覆盖：请优秀演员、请专业团队、租借豪华的场地。由于题干明确“导演最后选择购买优秀的设备”是给定前提事实，目标集合中是否同时包含“购买优秀的设备”可选。",
+      "score": 0,
+      "reason": "问题要求列举在已知条件下可能出现的配置组合，因此需要枚举这些选择变量的模型。由于“购买优秀的设备”是给定事实，候选可以选择将其放入枚举目标也可以不放。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "请优秀演员"
+          },
+          {
+            "key": "B",
+            "nl": "请专业的团队"
+          },
+          {
+            "key": "C",
+            "nl": "租借豪华的场地"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "id": 165,
+  "title": "录取员工",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示甲的要求：如果不录取李勇，那么也不录取张琳。",
+      "score": 0,
+      "reason": "这是三位面试官约束之一，且其条件方向和否定关系会直接影响可行录取方案。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Z",
+            "nl": "录取张琳"
+          },
+          {
+            "key": "L",
+            "nl": "录取李勇"
+          }
+        ],
+        "formula": "~L -> ~Z",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示乙的要求：如果不录取张琳，那么就录取李勇。",
+      "score": 0,
+      "reason": "这是独立的条件约束，必须保留“不录取张琳”推出“录取李勇”的方向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Z",
+            "nl": "录取张琳"
+          },
+          {
+            "key": "L",
+            "nl": "录取李勇"
+          }
+        ],
+        "formula": "~Z -> L",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示丙的要求：如果录取李勇，那么就不录取张琳。",
+      "score": 0,
+      "reason": "这是限制李勇与张琳录取状态组合的关键条件，不能误写为反向或双向关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Z",
+            "nl": "录取张琳"
+          },
+          {
+            "key": "L",
+            "nl": "录取李勇"
+          }
+        ],
+        "formula": "L -> ~Z",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标是在同时满足所有要求时枚举张琳和李勇两人的录取状态组合。",
+      "score": 0,
+      "reason": "原问题要求找出所有满足三位面试官要求的录取方案，因此需要枚举这两个录取命题的模型，而不是判断单一命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "录取张琳"
+          },
+          {
+            "key": "B",
+            "nl": "录取李勇"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

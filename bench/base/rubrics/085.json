@@ -1,0 +1,102 @@
+{
+  "id": 85,
+  "title": "狂澜晋升",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示：少东家从军士晋升为火长会推出他喝了1000瓶酒。",
+      "score": 0,
+      "reason": "这是“晋升为火长需要喝1000瓶酒”这一必要条件关系，方向不能反转或弱化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "少东家从军士晋升为火长"
+          },
+          {
+            "key": "A",
+            "nl": "少东家喝了1000瓶酒"
+          }
+        ],
+        "formula": "C -> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示：少东家从军士晋升为火长会推出他完成了一次对同门的劫狱。",
+      "score": 0,
+      "reason": "这是问题核心所依赖的必要条件关系，必须保留从晋升到完成劫狱的蕴含方向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "少东家从军士晋升为火长"
+          },
+          {
+            "key": "B",
+            "nl": "少东家完成了一次对同门的劫狱"
+          }
+        ],
+        "formula": "C -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应包含明确陈述的事实：少东家喝了1000瓶酒。",
+      "score": 0,
+      "reason": "这是题干直接给出的当前事实，需作为约束保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "少东家喝了1000瓶酒"
+          }
+        ],
+        "formula": "A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应包含明确陈述的事实：少东家已经从军士晋升为火长。",
+      "score": 0,
+      "reason": "这是题干和问题共同依赖的当前状态，缺少它就无法表达基于已晋升状态的询问。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "少东家从军士晋升为火长"
+          }
+        ],
+        "formula": "C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 necessary 类型，目标命题是“少东家完成了一次对同门的劫狱”。",
+      "score": 0,
+      "reason": "原问题询问在已晋升条件下是否一定完成劫狱，因此查询类型和目标命题都必须对应。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "少东家完成了一次对同门的劫狱"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

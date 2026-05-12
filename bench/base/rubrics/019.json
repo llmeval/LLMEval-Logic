@@ -1,0 +1,210 @@
+{
+  "id": 19,
+  "title": "抓出罪犯",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示甲说真话当且仅当乙、丙、丁三人中至少有一人是罪犯。",
+      "score": 0,
+      "reason": "甲的供述与其真假状态之间的双向对应是判断说真话人数和作案组合的关键关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "甲是罪犯"
+          },
+          {
+            "key": "b",
+            "nl": "乙是罪犯"
+          },
+          {
+            "key": "c",
+            "nl": "丙是罪犯"
+          },
+          {
+            "key": "d",
+            "nl": "丁是罪犯"
+          },
+          {
+            "key": "e",
+            "nl": "甲说真话"
+          }
+        ],
+        "formula": "e <-> (b | c | d)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示乙说真话当且仅当乙没有作案且丙作案。",
+      "score": 0,
+      "reason": "乙的供述包含两个合取内容，其真假状态必须与“乙不是罪犯并且丙是罪犯”双向对应。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "乙是罪犯"
+          },
+          {
+            "key": "c",
+            "nl": "丙是罪犯"
+          },
+          {
+            "key": "f",
+            "nl": "乙说真话"
+          }
+        ],
+        "formula": "f <-> (~b & c)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示丙说真话当且仅当甲和丁之间恰好有一个人是罪犯。",
+      "score": 0,
+      "reason": "丙的供述是甲、丁二者的排他或关系，必须同时排除两人都不是和两人都是的情况。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "甲是罪犯"
+          },
+          {
+            "key": "d",
+            "nl": "丁是罪犯"
+          },
+          {
+            "key": "g",
+            "nl": "丙说真话"
+          }
+        ],
+        "formula": "g <-> ((a | d) & ~(a & d))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示丁说真话当且仅当乙说真话。",
+      "score": 0,
+      "reason": "丁的供述是对乙供述真实性的断言，因此丁的真假状态需要与乙的真假状态一致。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "f",
+            "nl": "乙说真话"
+          },
+          {
+            "key": "h",
+            "nl": "丁说真话"
+          }
+        ],
+        "formula": "h <-> f",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留“四人中恰好两人说真话、两人说假话”的明确约束。",
+      "score": 0,
+      "reason": "说真话人数的精确限制直接约束四个供述真假变量，是筛选作案组合的核心条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "e",
+            "nl": "甲说真话"
+          },
+          {
+            "key": "f",
+            "nl": "乙说真话"
+          },
+          {
+            "key": "g",
+            "nl": "丙说真话"
+          },
+          {
+            "key": "h",
+            "nl": "丁说真话"
+          }
+        ],
+        "formula": "(e & f & ~g & ~h) | (e & ~f & g & ~h) | (e & ~f & ~g & h) | (~e & f & g & ~h) | (~e & f & ~g & h) | (~e & ~f & g & h)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留至少有一名嫌疑人作案的约束。",
+      "score": 0,
+      "reason": "题目询问作案人组合，且案件中应存在作案人；该约束排除无人作案的组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "甲是罪犯"
+          },
+          {
+            "key": "b",
+            "nl": "乙是罪犯"
+          },
+          {
+            "key": "c",
+            "nl": "丙是罪犯"
+          },
+          {
+            "key": "d",
+            "nl": "丁是罪犯"
+          }
+        ],
+        "formula": "a | b | c | d",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "不应把作案人数限制为恰好一人；形式化应允许一人或多人共同作案。",
+      "score": 0,
+      "reason": "题干明确说明可能有一人或多人作案，若加入唯一罪犯约束会错误排除多人作案组合。z3_check omitted: 需检查不存在性"
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标 proposition set 为甲、乙、丙、丁四人分别是否为罪犯的所有可能组合。",
+      "score": 0,
+      "reason": "原问题要求列举可能的作案人组合，因此查询必须枚举四名嫌疑人的罪犯状态，而不是查询某个单一命题的必然性或可能性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲是罪犯"
+          },
+          {
+            "key": "B",
+            "nl": "乙是罪犯"
+          },
+          {
+            "key": "C",
+            "nl": "丙是罪犯"
+          },
+          {
+            "key": "D",
+            "nl": "丁是罪犯"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "id": 190,
+  "title": "国际文化节表演",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：邀请京剧表演艺术家会推出必须邀请民族乐团表演。",
+      "score": 0,
+      "reason": "这是题干给出的关键条件之一，决定已确定邀请京剧后民族乐团是否被要求安排。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "邀请京剧表演艺术家"
+          },
+          {
+            "key": "q",
+            "nl": "邀请民族乐团表演"
+          }
+        ],
+        "formula": "p -> q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：如果昆曲表演和话剧表演都安排了，则不能邀请民族乐团表演。",
+      "score": 0,
+      "reason": "该条件把昆曲、话剧与民族乐团的冲突关系连接起来，是判断话剧安排可能性的核心限制。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "安排昆曲表演"
+          },
+          {
+            "key": "q",
+            "nl": "安排话剧表演"
+          },
+          {
+            "key": "r",
+            "nl": "邀请民族乐团表演"
+          }
+        ],
+        "formula": "(p & q) -> ~r",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示：相声表演和魔术表演中至少安排一个。",
+      "score": 0,
+      "reason": "“要么安排相声表演，要么安排魔术表演”包含至少一者成立的要求，影响相声的可行安排。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "安排相声表演"
+          },
+          {
+            "key": "q",
+            "nl": "安排魔术表演"
+          }
+        ],
+        "formula": "p | q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示：相声表演和魔术表演不能同时安排。",
+      "score": 0,
+      "reason": "“要么……要么……”还包含排斥同时成立的要求，不能只形式化为普通析取。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "安排相声表演"
+          },
+          {
+            "key": "q",
+            "nl": "安排魔术表演"
+          }
+        ],
+        "formula": "~(p & q)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "应表示：只有安排了话剧表演，才会安排魔术表演，即安排魔术表演推出安排话剧表演。",
+      "score": 0,
+      "reason": "该条件给出魔术对话剧的必要条件方向，方向不能反置。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "安排魔术表演"
+          },
+          {
+            "key": "q",
+            "nl": "安排话剧表演"
+          }
+        ],
+        "formula": "p -> q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留已确定邀请京剧表演艺术家这一事实。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前确定状态，会触发关于民族乐团的条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "邀请京剧表演艺术家"
+          }
+        ],
+        "formula": "p",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留已确定安排昆曲表演这一事实。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前确定状态，会与话剧条件共同影响民族乐团冲突。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "安排昆曲表演"
+          }
+        ],
+        "formula": "p",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合是相声表演是否安排与话剧表演是否安排的所有可能组合。",
+      "score": 0,
+      "reason": "原问题询问相声表演和话剧表演可能如何安排，因此形式化查询必须枚举这两个目标命题的可行取值组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "安排相声表演"
+          },
+          {
+            "key": "A",
+            "nl": "安排话剧表演"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "E",
+          "A"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

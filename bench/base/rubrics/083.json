@@ -1,0 +1,103 @@
+{
+  "id": 83,
+  "title": "项目团队",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示：只要小赵加入或小钱加入，便推出小孙加入。",
+      "score": 0,
+      "reason": "这是第一条组建条件的核心蕴含关系，包含“小赵或小钱”的析取前件以及“小孙加入”的后件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小钱会加入项目组"
+          },
+          {
+            "key": "B",
+            "nl": "小孙会加入项目组"
+          },
+          {
+            "key": "C",
+            "nl": "小赵会加入项目组"
+          }
+        ],
+        "formula": "(C | A) -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果小赵不加入，则小钱加入。",
+      "score": 0,
+      "reason": "这是第二条组建条件的方向性蕴含，不能误写成反向蕴含或双条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小钱会加入项目组"
+          },
+          {
+            "key": "C",
+            "nl": "小赵会加入项目组"
+          }
+        ],
+        "formula": "~C -> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表示：如果小钱加入，则小孙不加入。",
+      "score": 0,
+      "reason": "这是第三条组建条件的关键否定后件关系，决定了小钱加入与小孙加入之间的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小钱会加入项目组"
+          },
+          {
+            "key": "B",
+            "nl": "小孙会加入项目组"
+          }
+        ],
+        "formula": "A -> ~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 enumerate_models 类型，目标是在小钱是否加入、小孙是否加入、小赵是否加入这三个命题上枚举所有满足条件的项目组组成。",
+      "score": 0,
+      "reason": "原问题要求找出所有可能的成员组合，因此形式化查询必须枚举这三个人加入与否的模型，而不是只判断某个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小钱会加入项目组"
+          },
+          {
+            "key": "B",
+            "nl": "小孙会加入项目组"
+          },
+          {
+            "key": "C",
+            "nl": "小赵会加入项目组"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

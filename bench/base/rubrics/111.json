@@ -1,0 +1,135 @@
+{
+  "id": 111,
+  "title": "瑞幸联动剧透疯狂动物城",
+  "items": [
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留“宝伯特和盖瑞人气相似”这一已知条件。",
+      "score": 0,
+      "reason": "这是观众推理所依赖的显式背景条件，缺失会改变后续商业利益判断的前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "宝伯特和盖瑞人气相似"
+          }
+        ],
+        "formula": "A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应保留“盖瑞参与联动”这一已知条件。",
+      "score": 0,
+      "reason": "盖瑞是否参与联动是比较宝伯特是否也应参与联动的显式前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "盖瑞参与联动"
+          }
+        ],
+        "formula": "C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "形式化应保留“宝伯特没有参与联动”这一已知条件。",
+      "score": 0,
+      "reason": "问题中的推断正是基于宝伯特未参与联动这一观察，必须作为当前状态被编码。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "宝伯特参与联动"
+          }
+        ],
+        "formula": "~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC4",
+      "group": "stated_constraint",
+      "desc": "形式化应保留“瑞幸追求商业利益最大化”这一已知条件。",
+      "score": 0,
+      "reason": "商业利益最大化是从人气相似和角色性质推出联动选择的显式背景条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "瑞幸追求商业利益最大化"
+          }
+        ],
+        "formula": "E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表达：若宝伯特和盖瑞人气相似、宝伯特是正派、瑞幸追求商业利益最大化且盖瑞参与联动，则宝伯特也会参与联动。",
+      "score": 0,
+      "reason": "这是从“正派人气带来商业利益”和“追求商业利益最大化”到联动选择的核心条件关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "宝伯特和盖瑞人气相似"
+          },
+          {
+            "key": "B",
+            "nl": "宝伯特是正派"
+          },
+          {
+            "key": "E",
+            "nl": "瑞幸追求商业利益最大化"
+          },
+          {
+            "key": "C",
+            "nl": "盖瑞参与联动"
+          },
+          {
+            "key": "D",
+            "nl": "宝伯特参与联动"
+          }
+        ],
+        "formula": "(A & B & E & C) -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表达：如果宝伯特是正派，则宝伯特不是反派。",
+      "score": 0,
+      "reason": "该排斥关系连接“宝伯特是正派”和待查询的“宝伯特是反派”，是判断该推理能否成立的关键。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "宝伯特是正派"
+          },
+          {
+            "key": "F",
+            "nl": "宝伯特是反派"
+          }
+        ],
+        "formula": "B -> ~F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时对应两类问题：possible，目标命题为“宝伯特是反派”；necessary，目标命题也为“宝伯特是反派”。",
+      "score": 0,
+      "reason": "原问题要求分别判断“宝伯特是反派”这一推理是否可能成立以及是否一定成立，形式化查询目标不能换成其他角色或其他性质。"
+    }
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "id": 10,
+  "title": "植树活动",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：B报名以A报名为必要条件，即如果B报名则A报名。",
+      "score": 0,
+      "reason": "这是题干“只有A报名，B才会跟着报名”的必要条件关系，方向不能反。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "B报名"
+          },
+          {
+            "key": "A",
+            "nl": "A报名"
+          }
+        ],
+        "formula": "B -> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：C报名以A报名为必要条件，即如果C报名则A报名。",
+      "score": 0,
+      "reason": "这是题干“只有A报名，C才会跟着报名”的必要条件关系，方向不能反。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "C报名"
+          },
+          {
+            "key": "A",
+            "nl": "A报名"
+          }
+        ],
+        "formula": "C -> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示：D报名以A报名为必要条件，即如果D报名则A报名。",
+      "score": 0,
+      "reason": "这是题干“只有A报名，D才会跟着报名”的必要条件关系，方向不能反。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "D报名"
+          },
+          {
+            "key": "A",
+            "nl": "A报名"
+          }
+        ],
+        "formula": "D -> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示：如果B不报名，则C也不报名。",
+      "score": 0,
+      "reason": "这是B不报名对C不报名的条件约束，关系方向和否定都必须保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "B报名"
+          },
+          {
+            "key": "C",
+            "nl": "C报名"
+          }
+        ],
+        "formula": "~B -> ~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "应表示：如果C不报名，则E也不报名。",
+      "score": 0,
+      "reason": "这是C不报名对E不报名的条件约束，关系方向和否定都必须保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "C报名"
+          },
+          {
+            "key": "E",
+            "nl": "E报名"
+          }
+        ],
+        "formula": "~C -> ~E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留明确事实：A没报名。",
+      "score": 0,
+      "reason": "这是题干直接给出的当前报名状态，必须作为约束纳入形式化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A报名"
+          }
+        ],
+        "formula": "~A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留明确事实：E报名了。",
+      "score": 0,
+      "reason": "这是题干直接给出的当前报名状态，必须作为约束纳入形式化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "E报名"
+          }
+        ],
+        "formula": "E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为enumerate_models，目标命题集合为A、B、C、D、E五人的报名情况。",
+      "score": 0,
+      "reason": "原问题要求列举所有可能的报名情况，因此形式化查询应枚举这五个报名命题的所有满足模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A报名"
+          },
+          {
+            "key": "B",
+            "nl": "B报名"
+          },
+          {
+            "key": "C",
+            "nl": "C报名"
+          },
+          {
+            "key": "D",
+            "nl": "D报名"
+          },
+          {
+            "key": "E",
+            "nl": "E报名"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

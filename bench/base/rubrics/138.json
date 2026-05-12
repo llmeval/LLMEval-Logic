@@ -1,0 +1,116 @@
+{
+  "id": 138,
+  "title": "一二九合唱",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须表示：女高音跑偏会导致女中音跑偏且男高音跑偏。",
+      "score": 0,
+      "reason": "这是题干中女高音出现杂音后其他声部随之跑偏的核心条件，直接限制可行组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Sop",
+            "nl": "女高音跑偏"
+          },
+          {
+            "key": "Alto",
+            "nl": "女中音跑偏"
+          },
+          {
+            "key": "Tenor",
+            "nl": "男高音跑偏"
+          }
+        ],
+        "formula": "Sop -> (Alto & Tenor)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "必须表示：男低音跑偏只有在男高音跑偏时才可能发生，即男低音跑偏蕴含男高音跑偏。",
+      "score": 0,
+      "reason": "“除非男高音跑偏，否则男低音不会跑偏”给出了男低音与男高音之间的必要条件关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Bass",
+            "nl": "男低音跑偏"
+          },
+          {
+            "key": "Tenor",
+            "nl": "男高音跑偏"
+          }
+        ],
+        "formula": "Bass -> Tenor",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "必须表示：四个声部中至少有一个声部跑偏。",
+      "score": 0,
+      "reason": "题干明确说四个声部中出现了杂音，并规定有杂音即视为该声部跑偏，因此至少一个声部应被约束为跑偏。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Bass",
+            "nl": "男低音跑偏"
+          },
+          {
+            "key": "Alto",
+            "nl": "女中音跑偏"
+          },
+          {
+            "key": "Sop",
+            "nl": "女高音跑偏"
+          },
+          {
+            "key": "Tenor",
+            "nl": "男高音跑偏"
+          }
+        ],
+        "formula": "Bass | Alto | Sop | Tenor",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 enumerate_models，目标 proposition set 是男低音跑偏、女中音跑偏、女高音跑偏、男高音跑偏这四个声部的可能组合。",
+      "score": 0,
+      "reason": "问题要求列举可能出现杂音的声部组合；在该形式化中应对应为枚举四个声部跑偏命题的所有可行取值组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "男低音跑偏"
+          },
+          {
+            "key": "B",
+            "nl": "女中音跑偏"
+          },
+          {
+            "key": "C",
+            "nl": "女高音跑偏"
+          },
+          {
+            "key": "D",
+            "nl": "男高音跑偏"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

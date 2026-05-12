@@ -1,0 +1,148 @@
+{
+  "id": 100,
+  "title": "周末干什么",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“如果精力充沛，就会去编程”的单向蕴含关系。",
+      "score": 0,
+      "reason": "这是从精力状态推出行为的关键条件，方向不能反转或写成双向关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "精力充沛"
+          },
+          {
+            "key": "q",
+            "nl": "编程"
+          }
+        ],
+        "formula": "p -> q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“如果感到疲惫，就会去休息”的单向蕴含关系。",
+      "score": 0,
+      "reason": "这是从疲惫状态推出休息行为的条件，直接影响后续约束推理。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "疲惫"
+          },
+          {
+            "key": "q",
+            "nl": "休息"
+          }
+        ],
+        "formula": "p -> q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“编程会导致疲惫”的单向蕴含关系。",
+      "score": 0,
+      "reason": "这是行为到状态的因果约束，是判断当前状态是否被必然排除或推出的重要链条。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "编程"
+          },
+          {
+            "key": "q",
+            "nl": "疲惫"
+          }
+        ],
+        "formula": "p -> q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“休息会带来精力充沛”的单向蕴含关系。",
+      "score": 0,
+      "reason": "这是休息行为对精力状态的影响，必须保留为从休息到精力充沛的蕴含。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "休息"
+          },
+          {
+            "key": "q",
+            "nl": "精力充沛"
+          }
+        ],
+        "formula": "p -> q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "形式化必须表示“不可能同时既精力充沛又疲惫”的互斥关系。",
+      "score": 0,
+      "reason": "该互斥约束限制两个状态不能同时为真，是问题中显式给出的核心逻辑关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "精力充沛"
+          },
+          {
+            "key": "q",
+            "nl": "疲惫"
+          }
+        ],
+        "formula": "~(p & q)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须包含当前已知事实：现在没有休息。",
+      "score": 0,
+      "reason": "这是题目明确给出的当前观察条件，限定了模型空间。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "休息"
+          }
+        ],
+        "formula": "~p",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 necessary 类型，目标命题集合为“精力充沛”这一命题，即询问现在是否一定精力充沛。",
+      "score": 0,
+      "reason": "需要确认候选形式化询问的是同一个必然性问题，而不是可能性、模型枚举或其他命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "精力充沛"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "A"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "id": 196,
+  "title": "王戎不取道旁李",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应形式化补充前提中的条件关系：只要果子是甜的，就会导致人们把果子摘完。",
+      "score": 0,
+      "reason": "这是由补充前提给出的关键蕴含方向，用于把“甜”与“被摘完”建立逻辑联系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "S",
+            "nl": "果子是甜的"
+          },
+          {
+            "key": "P",
+            "nl": "人们会把果子摘完"
+          }
+        ],
+        "formula": "S -> P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留当前观察到的事实约束：果子并没有被人们摘完。",
+      "score": 0,
+      "reason": "王戎判断所依赖的现场状态是路边李树仍有很多果子，形式化中需要体现“未被摘完”这一约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "人们会把果子摘完"
+          }
+        ],
+        "formula": "~P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 necessary 类型，目标命题是“果子不是甜的”是否必然成立。",
+      "score": 0,
+      "reason": "问题问的是在补充前提后王戎关于苦李的判断是否一定正确，因此形式化查询必须检验非甜这一目标的必然性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "果子是甜的"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "~A"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

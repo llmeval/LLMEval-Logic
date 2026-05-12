@@ -1,0 +1,122 @@
+{
+  "id": 23,
+  "title": "家教时的物理电路题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：L1灯亮当且仅当S1按下，两个方向都要保留。",
+      "score": 0,
+      "reason": "这是判断S1状态与L1状态之间关系的基础，若只写成单向蕴含会改变后续约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "L1灯亮"
+          },
+          {
+            "key": "q",
+            "nl": "S1按下"
+          }
+        ],
+        "formula": "p <-> q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：L2灯亮当且仅当“S1未按下或S2按下”，并保留析取和双向条件。",
+      "score": 0,
+      "reason": "L2的条件直接影响L3是否亮，从而影响对S1是否可能或必然按下的判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "L2灯亮"
+          },
+          {
+            "key": "q",
+            "nl": "S1按下"
+          },
+          {
+            "key": "r",
+            "nl": "S2按下"
+          }
+        ],
+        "formula": "p <-> (~q | r)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：L3灯亮当且仅当“L1灯亮且L2灯不亮”，并保留合取、否定和双向条件。",
+      "score": 0,
+      "reason": "题目给出的最终观测是L3没有亮，因此L3与L1、L2的双向关系是约束S1状态的关键。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "L3灯亮"
+          },
+          {
+            "key": "q",
+            "nl": "L1灯亮"
+          },
+          {
+            "key": "r",
+            "nl": "L2灯亮"
+          }
+        ],
+        "formula": "p <-> (q & ~r)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须包含S1和S2不能同时按下这一电路短路约束。",
+      "score": 0,
+      "reason": "该约束排除了部分开关组合，是判断S1是否可能或必然按下时必须保留的显式限制。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "S1按下"
+          },
+          {
+            "key": "q",
+            "nl": "S2按下"
+          }
+        ],
+        "formula": "~(p & q)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须包含最终L3灯没有亮这一已知状态。",
+      "score": 0,
+      "reason": "这是问题中的当前观测事实，缺失它会使关于S1的可能性和必然性查询失去依据。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "L3灯亮"
+          }
+        ],
+        "formula": "~p",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须同时对应两个目标：判断“S1按下”是否可能，以及判断“S1按下”是否必然。",
+      "score": 0,
+      "reason": "原问题包含一个可能性查询和一个必然性查询，目标都指向S1按下，而不是灯的状态或S2状态。z3_check omitted: 复合查询超出单一query_type模式"
+    }
+  ]
+}

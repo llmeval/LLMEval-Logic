@@ -1,0 +1,73 @@
+{
+  "id": 195,
+  "title": "骑士和无赖",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：如果说话者本人是无赖，那么他说的“二人中至少有一人是无赖”这句话为假，即不能成立。",
+      "score": 0,
+      "reason": "这是无赖永远说假话规则作用到该发言者陈述内容上的关键方向，决定其身份与发言真值的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A是无赖"
+          },
+          {
+            "key": "B",
+            "nl": "B是无赖"
+          }
+        ],
+        "formula": "A -> ~(A | B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：如果说话者本人不是无赖，则他说的“二人中至少有一人是无赖”这句话为真。",
+      "score": 0,
+      "reason": "这是骑士永远说真话规则作用到该发言者陈述内容上的关键方向，不能遗漏或反向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A是无赖"
+          },
+          {
+            "key": "B",
+            "nl": "B是无赖"
+          }
+        ],
+        "formula": "~A -> (A | B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为枚举模型，目标是枚举“A是无赖”和“B是无赖”的可能组合，以回答谁可能是无赖。",
+      "score": 0,
+      "reason": "题目询问可能为无赖的人，需要保留对两个人无赖状态组合的枚举目标，而不是只查询单个命题或必然性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A是无赖"
+          },
+          {
+            "key": "B",
+            "nl": "B是无赖"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

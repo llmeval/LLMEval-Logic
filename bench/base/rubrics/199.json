@@ -1,0 +1,139 @@
+{
+  "id": 199,
+  "title": "小学生跑步",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示：甲说“我是第一”这句话为真当且仅当甲是第一名。",
+      "score": 0,
+      "reason": "这是把甲的陈述与其真假状态正确连接起来的核心关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "S",
+            "nl": "甲说真话"
+          },
+          {
+            "key": "P",
+            "nl": "甲是第一名"
+          }
+        ],
+        "formula": "S <-> P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示：乙说“我是第二”这句话为真当且仅当乙是第二名。",
+      "score": 0,
+      "reason": "这是把乙的陈述内容与乙是否说真话对应起来的必要逻辑关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "S",
+            "nl": "乙说真话"
+          },
+          {
+            "key": "P",
+            "nl": "乙是第二名"
+          }
+        ],
+        "formula": "S <-> P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表示：丙说“我不是第一”这句话为真当且仅当丙不是第一名。",
+      "score": 0,
+      "reason": "这是把丙的否定性陈述与其真假状态正确连接起来的必要关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "S",
+            "nl": "丙说真话"
+          },
+          {
+            "key": "P",
+            "nl": "丙是第一名"
+          }
+        ],
+        "formula": "S <-> ~P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留题干明确条件：三人中有且只有一人说了假话，也就是恰好两人说真话。",
+      "score": 0,
+      "reason": "该条件限定了三句话真假组合，是判断可能性的关键约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲说真话"
+          },
+          {
+            "key": "B",
+            "nl": "乙说真话"
+          },
+          {
+            "key": "C",
+            "nl": "丙说真话"
+          }
+        ],
+        "formula": "(A & B & ~C) | (A & ~B & C) | (~A & B & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应保留跑步比赛名次约束：甲、乙、丙三人中恰好一人是第一名。",
+      "score": 0,
+      "reason": "第一名的唯一性决定了三人关于第一名的命题不能同时为真或全为假。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲是第一名"
+          },
+          {
+            "key": "B",
+            "nl": "乙是第一名"
+          },
+          {
+            "key": "C",
+            "nl": "丙是第一名"
+          }
+        ],
+        "formula": "(A & ~B & ~C) | (~A & B & ~C) | (~A & ~B & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 possible 类型，目标命题集合为“甲是第一名”，即询问甲获得第一名是否可能。",
+      "score": 0,
+      "reason": "需要确保形式化问题检查的是同一个可能性目标，而不是必要性、枚举或其他名次命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A1",
+            "nl": "甲是第一名"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "A1"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

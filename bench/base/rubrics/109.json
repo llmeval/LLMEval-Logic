@@ -1,0 +1,248 @@
+{
+  "id": 109,
+  "title": "婴儿能否有蓝眼睛",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：若 y 有蓝眼睛，则 y 不携带棕色眼睛基因且不携带绿色眼睛基因。",
+      "score": 0,
+      "reason": "这是由显性关系得到的关键基因型约束，影响 y 是否可能提供蓝色眼睛基因。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "i",
+            "nl": "y有一双蓝眼睛"
+          },
+          {
+            "key": "a",
+            "nl": "y携带棕色眼睛基因B"
+          },
+          {
+            "key": "d",
+            "nl": "y携带绿色眼睛基因G"
+          }
+        ],
+        "formula": "i -> (~a & ~d)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：若 z 有棕色眼睛，则 z 携带棕色眼睛基因。",
+      "score": 0,
+      "reason": "这是把丈夫的棕色眼睛表型连接到其基因携带状态的必要关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "j",
+            "nl": "z有一双棕色眼睛"
+          },
+          {
+            "key": "b",
+            "nl": "z携带棕色眼睛基因B"
+          }
+        ],
+        "formula": "j -> b",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示：他们已有绿色眼睛孩子会推出至少一方携带绿色眼睛基因。",
+      "score": 0,
+      "reason": "这是把已有孩子的绿色眼睛信息转化为父母基因携带限制的关键关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "c",
+            "nl": "二人有一个绿色眼睛的孩子"
+          },
+          {
+            "key": "d",
+            "nl": "y携带绿色眼睛基因G"
+          },
+          {
+            "key": "e",
+            "nl": "z携带绿色眼睛基因G"
+          }
+        ],
+        "formula": "c -> (d | e)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示：若他们有蓝色眼睛孩子，则父母双方都携带蓝色眼睛基因。",
+      "score": 0,
+      "reason": "这是判断蓝眼孩子可能性的核心遗传条件，必须把目标事件与双方携带蓝色基因相连。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "f",
+            "nl": "二人有一个蓝色眼睛的孩子"
+          },
+          {
+            "key": "g",
+            "nl": "y携带蓝色眼睛基因L"
+          },
+          {
+            "key": "h",
+            "nl": "z携带蓝色眼睛基因L"
+          }
+        ],
+        "formula": "f -> (g & h)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留明确条件：y 有一双蓝眼睛。",
+      "score": 0,
+      "reason": "这是题干给出的当前表型事实，是后续基因推断的输入条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "i",
+            "nl": "y有一双蓝眼睛"
+          }
+        ],
+        "formula": "i",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留明确条件：z 有一双棕色眼睛。",
+      "score": 0,
+      "reason": "这是题干给出的丈夫表型事实，用于约束其基因携带状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "j",
+            "nl": "z有一双棕色眼睛"
+          }
+        ],
+        "formula": "j",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "应保留明确条件：二人已经有一个绿色眼睛的孩子。",
+      "score": 0,
+      "reason": "这是题干给出的已有孩子表型事实，用于约束父母可能携带的绿色眼睛基因。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "c",
+            "nl": "二人有一个绿色眼睛的孩子"
+          }
+        ],
+        "formula": "c",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC4",
+      "group": "stated_constraint",
+      "desc": "应表示 y 至少携带棕色、绿色或蓝色眼睛基因中的一种。",
+      "score": 0,
+      "reason": "这是简化遗传模型中的基因覆盖约束，避免 y 的基因携带状态完全悬空。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "y携带棕色眼睛基因B"
+          },
+          {
+            "key": "d",
+            "nl": "y携带绿色眼睛基因G"
+          },
+          {
+            "key": "g",
+            "nl": "y携带蓝色眼睛基因L"
+          }
+        ],
+        "formula": "a | d | g",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC5",
+      "group": "stated_constraint",
+      "desc": "应表示 z 至少携带棕色、绿色或蓝色眼睛基因中的一种。",
+      "score": 0,
+      "reason": "这是简化遗传模型中的基因覆盖约束，避免 z 的基因携带状态完全悬空。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "z携带棕色眼睛基因B"
+          },
+          {
+            "key": "e",
+            "nl": "z携带绿色眼睛基因G"
+          },
+          {
+            "key": "h",
+            "nl": "z携带蓝色眼睛基因L"
+          }
+        ],
+        "formula": "b | e | h",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC6",
+      "group": "stated_constraint",
+      "desc": "应表示 z 不能同时携带棕色、绿色和蓝色三种眼睛基因。",
+      "score": 0,
+      "reason": "这是对丈夫基因携带组合的显式限制，会影响其是否还能携带蓝色眼睛基因。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "z携带棕色眼睛基因B"
+          },
+          {
+            "key": "e",
+            "nl": "z携带绿色眼睛基因G"
+          },
+          {
+            "key": "h",
+            "nl": "z携带蓝色眼睛基因L"
+          }
+        ],
+        "formula": "~(b & e & h)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 possible，目标命题集为“二人以后有一个蓝色眼睛的孩子”这一可能性。",
+      "score": 0,
+      "reason": "题目问的是在给定条件下蓝眼孩子是否可能出现，而不是必然性、模型枚举或计数。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "二人有一个蓝色眼睛的孩子"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "F"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

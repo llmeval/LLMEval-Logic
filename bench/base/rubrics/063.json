@@ -1,0 +1,103 @@
+{
+  "id": 63,
+  "title": "完全猜测游戏",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应形式化 A 的陈述：如果 1 号球还在箱中，那么 2 号球被摸走了。",
+      "score": 0,
+      "reason": "这是成功条件下必须为真的一个条件命题，且其方向和后件的否定关系会直接约束可枚举的箱中状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "1球在箱中"
+          },
+          {
+            "key": "Q",
+            "nl": "2球在箱中"
+          }
+        ],
+        "formula": "P -> ~Q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应形式化 B 的陈述：只要 1 号球或 2 号球中至少有一个还在箱中，就必须是 2 号球在箱中。",
+      "score": 0,
+      "reason": "该条件命题表达了“至少一个在箱中”对“2 号球在箱中”的约束，不能误写成单纯析取、合取或反向蕴含。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "1球在箱中"
+          },
+          {
+            "key": "Q",
+            "nl": "2球在箱中"
+          }
+        ],
+        "formula": "(P | Q) -> Q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应形式化 C 的陈述：3 号球在箱中，当且仅当 1 号球或 2 号球中至少有一个在箱中。",
+      "score": 0,
+      "reason": "“当且仅当”要求双向约束，既要由 3 号球在箱中推出前两个球至少一个在箱中，也要由前两个球至少一个在箱中推出 3 号球在箱中。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "1球在箱中"
+          },
+          {
+            "key": "Q",
+            "nl": "2球在箱中"
+          },
+          {
+            "key": "R",
+            "nl": "3球在箱中"
+          }
+        ],
+        "formula": "R <-> (P | Q)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标 proposition set 是三个球分别是否在箱中这一组状态：1 号球在箱中、2 号球在箱中、3 号球在箱中。",
+      "score": 0,
+      "reason": "问题要求列举成功游戏中箱子里三个球的所有可能状态，因此查询必须枚举这三个布尔命题的模型，而不是判断单个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "1球在箱中"
+          },
+          {
+            "key": "B",
+            "nl": "2球在箱中"
+          },
+          {
+            "key": "C",
+            "nl": "3球在箱中"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

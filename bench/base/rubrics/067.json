@@ -1,0 +1,160 @@
+{
+  "id": 67,
+  "title": "员工录取情况",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示“丙和丁中恰有一人被录取”，即二者不能同时被录取，也不能同时不被录取。",
+      "score": 0,
+      "reason": "这是题目给出的核心录用约束之一，影响可行录用组合的判定。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "丙被录用"
+          },
+          {
+            "key": "D",
+            "nl": "丁被录用"
+          }
+        ],
+        "formula": "(C & ~D) | (~C & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示“甲和乙至少有一人被录取”。",
+      "score": 0,
+      "reason": "该约束限定甲、乙二人不能同时不被录取，是筛选可行模型所必需的条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲被录用"
+          },
+          {
+            "key": "B",
+            "nl": "乙被录用"
+          }
+        ],
+        "formula": "A | B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表示“甲和丁恰有一人被录取”，即甲、丁二者互斥且至少一个成立。",
+      "score": 0,
+      "reason": "该恰一关系直接约束甲与丁的录用状态，不能弱化为单向蕴含或普通析取。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲被录用"
+          },
+          {
+            "key": "D",
+            "nl": "丁被录用"
+          }
+        ],
+        "formula": "(A & ~D) | (~A & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化应表示“录取乙，当且仅当录取丙”，即乙被录用与丙被录用等价。",
+      "score": 0,
+      "reason": "双条件关系要求两个方向都成立，若只表达一个方向会改变可行录用状态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "乙被录用"
+          },
+          {
+            "key": "C",
+            "nl": "丙被录用"
+          }
+        ],
+        "formula": "B <-> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "形式化应表示“甲、戊、己中恰有两人被录取”。",
+      "score": 0,
+      "reason": "这是关于三人录用数量的精确约束，必须排除录用零人、一人或三人的情况。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲被录用"
+          },
+          {
+            "key": "E",
+            "nl": "戊被录用"
+          },
+          {
+            "key": "F",
+            "nl": "己被录用"
+          }
+        ],
+        "formula": "(A & E & ~F) | (A & ~E & F) | (~A & E & F)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 count_models 类型，目标命题集合为甲、乙、丙、丁、戊、己六人的录用状态组合。",
+      "score": 0,
+      "reason": "需要确认候选形式化统计的是满足所有约束下六个录用布尔命题的模型数量，而不是查询某个单一人员或其他无关目标。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲被录用"
+          },
+          {
+            "key": "B",
+            "nl": "乙被录用"
+          },
+          {
+            "key": "C",
+            "nl": "丙被录用"
+          },
+          {
+            "key": "D",
+            "nl": "丁被录用"
+          },
+          {
+            "key": "E",
+            "nl": "戊被录用"
+          },
+          {
+            "key": "F",
+            "nl": "己被录用"
+          }
+        ],
+        "query_type": "count_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

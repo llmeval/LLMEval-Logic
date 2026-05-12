@@ -1,0 +1,141 @@
+{
+  "id": 66,
+  "title": "有没有通过预选赛",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：如果甲和乙都没有通过预选赛，那么丙通过预选赛。",
+      "score": 0,
+      "reason": "这是第一条教练预测的条件关系，必须保留合取否定作为前件以及丙通过作为后件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "甲通过"
+          },
+          {
+            "key": "b",
+            "nl": "乙通过"
+          },
+          {
+            "key": "c",
+            "nl": "丙通过"
+          }
+        ],
+        "formula": "(~a & ~b) -> c",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：如果乙和丙中至少有一人通过预选赛，那么丁也通过预选赛。",
+      "score": 0,
+      "reason": "这是第二条教练预测的条件关系，关键是把“至少有一人通过”表示为乙通过或丙通过，并作为丁通过的充分条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "乙通过"
+          },
+          {
+            "key": "c",
+            "nl": "丙通过"
+          },
+          {
+            "key": "d",
+            "nl": "丁通过"
+          }
+        ],
+        "formula": "(b | c) -> d",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示：如果甲和乙中至少有一人通过预选赛，那么丙也通过预选赛。",
+      "score": 0,
+      "reason": "这是第三条教练预测中的第一个后果，必须把甲或乙通过作为丙通过的充分条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "甲通过"
+          },
+          {
+            "key": "b",
+            "nl": "乙通过"
+          },
+          {
+            "key": "c",
+            "nl": "丙通过"
+          }
+        ],
+        "formula": "(a | b) -> c",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示：如果甲和乙中至少有一人通过预选赛，那么丁不通过预选赛。",
+      "score": 0,
+      "reason": "这是第三条教练预测中的第二个后果，必须保留同一前件对丁不通过的约束，不能误写成丁通过或遗漏否定。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "甲通过"
+          },
+          {
+            "key": "b",
+            "nl": "乙通过"
+          },
+          {
+            "key": "d",
+            "nl": "丁通过"
+          }
+        ],
+        "formula": "(a | b) -> ~d",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合为甲通过、乙通过、丙通过、丁通过的所有可能通过情况。",
+      "score": 0,
+      "reason": "原问题询问所有可能的通过情况，因此形式化查询应枚举四个人通过与否的模型，而不是只判断某个单一命题是否可能或必然。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "甲通过"
+          },
+          {
+            "key": "B",
+            "nl": "乙通过"
+          },
+          {
+            "key": "C",
+            "nl": "丙通过"
+          },
+          {
+            "key": "D",
+            "nl": "丁通过"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

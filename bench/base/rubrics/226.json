@@ -1,0 +1,106 @@
+{
+  "id": 226,
+  "title": "上课请假",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "正确表示“除非获得辅导员的同意，否则不能请假”的逻辑关系，即没有获得同意会推出不能请假。",
+      "score": 0,
+      "reason": "这是题干中限制请假的关键条件，决定在未获同意时请假命题应为假。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "获得辅导员的同意"
+          },
+          {
+            "key": "C",
+            "nl": "请假"
+          }
+        ],
+        "formula": "~D -> ~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "正确表示“如果这门课很重要而且我生病了，那么就必须请假”的合取前件蕴含关系。",
+      "score": 0,
+      "reason": "这是把课程重要性与生病状态联系到请假的核心条件，前件必须同时包含课程重要和生病。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "这门课很重要"
+          },
+          {
+            "key": "A",
+            "nl": "我生病"
+          },
+          {
+            "key": "C",
+            "nl": "请假"
+          }
+        ],
+        "formula": "(B & A) -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "保留题干明确给出的当前事实：我生病了。",
+      "score": 0,
+      "reason": "该事实是判断课程重要时是否会触发必须请假的前提之一。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "我生病"
+          }
+        ],
+        "formula": "A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "保留题干明确给出的当前事实：没有获得辅导员的同意。",
+      "score": 0,
+      "reason": "该事实会触发不能请假的限制，是判断情境一致性的必要已知条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "获得辅导员的同意"
+          }
+        ],
+        "formula": "~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 possible，目标命题集为“这门课很重要”是否可能成立。",
+      "score": 0,
+      "reason": "问题要求判断在给定情境下课程重要性是否仍有可能，而不是判断其必然性或查询其他命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "这门课很重要"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

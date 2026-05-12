@@ -1,0 +1,125 @@
+{
+  "id": 127,
+  "title": "苦命鸳鸯",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示任意两个人若同时满足真心相爱、有现实因素被拆散、结局悲惨，则可推出他们真是一对苦命鸳鸯。",
+      "score": 0,
+      "reason": "这是“苦命鸳鸯”成立条件的核心逻辑关系，必须保留三个条件共同推出目标身份的结构。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x和y真心相爱"
+          },
+          {
+            "key": "Q",
+            "nl": "x和y有现实因素被拆散"
+          },
+          {
+            "key": "R",
+            "nl": "x和y结局悲惨"
+          },
+          {
+            "key": "S",
+            "nl": "x和y真是一对苦命鸳鸯"
+          },
+          {
+            "key": "x",
+            "nl": "任意人物x"
+          },
+          {
+            "key": "y",
+            "nl": "任意人物y"
+          }
+        ],
+        "formula": "forall x. forall y. ((P(x,y) & Q(x,y) & R(x,y)) -> S(x,y))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应明确表示董卓和吕布真心相爱。",
+      "score": 0,
+      "reason": "该条件是判断董卓和吕布是否满足“苦命鸳鸯”成立条件之一，遗漏会改变形式化问题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x和y真心相爱"
+          },
+          {
+            "key": "a",
+            "nl": "董卓"
+          },
+          {
+            "key": "b",
+            "nl": "吕布"
+          }
+        ],
+        "formula": "P(a,b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应明确表示董卓和吕布有现实因素被拆散。",
+      "score": 0,
+      "reason": "该条件是成立“苦命鸳鸯”的必要输入事实之一，必须针对董卓和吕布这一对人物表示。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Q",
+            "nl": "x和y有现实因素被拆散"
+          },
+          {
+            "key": "a",
+            "nl": "董卓"
+          },
+          {
+            "key": "b",
+            "nl": "吕布"
+          }
+        ],
+        "formula": "Q(a,b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "应明确表示董卓和吕布结局悲惨。",
+      "score": 0,
+      "reason": "该条件是成立“苦命鸳鸯”的必要输入事实之一，若未表示则无法保持原问题的判断依据。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "R",
+            "nl": "x和y结局悲惨"
+          },
+          {
+            "key": "a",
+            "nl": "董卓"
+          },
+          {
+            "key": "b",
+            "nl": "吕布"
+          }
+        ],
+        "formula": "R(a,b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时包含：possible 类型，目标为“董卓和吕布真是一对苦命鸳鸯”；necessary 类型，目标同样为“董卓和吕布真是一对苦命鸳鸯”。",
+      "score": 0,
+      "reason": "原问题同时询问“有可能吗”和“一定吗”，形式化查询必须对同一目标命题分别表达可能性与必然性。z3_check omitted: 查询包含两种类型"
+    }
+  ]
+}

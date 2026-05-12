@@ -1,0 +1,170 @@
+{
+  "id": 26,
+  "title": "三省六部制",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：如果门下省没有通过议案，则中书省需要重拟提案。",
+      "score": 0,
+      "reason": "这是判断中书省是否重拟提案的核心条件，必须保留未通过到重拟之间的蕴含关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "门下省通过议案"
+          },
+          {
+            "key": "G",
+            "nl": "中书省重拟提案"
+          }
+        ],
+        "formula": "~F -> G",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：如果门下省通过议案，则议案具备执行资格。",
+      "score": 0,
+      "reason": "这是从门下省通过推向后续执行条件的第一步，会影响对门下省是否通过的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "门下省通过议案"
+          },
+          {
+            "key": "E",
+            "nl": "议案具备执行资格"
+          }
+        ],
+        "formula": "F -> E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：议案具备执行资格会导致尚书省下达决定。",
+      "score": 0,
+      "reason": "该关系连接议案资格与尚书省决定，是判断通过议案是否会触发后续流程的必要链条。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "议案具备执行资格"
+          },
+          {
+            "key": "C",
+            "nl": "尚书省下达决定"
+          }
+        ],
+        "formula": "E -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：尚书省下达决定会导致执行流程启动。",
+      "score": 0,
+      "reason": "该关系把尚书省决定与执行流程启动相连，是由门下省通过推出执行流程启动的链条组成部分。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "尚书省下达决定"
+          },
+          {
+            "key": "D",
+            "nl": "执行流程启动"
+          }
+        ],
+        "formula": "C -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：执行流程启动与六部没有错误操作之间的条件关系，即执行流程启动时六部没有错误操作。",
+      "score": 0,
+      "reason": "这是题目中六部执行流程与错误操作状态之间的关系，保留了执行流程启动后的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "执行流程启动"
+          },
+          {
+            "key": "B",
+            "nl": "六部错误操作"
+          }
+        ],
+        "formula": "D -> ~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留已知限制：执行流程没有启动。",
+      "score": 0,
+      "reason": "该已知状态会通过前面的条件链限制门下省是否可能通过议案。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "执行流程启动"
+          }
+        ],
+        "formula": "~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留已知事实：事情最终办好。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前事实，形式化应作为已知条件保留下来。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "事情办好"
+          }
+        ],
+        "formula": "A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 enumerate_models，目标 proposition 集合必须是“门下省通过议案”和“中书省重拟提案”这两个命题的所有可能取值组合。",
+      "score": 0,
+      "reason": "原问题要求同时判断门下省是否通过议案以及中书省是否重拟提案，因此查询应枚举这两个目标命题的模型组合，而不是查询其他命题或只查询其中一个。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "门下省通过议案"
+          },
+          {
+            "key": "G",
+            "nl": "中书省重拟提案"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "F",
+          "G"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

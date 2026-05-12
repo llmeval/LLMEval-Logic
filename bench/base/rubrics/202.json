@@ -1,0 +1,221 @@
+{
+  "id": 202,
+  "title": "周代史官的记录职责与权限推理",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表达：某人属于记言史官系统，当且仅当他是内史或外史。",
+      "score": 0,
+      "reason": "这是由内史、外史构成记言系统的核心分类关系，用于判断左史所属系统。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "x是内史"
+          },
+          {
+            "key": "FF",
+            "nl": "x是外史"
+          },
+          {
+            "key": "FG",
+            "nl": "x是记言史官"
+          },
+          {
+            "key": "x",
+            "nl": "人员变量"
+          }
+        ],
+        "formula": "forall x. (FG(x) <-> (H(x) | FF(x)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表达：内史与外史身份互斥，任何人若是内史则不是外史。",
+      "score": 0,
+      "reason": "内史和外史职责互斥是区分具体身份的必要约束，防止同时归为两类。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "x是内史"
+          },
+          {
+            "key": "FF",
+            "nl": "x是外史"
+          },
+          {
+            "key": "x",
+            "nl": "人员变量"
+          }
+        ],
+        "formula": "forall x. (H(x) -> ~FF(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表达：对涉密事件，某人有记录权限当且仅当此人是内史。",
+      "score": 0,
+      "reason": "这是由“涉密事件仅内史有记录权”得到左史身份的关键权限规则。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "y是涉密事件"
+          },
+          {
+            "key": "P",
+            "nl": "x有记录事件y的权限"
+          },
+          {
+            "key": "H",
+            "nl": "x是内史"
+          },
+          {
+            "key": "x",
+            "nl": "人员变量"
+          },
+          {
+            "key": "y",
+            "nl": "事件变量"
+          }
+        ],
+        "formula": "forall x. forall y. (G(y) -> (P(x,y) <-> H(x)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化应表达：如果某人记录了某事件，则此人必须具有记录该事件的权限。",
+      "score": 0,
+      "reason": "该规则把实际记录行为连接到权限，再结合涉密权限规则推出身份。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Q",
+            "nl": "x记录了事件y"
+          },
+          {
+            "key": "P",
+            "nl": "x有记录事件y的权限"
+          },
+          {
+            "key": "x",
+            "nl": "人员变量"
+          },
+          {
+            "key": "y",
+            "nl": "事件变量"
+          }
+        ],
+        "formula": "forall x. forall y. (Q(x,y) -> P(x,y))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "形式化应表达：记言史官不属于记事史官系统。",
+      "score": 0,
+      "reason": "这是区分“属于哪个系统”的必要系统互斥关系，避免把记言系统与记事系统混同。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "FG",
+            "nl": "x是记言史官"
+          },
+          {
+            "key": "J",
+            "nl": "x是记事史官"
+          },
+          {
+            "key": "x",
+            "nl": "人员变量"
+          }
+        ],
+        "formula": "forall x. (FG(x) -> ~J(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留明确事实：“郑伯克段于鄢”是涉密事件。",
+      "score": 0,
+      "reason": "这是把左史记录的具体事件纳入涉密权限规则的显式前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "y是涉密事件"
+          },
+          {
+            "key": "c",
+            "nl": "郑伯克段于鄢"
+          }
+        ],
+        "formula": "G(c)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应保留明确事实：左史记录了“郑伯克段于鄢”。",
+      "score": 0,
+      "reason": "这是触发“记录行为需具备对应权限”的显式观察事实。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "Q",
+            "nl": "x记录了事件y"
+          },
+          {
+            "key": "a",
+            "nl": "左史"
+          },
+          {
+            "key": "c",
+            "nl": "郑伯克段于鄢"
+          }
+        ],
+        "formula": "Q(a,c)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 necessary 类型，目标命题集合是：左史是内史并且左史属于记言史官系统。",
+      "score": 0,
+      "reason": "题目询问左史的身份及所属系统，形式化查询必须对同一目标作必然性判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "x是内史"
+          },
+          {
+            "key": "FG",
+            "nl": "x是记言史官"
+          },
+          {
+            "key": "a",
+            "nl": "左史"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "H(a) & FG(a)"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

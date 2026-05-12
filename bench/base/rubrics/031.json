@@ -1,0 +1,127 @@
+{
+  "id": 31,
+  "title": "道德与自由",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“如果存在者具有理性，那么必须预设自由”的单向蕴含关系。",
+      "score": 0,
+      "reason": "这是从理性存在者过渡到自由预设的关键前提，方向不能反转或弱化为无关关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "R",
+            "nl": "存在者具有理性"
+          },
+          {
+            "key": "F",
+            "nl": "预设自由"
+          }
+        ],
+        "formula": "R -> F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示“预设自由会导致存在者服从道德法则”的单向蕴含关系。",
+      "score": 0,
+      "reason": "该关系连接自由预设与服从道德法则，是推出后续行动方式的中间逻辑环节。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "预设自由"
+          },
+          {
+            "key": "M",
+            "nl": "存在者服从道德法则"
+          }
+        ],
+        "formula": "F -> M",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示“当存在者服从道德法则时，就会遵循定言命令去行动”的单向蕴含关系。",
+      "score": 0,
+      "reason": "该关系是从服从道德法则推出遵循定言命令行动的直接依据，必须保留正确的蕴含方向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "M",
+            "nl": "存在者服从道德法则"
+          },
+          {
+            "key": "I",
+            "nl": "存在者遵循定言命令去行动"
+          }
+        ],
+        "formula": "M -> I",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示“如果不预设自由，则不能预设道德”的否定条件关系。",
+      "score": 0,
+      "reason": "这是背景中明确给出的自由与道德之间的逻辑关系，形式化时应保留否定前件和否定后件的结构。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "预设自由"
+          },
+          {
+            "key": "G",
+            "nl": "预设道德"
+          }
+        ],
+        "formula": "~F -> ~G",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留题干中“存在者具有理性”这一必然预设作为前提事实。",
+      "score": 0,
+      "reason": "题目明确在“理性存在者是自由的”这一必然预设下提问，因此“存在者具有理性”应作为给定事实进入前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "存在者具有理性"
+          }
+        ],
+        "formula": "E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 necessary，目标命题应是“存在者遵循定言命令去行动”。",
+      "score": 0,
+      "reason": "题目要求在“存在者具有理性”作为给定前提下判断是否必然推出“存在者遵循定言命令去行动”。因此查询类型是 necessary，目标是该原子命题本身（理性这一前提已纳入 premise 侧）。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "存在者遵循定言命令去行动"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

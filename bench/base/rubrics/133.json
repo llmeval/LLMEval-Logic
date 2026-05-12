@@ -1,0 +1,76 @@
+{
+  "id": 133,
+  "title": "游泳去吗",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“如果哪吒去游泳，那么池年去游泳”的条件关系，且方向不能反写。",
+      "score": 0,
+      "reason": "这是题干中池年陈述的核心条件关系，会影响对相关游泳情况的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "哪吒去游泳"
+          },
+          {
+            "key": "B",
+            "nl": "池年去游泳"
+          }
+        ],
+        "formula": "A -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示“如果甲师兄去游泳，那么乙去游泳”的条件关系，且方向不能反写。",
+      "score": 0,
+      "reason": "这是判断甲师兄是否可能或必然去游泳所依赖的关键条件关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "甲去游泳"
+          },
+          {
+            "key": "D",
+            "nl": "乙去游泳"
+          }
+        ],
+        "formula": "C -> D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应表示已知西木子没有看到池年和乙任何一个人来游泳，即池年没有去游泳且乙没有去游泳。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前观察事实，是约束模型空间的必要条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "池年去游泳"
+          },
+          {
+            "key": "D",
+            "nl": "乙去游泳"
+          }
+        ],
+        "formula": "~B & ~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应同时包含 possible 和 necessary，目标命题均为“甲师兄去游泳”。",
+      "score": 0,
+      "reason": "原问题分别询问甲师兄去游泳是否有可能以及是否一定成立，形式化查询必须对准同一目标命题并保留这两种不同的模态询问。"
+    }
+  ]
+}

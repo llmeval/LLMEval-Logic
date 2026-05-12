@@ -1,0 +1,114 @@
+{
+  "id": 221,
+  "title": "负责人安全问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须表示：在紧急情况、主要负责人不在且备用负责人也不在三者同时成立时，系统会执行安全关机。",
+      "score": 0,
+      "reason": "这是题干中触发安全关机的核心条件关系，方向和三个前件的合取都必须保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "EM",
+            "nl": "紧急情况"
+          },
+          {
+            "key": "PRI",
+            "nl": "主要负责人在"
+          },
+          {
+            "key": "BACK",
+            "nl": "备用负责人在"
+          },
+          {
+            "key": "SHUT",
+            "nl": "执行安全关机"
+          }
+        ],
+        "formula": "(EM & ~PRI & ~BACK) -> SHUT",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "必须表示：如果系统执行安全关机，则会丢失未保存数据。",
+      "score": 0,
+      "reason": "这是安全关机与数据丢失之间的直接蕴含关系，影响对数据未丢失是否可成立的判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "SHUT",
+            "nl": "执行安全关机"
+          },
+          {
+            "key": "LOSS",
+            "nl": "丢失未保存数据"
+          }
+        ],
+        "formula": "SHUT -> LOSS",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "必须保留当前明确给出的事实：现在处于紧急情况。",
+      "score": 0,
+      "reason": "这是题干直接陈述的当前状态，是触发条件中的必要前件之一。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "EM",
+            "nl": "紧急情况"
+          }
+        ],
+        "formula": "EM",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "必须保留当前明确给出的事实：主要负责人不在。",
+      "score": 0,
+      "reason": "这是题干直接陈述的当前状态，是安全关机触发条件中的否定前件之一。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "PRI",
+            "nl": "主要负责人在"
+          }
+        ],
+        "formula": "~PRI",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "必须保留当前明确给出的事实：没有丢失未保存数据。",
+      "score": 0,
+      "reason": "这是题干直接陈述的当前观测，也是问题所询问命题的当前约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "LOSS",
+            "nl": "丢失未保存数据"
+          }
+        ],
+        "formula": "~LOSS",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须同时包括 possible 和 necessary；目标命题集为“丢失未保存数据”的否定，即数据没有丢失。",
+      "score": 0,
+      "reason": "原问题同时询问数据没有丢失是否有可能以及是否一定成立，形式化查询必须对同一目标命题进行这两类判断。"
+    }
+  ]
+}

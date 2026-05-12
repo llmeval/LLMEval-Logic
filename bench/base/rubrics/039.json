@@ -1,0 +1,121 @@
+{
+  "id": 39,
+  "title": "旅游目的地选择",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：如果小明去北京旅游，那么他不会去巴黎旅游。",
+      "score": 0,
+      "reason": "这是题干中的条件关系，会直接限制可行旅游目的地组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "去北京旅游"
+          },
+          {
+            "key": "Q",
+            "nl": "去巴黎旅游"
+          }
+        ],
+        "formula": "P -> ~Q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：小明去罗马旅游当且仅当他去巴黎旅游，两个命题真假一致。",
+      "score": 0,
+      "reason": "这是题干中的双条件关系，不能只表达单向蕴含，否则会改变可行组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "去罗马旅游"
+          },
+          {
+            "key": "Q",
+            "nl": "去巴黎旅游"
+          }
+        ],
+        "formula": "P <-> Q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表示：巴黎和东京至少要去一个。",
+      "score": 0,
+      "reason": "这是题干给出的析取约束，用于保证两个目的地中至少有一个被选择。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "去巴黎旅游"
+          },
+          {
+            "key": "Q",
+            "nl": "去东京旅游"
+          }
+        ],
+        "formula": "P | Q",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留当前已确定事实：小明已经决定去北京旅游。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前状态，必须作为约束加入模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "去北京旅游"
+          }
+        ],
+        "formula": "P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 enumerate_models，目标是在北京、巴黎、罗马、东京四个旅游命题上的所有可能选择组合。",
+      "score": 0,
+      "reason": "问题询问“小明可能打算去哪些地方旅游”，应枚举满足约束的目的地组合，而不是只判断某一个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "去北京旅游"
+          },
+          {
+            "key": "B",
+            "nl": "去巴黎旅游"
+          },
+          {
+            "key": "C",
+            "nl": "去罗马旅游"
+          },
+          {
+            "key": "D",
+            "nl": "去东京旅游"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

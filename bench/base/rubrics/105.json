@@ -1,0 +1,145 @@
+{
+  "id": 105,
+  "title": "学术研讨会",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应正确表示“A 如果赞成，则 B 一定反对”这一单向条件关系。",
+      "score": 0,
+      "reason": "该条件关系限定了 A 的赞成会排除 B 的赞成，是求三人可能态度的核心约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A赞成代表的观点"
+          },
+          {
+            "key": "B",
+            "nl": "B赞成代表的观点"
+          }
+        ],
+        "formula": "A -> ~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应正确表示“B 和 C 的态度相同”，即二者同赞成或同反对。",
+      "score": 0,
+      "reason": "B 与 C 的一致性直接限制了可枚举模型，不能误写成只允许某一方向或只允许同赞成。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "B赞成代表的观点"
+          },
+          {
+            "key": "C",
+            "nl": "C赞成代表的观点"
+          }
+        ],
+        "formula": "B <-> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应正确表示“A 和 C 中至少有一人反对自己的路线”，即不能同时都是赞成。",
+      "score": 0,
+      "reason": "该约束排除了 A 与 C 同时赞成的情况，是判断可能态度组合所必需的否定合取关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A赞成代表的观点"
+          },
+          {
+            "key": "C",
+            "nl": "C赞成代表的观点"
+          }
+        ],
+        "formula": "~(A & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应正确表示“如果 C 赞成自己的路线，那么 A 一定也赞成自己的路线”这一单向条件关系。",
+      "score": 0,
+      "reason": "该蕴含关系规定了 C 赞成时对 A 态度的依赖，方向不能颠倒或弱化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "C赞成代表的观点"
+          },
+          {
+            "key": "A",
+            "nl": "A赞成代表的观点"
+          }
+        ],
+        "formula": "C -> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "应正确表示“三个人态度不会完全一致”，即不能三人全赞成，也不能三人全反对。",
+      "score": 0,
+      "reason": "该约束排除了所有人同态度的两种极端情况，对枚举所有可能态度组合是必要的。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A赞成代表的观点"
+          },
+          {
+            "key": "B",
+            "nl": "B赞成代表的观点"
+          },
+          {
+            "key": "C",
+            "nl": "C赞成代表的观点"
+          }
+        ],
+        "formula": "~((A & B & C) | (~A & ~B & ~C))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合应为 A、B、C 三人各自是否赞成代表的观点的所有可能组合。",
+      "score": 0,
+      "reason": "原问题询问三人的态度可能是什么，因此 formalization 应枚举这三个态度变量的可满足赋值，而不是只判断某个单一命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A赞成代表的观点"
+          },
+          {
+            "key": "B",
+            "nl": "B赞成代表的观点"
+          },
+          {
+            "key": "C",
+            "nl": "C赞成代表的观点"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

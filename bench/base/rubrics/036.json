@@ -1,0 +1,134 @@
+{
+  "id": 36,
+  "title": "嘉豪问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须表示全称关系：任意人如果不嘲笑嘉豪，那么这个人要么不是嘉豪，要么不是正常人。",
+      "score": 0,
+      "reason": "这是题干中关于“不嘲笑嘉豪”的核心条件，决定了从不嘲笑嘉豪可以推出的身份或正常性约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "嘉豪"
+          },
+          {
+            "key": "P",
+            "nl": "x嘲笑y"
+          },
+          {
+            "key": "F",
+            "nl": "x是正常人"
+          },
+          {
+            "key": "x",
+            "nl": "任意人"
+          }
+        ],
+        "formula": "forall x. (~P(x,a) -> (~(x = a) | ~F(x)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "必须表示全称关系：任意人如果不是正常人，那么嘉豪不会嘲笑这个人。",
+      "score": 0,
+      "reason": "这是题干中“嘉豪不会嘲笑任何非正常人”的逻辑关系，要求正确保留全称量化和蕴含方向。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "嘉豪"
+          },
+          {
+            "key": "P",
+            "nl": "x嘲笑y"
+          },
+          {
+            "key": "F",
+            "nl": "x是正常人"
+          },
+          {
+            "key": "x",
+            "nl": "任意人"
+          }
+        ],
+        "formula": "forall x. (~F(x) -> ~P(a,x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "必须保留明确事实：小明是正常人。",
+      "score": 0,
+      "reason": "这是题干直接给出的当前事实，会影响关于小明是否满足“非正常人”条件的形式化判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "小明"
+          },
+          {
+            "key": "F",
+            "nl": "x是正常人"
+          }
+        ],
+        "formula": "F(b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "必须保留明确事实：小明不是嘉豪。",
+      "score": 0,
+      "reason": "这是题干直接给出的身份排除条件，不能被遗漏或反向表述。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "嘉豪"
+          },
+          {
+            "key": "b",
+            "nl": "小明"
+          }
+        ],
+        "formula": "~(a = b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型为 necessary，目标命题为“小明嘲笑嘉豪”是否必然成立。",
+      "score": 0,
+      "reason": "需要确认候选形式化询问的是同一个必然性问题，而不是可能性、可满足性或其他对象之间的嘲笑关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "嘉豪"
+          },
+          {
+            "key": "b",
+            "nl": "小明"
+          },
+          {
+            "key": "P",
+            "nl": "x嘲笑y"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "P(b,a)"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

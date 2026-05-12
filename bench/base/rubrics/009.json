@@ -1,0 +1,78 @@
+{
+  "id": 9,
+  "title": "业余爱好",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须表示“如果没有跳舞，那么会唱歌或者游泳”的条件关系，且前件是否定跳舞，后件是唱歌与游泳的析取。",
+      "score": 0,
+      "reason": "这是题干中的核心条件关系，决定未跳舞时哪些活动组合仍然可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "sing",
+            "nl": "唱歌"
+          },
+          {
+            "key": "dance",
+            "nl": "跳舞"
+          },
+          {
+            "key": "swim",
+            "nl": "游泳"
+          }
+        ],
+        "formula": "~dance -> (sing | swim)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "必须保留题干明确给出的事实：没有游泳。",
+      "score": 0,
+      "reason": "这是显式已知条件，会直接限制可枚举的活动可能性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "swim",
+            "nl": "游泳"
+          }
+        ],
+        "formula": "~swim",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 enumerate_models，目标命题集合是我是否唱歌、是否跳舞、是否游泳这三个命题的所有可能组合。",
+      "score": 0,
+      "reason": "原问题询问在条件下“可能做了什么”，需要枚举三个活动命题的可满足取值组合，而不是只判断某一个命题是否必然或可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "唱歌"
+          },
+          {
+            "key": "B",
+            "nl": "跳舞"
+          },
+          {
+            "key": "C",
+            "nl": "游泳"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

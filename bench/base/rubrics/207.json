@@ -1,0 +1,118 @@
+{
+  "id": 207,
+  "title": "奶茶小料问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须表示“如果加珍珠，则同时加茶冻和脆啵啵”的条件关系，且结果是两者都加而不是二选一。",
+      "score": 0,
+      "reason": "这是由珍珠推出后续小料选择的关键约束，会影响哪些搭配仍然可能。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "奶茶里加珍珠"
+          },
+          {
+            "key": "t",
+            "nl": "奶茶里加茶冻"
+          },
+          {
+            "key": "b",
+            "nl": "奶茶里加脆啵啵"
+          }
+        ],
+        "formula": "p -> (t & b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "必须表示“如果加麻薯，则不能加脆啵啵和椰果”的条件关系，且两个禁止对象都要包含。",
+      "score": 0,
+      "reason": "这是判断麻薯是否能与已被迫加入的小料共存的核心排斥关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "m",
+            "nl": "奶茶里加麻薯"
+          },
+          {
+            "key": "b",
+            "nl": "奶茶里加脆啵啵"
+          },
+          {
+            "key": "c",
+            "nl": "奶茶里加椰果"
+          }
+        ],
+        "formula": "m -> (~b & ~c)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "必须正确表示“只有加麻薯，才能加红豆”为加红豆推出加麻薯，而不是反向推出。",
+      "score": 0,
+      "reason": "该方向决定红豆对麻薯的依赖关系，是判断红豆是否一定不会出现所必需的。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "r",
+            "nl": "奶茶里加红豆"
+          },
+          {
+            "key": "m",
+            "nl": "奶茶里加麻薯"
+          }
+        ],
+        "formula": "r -> m",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "必须保留明确给定的当前选择：珍珠一定要加。",
+      "score": 0,
+      "reason": "这是题目给出的固定事实，用来触发珍珠相关的条件约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "p",
+            "nl": "奶茶里加珍珠"
+          }
+        ],
+        "formula": "p",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 necessary 类型，目标 proposition set 是“奶茶里一定不会出现麻薯且一定不会出现红豆”。",
+      "score": 0,
+      "reason": "题目问的是无论如何搭配都一定不会出现哪些小料，因此需要检验必然不出现的目标，而不是可能出现或枚举所有搭配。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "奶茶里加麻薯"
+          },
+          {
+            "key": "F",
+            "nl": "奶茶里加红豆"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "~E & ~F"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

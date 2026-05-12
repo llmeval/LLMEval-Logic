@@ -1,0 +1,146 @@
+{
+  "id": 218,
+  "title": "团建中班委团委身份确认",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示任意团建活动人员都至少属于团委人员或班委人员之一，并允许二者兼具。",
+      "score": 0,
+      "reason": "这是从团建成员身份到两类身份的核心覆盖关系，决定李华身份的可推导范围。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x是团建活动人员"
+          },
+          {
+            "key": "G",
+            "nl": "x是团委人员"
+          },
+          {
+            "key": "H",
+            "nl": "x是班委人员"
+          },
+          {
+            "key": "x",
+            "nl": "任意成员"
+          }
+        ],
+        "formula": "forall x. (F(x) -> (G(x) | H(x)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示任意班委人员都认识任意团委人员，即对两个人分别全称量化，班委身份与团委身份共同推出认识关系。",
+      "score": 0,
+      "reason": "这是把班委身份、团委身份和认识关系连接起来的关键规则，影响李华是否可能为班委以及进一步影响团委身份判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "x是班委人员"
+          },
+          {
+            "key": "G",
+            "nl": "x是团委人员"
+          },
+          {
+            "key": "P",
+            "nl": "x认识y"
+          },
+          {
+            "key": "x",
+            "nl": "任意班委候选人"
+          },
+          {
+            "key": "y",
+            "nl": "任意团委候选人"
+          }
+        ],
+        "formula": "forall x. forall y. ((H(x) & G(y)) -> P(x,y))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留明确事实：李华参加了团建活动。",
+      "score": 0,
+      "reason": "这是将李华纳入团建成员身份覆盖规则的必要前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x是团建活动人员"
+          },
+          {
+            "key": "a",
+            "nl": "李华"
+          }
+        ],
+        "formula": "F(a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留明确事实：李华不认识任何人，且是否定所有认识对象的全称陈述。",
+      "score": 0,
+      "reason": "这是排除李华因班委身份而必须认识团委人员的关键约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x认识y"
+          },
+          {
+            "key": "a",
+            "nl": "李华"
+          },
+          {
+            "key": "x",
+            "nl": "任意对象"
+          }
+        ],
+        "formula": "forall x. ~P(a,x)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "应保留明确存在约束：团建活动中至少有一名成员是团委人员。",
+      "score": 0,
+      "reason": "该存在事实与“班委认识所有团委人员”结合，决定李华不认识任何人这一条件的约束力度。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x是团建活动人员"
+          },
+          {
+            "key": "G",
+            "nl": "x是团委人员"
+          },
+          {
+            "key": "x",
+            "nl": "某个团建活动成员"
+          }
+        ],
+        "formula": "exists x. (F(x) & G(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时包含 possible 与 necessary 两种类型，目标命题均为“李华是团委人员”。",
+      "score": 0,
+      "reason": "原问题分别询问李华成为团委人员的可能性与必然性，形式化查询必须对准同一目标命题并区分两类模态查询。z3_check omitted: 查询含两个类型"
+    }
+  ]
+}

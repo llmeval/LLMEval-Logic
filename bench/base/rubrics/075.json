@@ -1,0 +1,124 @@
+{
+  "id": 75,
+  "title": "社交网络中的“共同朋友”推理",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表达“朋友”关系是对称的：任意两个人中，若前者是后者的朋友，则后者也是前者的朋友。",
+      "score": 0,
+      "reason": "该对称关系决定了从“A是某人的朋友”与“某人是A的朋友”之间能否转换，是评估目标命题时必需的逻辑关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x是y的朋友"
+          },
+          {
+            "key": "x",
+            "nl": "任意一个人"
+          },
+          {
+            "key": "y",
+            "nl": "任意另一个人"
+          }
+        ],
+        "formula": "forall x. forall y. (P(x,y) -> P(y,x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留显式条件：Alice 和 Bob 不是朋友。",
+      "score": 0,
+      "reason": "这是题干直接给出的固定事实，会约束可接受模型，不能被省略或反向表达。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x是y的朋友"
+          },
+          {
+            "key": "a",
+            "nl": "Alice"
+          },
+          {
+            "key": "b",
+            "nl": "Bob"
+          }
+        ],
+        "formula": "~P(a,b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须保留显式条件：Charlie 同时是 Alice 的朋友和 Bob 的朋友，即 Charlie 是二人的共同朋友。",
+      "score": 0,
+      "reason": "题干指定了共同朋友的具体对象，目标命题也以除 Charlie 外为范围，因此该事实必须被形式化。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x是y的朋友"
+          },
+          {
+            "key": "a",
+            "nl": "Alice"
+          },
+          {
+            "key": "b",
+            "nl": "Bob"
+          },
+          {
+            "key": "c",
+            "nl": "Charlie"
+          }
+        ],
+        "formula": "P(a,c) & P(b,c)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "形式化必须表达“有且仅有一个共同朋友 Charlie”：任何同时是 Alice 和 Bob 的朋友的人都必须就是 Charlie。",
+      "score": 0,
+      "reason": "唯一性约束是推出“除 Charlie 之外无人同时为二者朋友”的核心显式限制，不能只表达 Charlie 是共同朋友而遗漏“仅有”。z3_check omitted: 需要表达个体等值关系"
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询必须是 necessary 类型，目标命题为：对所有人，若其不是 Charlie 且是 Alice 的朋友，则其不是 Bob 的朋友。",
+      "score": 0,
+      "reason": "该项检查候选形式化是否询问原题所要求的必然推出关系，并且目标范围是除 Charlie 外的 Alice 朋友是否不能同时为 Bob 朋友。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "x是y的朋友"
+          },
+          {
+            "key": "a",
+            "nl": "Alice"
+          },
+          {
+            "key": "b",
+            "nl": "Bob"
+          },
+          {
+            "key": "c",
+            "nl": "Charlie"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "forall x. ((x != c & P(x,a)) -> ~P(x,b))"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

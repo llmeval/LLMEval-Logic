@@ -1,0 +1,124 @@
+{
+  "id": 60,
+  "title": "三重安全锁系统",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "必须表示“A锁开启会导致B锁关闭”的单向条件关系。",
+      "score": 0,
+      "reason": "这是安全锁规则中的关键蕴含关系，方向不能反转，也不能误写成双向或无关约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A锁开启"
+          },
+          {
+            "key": "B",
+            "nl": "B锁开启"
+          }
+        ],
+        "formula": "A -> ~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "必须表示“B锁和C锁不能同时关闭”的互斥关闭约束。",
+      "score": 0,
+      "reason": "该关系限制了B、C两把锁的组合状态，是枚举可能状态时必须保留的约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "B锁开启"
+          },
+          {
+            "key": "C",
+            "nl": "C锁开启"
+          }
+        ],
+        "formula": "~(~B & ~C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "必须表示“C锁开启会导致A锁也开启”的单向条件关系。",
+      "score": 0,
+      "reason": "这是C锁状态对A锁状态的依赖关系，影响三把锁状态组合的可行性。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "C锁开启"
+          },
+          {
+            "key": "A",
+            "nl": "A锁开启"
+          }
+        ],
+        "formula": "C -> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "必须保留“至少有两把锁处于开启状态”的显式数量约束。",
+      "score": 0,
+      "reason": "这是题目直接给出的状态限制，决定枚举空间中哪些组合满足条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A锁开启"
+          },
+          {
+            "key": "B",
+            "nl": "B锁开启"
+          },
+          {
+            "key": "C",
+            "nl": "C锁开启"
+          }
+        ],
+        "formula": "(A & B) | (A & C) | (B & C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是enumerate_models，目标命题集为三把锁A、B、C各自是否开启的状态组合。",
+      "score": 0,
+      "reason": "原问题要求列举满足条件时三把锁可能的状态，而不是判断某个单一命题是否必然或可能成立。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "A锁开启"
+          },
+          {
+            "key": "B",
+            "nl": "B锁开启"
+          },
+          {
+            "key": "C",
+            "nl": "C锁开启"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

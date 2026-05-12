@@ -1,0 +1,72 @@
+{
+  "id": 7,
+  "title": "图书馆规则",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示“借书超过10本”会推出“办理会员卡”的规则，方向不能反转。",
+      "score": 0,
+      "reason": "这是题干中第一条条件规则，决定借书数量与会员卡之间的逻辑依赖关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "借书超过10本"
+          },
+          {
+            "key": "B",
+            "nl": "办理会员卡"
+          }
+        ],
+        "formula": "A -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示“办理会员卡”会推出“支付年费”的规则，方向不能反转。",
+      "score": 0,
+      "reason": "这是题干中第二条条件规则，连接会员卡与年费义务，是判断借书情况的必要逻辑链条之一。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "办理会员卡"
+          },
+          {
+            "key": "C",
+            "nl": "支付年费"
+          }
+        ],
+        "formula": "B -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留已知事实：小王没有支付年费。",
+      "score": 0,
+      "reason": "这是题干显式给出的当前事实，约束了所有可考虑的情形。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "支付年费"
+          }
+        ],
+        "formula": "~C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时对应两类问题：possible 与 necessary，目标命题都是“小王借书超过10本”。",
+      "score": 0,
+      "reason": "原问题分别询问该命题是否有可能成立以及是否必然成立，形式化查询必须对准同一目标命题并保留两种查询类型。z3_check omitted: 查询含两种类型"
+    }
+  ]
+}

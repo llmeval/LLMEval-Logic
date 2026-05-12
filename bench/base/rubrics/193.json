@@ -1,0 +1,127 @@
+{
+  "id": 193,
+  "title": "卡片机充电故障",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：只有在宿舍电源正常、充电器功能正常、电池插入位置正确且电池本身正常都成立时，卡片相机才会充电成功；反过来，这四项同时成立会导致充电成功。",
+      "score": 0,
+      "reason": "这是判断电池插入位置是否可能正确的核心条件关系，必须把四个条件与充电成功之间的合取和等价关系表达出来。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "宿舍电源正常运行"
+          },
+          {
+            "key": "B",
+            "nl": "充电器功能正常"
+          },
+          {
+            "key": "D",
+            "nl": "相机电池插入充电器的位置正确"
+          },
+          {
+            "key": "A",
+            "nl": "相机电池功能正常"
+          },
+          {
+            "key": "E",
+            "nl": "卡片相机充电成功"
+          }
+        ],
+        "formula": "(C & B & D & A) <-> E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留当前观察到的事实：卡片相机没有成功充电。",
+      "score": 0,
+      "reason": "这是问题情境中的显式观察，直接限定了当前模型。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "卡片相机充电成功"
+          }
+        ],
+        "formula": "~E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留当前检查结果：宿舍电源正常。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前状态，不能在形式化中遗漏或取反。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "宿舍电源正常运行"
+          }
+        ],
+        "formula": "C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "应保留当前检查结果：充电器功能正常。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前状态，是约束候选情形的重要事实。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "充电器功能正常"
+          }
+        ],
+        "formula": "B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC4",
+      "group": "stated_constraint",
+      "desc": "应保留当前检查结果：相机电池本身功能正常。",
+      "score": 0,
+      "reason": "这是题干明确给出的当前状态，必须作为已知约束保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "相机电池功能正常"
+          }
+        ],
+        "formula": "A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 possible，目标命题集为“相机电池插入充电器的位置正确”这一命题是否可能成立。",
+      "score": 0,
+      "reason": "原问题问的是在已知情境下插入位置正确是否仍有可能，而不是询问其必然性、枚举模型或计数。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "相机电池插入充电器的位置正确"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

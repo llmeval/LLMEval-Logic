@@ -1,0 +1,214 @@
+{
+  "id": 51,
+  "title": "图书馆借书",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：任何有逾期未还书的读者，都不被允许借阅任何对象并带出馆外。",
+      "score": 0,
+      "reason": "这是限制借出权限的核心否定条件，直接影响关于小明能否带出书的可能性判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x是读者"
+          },
+          {
+            "key": "G",
+            "nl": "x有逾期未还的书"
+          },
+          {
+            "key": "P",
+            "nl": "x被允许借阅y并带出馆外"
+          }
+        ],
+        "formula": "forall x. ((F(x) & G(x)) -> forall y. ~P(x,y))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：对于任何图书，任何读者都有被允许借阅该图书并带出馆外的权利。",
+      "score": 0,
+      "reason": "这是读者对图书具有借阅并带出权限的正向规则，是判断目标命题可满足的关键依据。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "x是读者"
+          },
+          {
+            "key": "H",
+            "nl": "x是图书"
+          },
+          {
+            "key": "P",
+            "nl": "x被允许借阅y并带出馆外"
+          }
+        ],
+        "formula": "forall y. (H(y) -> forall x. (F(x) -> P(x,y)))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：如果一本书是参考书，那么它不能被借出馆外。",
+      "score": 0,
+      "reason": "这是关于参考书的禁止性规则，用于区分可被带出馆外和不可被带出馆外的书。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "I",
+            "nl": "x是参考书"
+          },
+          {
+            "key": "J",
+            "nl": "x可以被借出馆外"
+          }
+        ],
+        "formula": "forall x. (I(x) -> ~J(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "形式化必须表达：如果一本图书不是参考书，那么它可以被借出馆外。",
+      "score": 0,
+      "reason": "这补足了非参考书可借出馆外的条件，确保《哲学导论》的非参考书状态能与带出馆外许可相衔接。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "x是图书"
+          },
+          {
+            "key": "I",
+            "nl": "x是参考书"
+          },
+          {
+            "key": "J",
+            "nl": "x可以被借出馆外"
+          }
+        ],
+        "formula": "forall x. ((H(x) & ~I(x)) -> J(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化必须包含小明是读者这一当前条件。",
+      "score": 0,
+      "reason": "目标权限规则只适用于读者，因此需要明确小明满足读者身份。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "小明"
+          },
+          {
+            "key": "F",
+            "nl": "x是读者"
+          }
+        ],
+        "formula": "F(a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化必须包含小明没有逾期未还的书这一当前条件。",
+      "score": 0,
+      "reason": "逾期未还会触发不能带出馆外的限制，因此需要保留小明没有逾期未还书的条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "小明"
+          },
+          {
+            "key": "G",
+            "nl": "x有逾期未还的书"
+          }
+        ],
+        "formula": "~G(a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "形式化必须包含《哲学导论》是图书这一当前条件。",
+      "score": 0,
+      "reason": "读者可借阅并带出馆外的正向规则以对象是图书为前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "《哲学导论》"
+          },
+          {
+            "key": "H",
+            "nl": "x是图书"
+          }
+        ],
+        "formula": "H(b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC4",
+      "group": "stated_constraint",
+      "desc": "形式化必须包含《哲学导论》不是参考书这一当前条件。",
+      "score": 0,
+      "reason": "参考书不能被借出馆外，因此需要明确目标书不属于参考书限制范围。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "b",
+            "nl": "《哲学导论》"
+          },
+          {
+            "key": "I",
+            "nl": "x是参考书"
+          }
+        ],
+        "formula": "~I(b)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须是 possible，目标命题是：小明被允许借阅《哲学导论》并带出馆外是否可能。",
+      "score": 0,
+      "reason": "问题要求判断目标借阅并带出行为的可能性，而不是必然性、模型枚举或模型计数。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "小明"
+          },
+          {
+            "key": "b",
+            "nl": "《哲学导论》"
+          },
+          {
+            "key": "P",
+            "nl": "x被允许借阅y并带出馆外"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "P(a,b)"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

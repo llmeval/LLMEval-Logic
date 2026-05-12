@@ -1,0 +1,170 @@
+{
+  "id": 106,
+  "title": "公园野餐",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表达：如果小明想去公园野餐，那么小红不想去。",
+      "score": 0,
+      "reason": "这是题干给出的条件关系，方向和否定对象都会影响可行态度组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "M",
+            "nl": "小明想去"
+          },
+          {
+            "key": "H",
+            "nl": "小红想去"
+          }
+        ],
+        "formula": "M -> ~H",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表达：小红和小刚态度相同，即小红想去当且仅当小刚想去。",
+      "score": 0,
+      "reason": "该双向关系约束了小红与小刚的取值必须一致，是枚举可能态度的核心条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "小红想去"
+          },
+          {
+            "key": "G",
+            "nl": "小刚想去"
+          }
+        ],
+        "formula": "H <-> G",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "形式化应表达：如果小刚想去公园野餐，那么小明也想去。",
+      "score": 0,
+      "reason": "这是题干给出的单向蕴含关系，不能反向或遗漏。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "小刚想去"
+          },
+          {
+            "key": "M",
+            "nl": "小明想去"
+          }
+        ],
+        "formula": "G -> M",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留显式约束：小明和小刚中至少有一个不想去。",
+      "score": 0,
+      "reason": "这是题干直接陈述的限制条件，用于排除小明和小刚同时想去的情况。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "M",
+            "nl": "小明想去"
+          },
+          {
+            "key": "G",
+            "nl": "小刚想去"
+          }
+        ],
+        "formula": "~M | ~G",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应保留显式约束：不是所有人都想去。",
+      "score": 0,
+      "reason": "这是题干直接陈述的总体限制，用于排除三人都想去的情况。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "M",
+            "nl": "小明想去"
+          },
+          {
+            "key": "H",
+            "nl": "小红想去"
+          },
+          {
+            "key": "G",
+            "nl": "小刚想去"
+          }
+        ],
+        "formula": "~(M & H & G)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC3",
+      "group": "stated_constraint",
+      "desc": "形式化应保留显式约束：不是所有人都不想去，也就是三人中至少有一个人想去。",
+      "score": 0,
+      "reason": "这是题干直接陈述的总体限制，用于排除三人都不想去的情况。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "M",
+            "nl": "小明想去"
+          },
+          {
+            "key": "H",
+            "nl": "小红想去"
+          },
+          {
+            "key": "G",
+            "nl": "小刚想去"
+          }
+        ],
+        "formula": "M | H | G",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标命题集合应为小刚想去、小红想去、小明想去三人的态度组合。",
+      "score": 0,
+      "reason": "原问题询问三人的态度可能是什么，因此应枚举这三个布尔命题的所有满足组合，而不是只判断某个单一命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "小刚想去"
+          },
+          {
+            "key": "B",
+            "nl": "小红想去"
+          },
+          {
+            "key": "C",
+            "nl": "小明想去"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

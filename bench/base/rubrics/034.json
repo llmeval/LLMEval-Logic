@@ -1,0 +1,80 @@
+{
+  "id": 34,
+  "title": "抽象具体",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表示：任何抽象概念都不是具体实体。",
+      "score": 0,
+      "reason": "这是题干中用于区分抽象概念与具体实体的核心全称蕴含关系，方向和否定对象都必须保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "是抽象概念"
+          },
+          {
+            "key": "G",
+            "nl": "是具体实体"
+          },
+          {
+            "key": "x",
+            "nl": "任意对象"
+          }
+        ],
+        "formula": "forall x. (F(x) -> ~G(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表示：任何感知对象都不是抽象概念。",
+      "score": 0,
+      "reason": "这是题干中关于感知对象与抽象概念关系的关键全称蕴含，直接影响被查询命题是否被支持。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "是感知对象"
+          },
+          {
+            "key": "F",
+            "nl": "是抽象概念"
+          },
+          {
+            "key": "x",
+            "nl": "任意对象"
+          }
+        ],
+        "formula": "forall x. (H(x) -> ~F(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应为 necessary 类型，目标命题是“所有感知对象都是抽象概念”。",
+      "score": 0,
+      "reason": "需要检查候选形式化是否询问同一个全称命题的必然性，而不是询问可能性、实例存在性或其他性质。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "是感知对象"
+          },
+          {
+            "key": "F",
+            "nl": "是抽象概念"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "forall x. (H(x) -> F(x))"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

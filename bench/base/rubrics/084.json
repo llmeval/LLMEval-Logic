@@ -1,0 +1,106 @@
+{
+  "id": 84,
+  "title": "大学图书馆",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：若读者A借阅七本书（即超过五本），则读者A必须是教职工或研究生。",
+      "score": 0,
+      "reason": "这是由“超过5本则必须是教职工或研究生”与当前借阅七本书相关联得到的核心条件，直接影响对研究生身份的判断。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "借阅七本书"
+          },
+          {
+            "key": "F",
+            "nl": "读者A是教职工"
+          },
+          {
+            "key": "G",
+            "nl": "读者A是研究生"
+          }
+        ],
+        "formula": "P -> (F | G)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：若读者A借阅七本书，则读者A不可能是本科生。",
+      "score": 0,
+      "reason": "本科生最多可借阅三本，借阅七本与本科生身份不相容；该约束应作为身份限制被保留。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "借阅七本书"
+          },
+          {
+            "key": "U",
+            "nl": "读者A是本科生"
+          }
+        ],
+        "formula": "P -> ~U",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留明确事实：读者A当前借阅了七本书。",
+      "score": 0,
+      "reason": "这是题目给出的当前状态，也是触发借阅数量相关规则的前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "P",
+            "nl": "借阅七本书"
+          }
+        ],
+        "formula": "P",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留明确事实：读者A不是教职工。",
+      "score": 0,
+      "reason": "这是题目给出的排除条件，用于与“教职工或研究生”的条件结合判断研究生身份。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "读者A是教职工"
+          }
+        ],
+        "formula": "~F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应同时包含 possible 与 necessary，目标命题均为“读者A是研究生”。",
+      "score": 0,
+      "reason": "原问题分别询问读者A是否有可能是研究生以及是否一定是研究生，形式化查询必须对准同一目标命题和这两种模态。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "读者A是研究生"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

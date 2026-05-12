@@ -1,0 +1,233 @@
+{
+  "id": 32,
+  "title": "货币战争组队问题",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：如果队伍中同时有角色a和角色b，则会形成“星间旅人”羁绊。",
+      "score": 0,
+      "reason": "这是角色组合与对应羁绊之间的基本条件，影响后续是否满足两个及以上羁绊。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "队伍中存在角色a"
+          },
+          {
+            "key": "B",
+            "nl": "队伍中存在角色b"
+          },
+          {
+            "key": "G",
+            "nl": "形成星间旅人羁绊"
+          }
+        ],
+        "formula": "(A & B) -> G",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：如果队伍中同时有角色a和角色c，则会形成“学者”羁绊。",
+      "score": 0,
+      "reason": "这是角色组合与对应羁绊之间的基本条件，并且该羁绊还会影响奖励获得。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "队伍中存在角色a"
+          },
+          {
+            "key": "C",
+            "nl": "队伍中存在角色c"
+          },
+          {
+            "key": "H",
+            "nl": "形成学者羁绊"
+          }
+        ],
+        "formula": "(A & C) -> H",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示：如果队伍中同时有角色b和角色d，则会形成“追击”羁绊。",
+      "score": 0,
+      "reason": "这是角色组合与对应羁绊之间的基本条件，影响后续是否满足两个及以上羁绊。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "队伍中存在角色b"
+          },
+          {
+            "key": "D",
+            "nl": "队伍中存在角色d"
+          },
+          {
+            "key": "I",
+            "nl": "形成追击羁绊"
+          }
+        ],
+        "formula": "(B & D) -> I",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR4",
+      "group": "logical_relation",
+      "desc": "应表示：只要形成的羁绊中至少有任意两个，就可以获得战斗胜利。",
+      "score": 0,
+      "reason": "这是由羁绊数量推出胜利的关键规则，决定角色组合是否会间接导致奖励。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "形成星间旅人羁绊"
+          },
+          {
+            "key": "H",
+            "nl": "形成学者羁绊"
+          },
+          {
+            "key": "I",
+            "nl": "形成追击羁绊"
+          },
+          {
+            "key": "E",
+            "nl": "获得战斗胜利"
+          }
+        ],
+        "formula": "((G & H) | (G & I) | (H & I)) -> E",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR5",
+      "group": "logical_relation",
+      "desc": "应表示：如果形成“学者”羁绊，则战斗结束后会获得奖励。",
+      "score": 0,
+      "reason": "原文说明学者羁绊会产生猫猫糕并在战斗结束后获得奖励，该关系会排除包含相应触发条件的队伍。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "H",
+            "nl": "形成学者羁绊"
+          },
+          {
+            "key": "F",
+            "nl": "获得奖励"
+          }
+        ],
+        "formula": "H -> F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR6",
+      "group": "logical_relation",
+      "desc": "应表示：如果获得战斗胜利，则也会获得奖励。",
+      "score": 0,
+      "reason": "这是胜利与奖励之间的必要规则，用于结合“没有获得奖励”约束排除会胜利的组合。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "E",
+            "nl": "获得战斗胜利"
+          },
+          {
+            "key": "F",
+            "nl": "获得奖励"
+          }
+        ],
+        "formula": "E -> F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留明确条件：这场战斗结束后没有获得奖励。",
+      "score": 0,
+      "reason": "这是题目给出的当前观测事实，是筛选可能队伍的核心约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "F",
+            "nl": "获得奖励"
+          }
+        ],
+        "formula": "~F",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "应保留明确条件：队伍中恰好有a、b、c、d中的三个角色。",
+      "score": 0,
+      "reason": "问题要求判断可能是哪三个角色，因此必须限制四个候选角色中恰有三人在队伍里。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "队伍中存在角色a"
+          },
+          {
+            "key": "B",
+            "nl": "队伍中存在角色b"
+          },
+          {
+            "key": "C",
+            "nl": "队伍中存在角色c"
+          },
+          {
+            "key": "D",
+            "nl": "队伍中存在角色d"
+          }
+        ],
+        "formula": "(A & B & C & ~D) | (A & B & ~C & D) | (A & ~B & C & D) | (~A & B & C & D)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为 enumerate_models，目标是在满足条件的模型中枚举队伍中角色a、b、c、d的取值组合，即可能是哪三个角色。",
+      "score": 0,
+      "reason": "必须与原问题的“队伍里可能是哪三个角色”对齐，查询对象是四个角色是否在队伍中，而不是奖励、胜利或羁绊本身。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "队伍中存在角色a"
+          },
+          {
+            "key": "B",
+            "nl": "队伍中存在角色b"
+          },
+          {
+            "key": "C",
+            "nl": "队伍中存在角色c"
+          },
+          {
+            "key": "D",
+            "nl": "队伍中存在角色d"
+          }
+        ],
+        "query_type": "enumerate_models",
+        "target": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

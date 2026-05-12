@@ -1,0 +1,72 @@
+{
+  "id": 14,
+  "title": "等待戈多",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示小孩话语的内容：如果戈多今天会来，那么小孩说的话不是真的。",
+      "score": 0,
+      "reason": "这是小孩原话中的条件关系，关系到自指陈述的核心逻辑结构。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "戈多今天会来"
+          },
+          {
+            "key": "B",
+            "nl": "小孩说的话是真的"
+          }
+        ],
+        "formula": "A -> ~B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示小孩说的话为真当且仅当其话语内容为真，即“小孩说的话是真的”等价于“如果戈多今天会来，那么小孩说的话不是真的”。",
+      "score": 0,
+      "reason": "该双条件关系把自指话语的真假与其陈述内容连接起来，是形式化此前提所必需的。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "戈多今天会来"
+          },
+          {
+            "key": "B",
+            "nl": "小孩说的话是真的"
+          }
+        ],
+        "formula": "B <-> (A -> ~B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应同时包含 possible 和 necessary，目标命题均为弗拉季米尔的断言：如果小孩说的话是真的，那么戈多今天不会来。",
+      "score": 0,
+      "reason": "题目要求分别判断同一断言在前提下是否可能成立以及是否一定成立，查询目标和查询类型都必须对齐。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "戈多今天会来"
+          },
+          {
+            "key": "B",
+            "nl": "小孩说的话是真的"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "B -> ~A"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

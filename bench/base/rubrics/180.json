@@ -1,0 +1,93 @@
+{
+  "id": 180,
+  "title": "文件还在吗？（再一次尝试fool 大模型）",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "正确表示“如果文件X未被加急，则文件X会被归档”的单向蕴含关系。",
+      "score": 0,
+      "reason": "这是协议第1条的核心逻辑关系，必须保留“未加急”作为前件、“被归档”作为后件，不能误写成反向蕴含或双条件。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "文件X被归档"
+          },
+          {
+            "key": "D",
+            "nl": "文件X被加急"
+          }
+        ],
+        "formula": "~D -> A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "正确表示“如果文件X被归档，那么主管就必须签字”这一条件句本身被判定为错误，即不成立。",
+      "score": 0,
+      "reason": "这是题目中特意设置的关键否定，形式化时应是否定整个条件句，而不是简单否定主管签字或忽略该审查结论。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "文件X被归档"
+          },
+          {
+            "key": "C",
+            "nl": "主管签字"
+          }
+        ],
+        "formula": "~(A -> C)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "正确表示“如果文件X被加急，或者主管没有签字，那么文件X必须被摧毁”的析取前件蕴含关系。",
+      "score": 0,
+      "reason": "这是判断文件是否必然被摧毁所需的直接规则，必须保留“加急或未签字”作为联合前件并指向“被摧毁”。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "文件X被摧毁"
+          },
+          {
+            "key": "C",
+            "nl": "主管签字"
+          },
+          {
+            "key": "D",
+            "nl": "文件X被加急"
+          }
+        ],
+        "formula": "(D | ~C) -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型应为necessary，目标命题集为“文件X被摧毁”这一命题。",
+      "score": 0,
+      "reason": "原问题询问文件X是否一定会被销毁，因此形式化查询必须检验被摧毁命题的必然性，而不是可能性、模型计数或其他命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "文件X被摧毁"
+          }
+        ],
+        "query_type": "necessary",
+        "target": [
+          "B"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

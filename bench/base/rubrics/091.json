@@ -1,0 +1,118 @@
+{
+  "id": 91,
+  "title": "死亡拷问",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "形式化应表达：在“A的推理有效”且B回答“救妈妈”的情况下，会推出“A说B不爱她”。",
+      "score": 0,
+      "reason": "这是A第一种推理分支的核心条件关系，决定“救妈妈”这个回答如何导向被质疑不爱她。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "A的推理有效"
+          },
+          {
+            "key": "A",
+            "nl": "B回答：\"救妈妈\""
+          },
+          {
+            "key": "C",
+            "nl": "A说B不爱她"
+          }
+        ],
+        "formula": "(D & A) -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "形式化应表达：在“A的推理有效”且B回答“救你（A）”的情况下，会推出“A说B不爱她”。",
+      "score": 0,
+      "reason": "这是A第二种推理分支的核心条件关系，决定“救你（A）”这个回答如何导向被质疑不爱她。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "A的推理有效"
+          },
+          {
+            "key": "B",
+            "nl": "B回答：\"救你（A）\""
+          },
+          {
+            "key": "C",
+            "nl": "A说B不爱她"
+          }
+        ],
+        "formula": "(D & B) -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "形式化应保留：B的回答至少属于“救妈妈”或“救你（A）”二者之一。",
+      "score": 0,
+      "reason": "题干讨论的是B在两个回答选项之间作答，形式化需要保留这种覆盖性的选择约束。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "B回答：\"救妈妈\""
+          },
+          {
+            "key": "B",
+            "nl": "B回答：\"救你（A）\""
+          }
+        ],
+        "formula": "A | B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC2",
+      "group": "stated_constraint",
+      "desc": "形式化应保留：B不能同时回答“救妈妈”和“救你（A）”。",
+      "score": 0,
+      "reason": "两个回答选项在该问题语境中是互斥的，若不保留互斥性会改变可考虑的回答情形。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "B回答：\"救妈妈\""
+          },
+          {
+            "key": "B",
+            "nl": "B回答：\"救你（A）\""
+          }
+        ],
+        "formula": "~(A & B)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时对应两类问题：possible与necessary，目标命题集为“A说B不爱她”。",
+      "score": 0,
+      "reason": "原问题询问这套推理是否有可能成立以及是否一定成立，候选形式化必须把查询类型和目标命题对齐到同一被判定命题。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "C",
+            "nl": "A说B不爱她"
+          }
+        ],
+        "query_type": "possible",
+        "target": [
+          "C"
+        ],
+        "mode": "query_equiv"
+      }
+    }
+  ]
+}

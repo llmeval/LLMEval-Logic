@@ -1,0 +1,93 @@
+{
+  "id": 204,
+  "title": "悲伤小故事一则",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "应表示：如果我没有 B 站大会员，那么我不会在 B 站看《银魂》番外篇最新一集。",
+      "score": 0,
+      "reason": "这是后续推出是否会转向盗版网站观看的前提条件，方向不能反置。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "我有b站大会员"
+          },
+          {
+            "key": "D",
+            "nl": "我在b站看银魂番外的最新一集"
+          }
+        ],
+        "formula": "~A -> ~D",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR2",
+      "group": "logical_relation",
+      "desc": "应表示：如果我没有去 B 站看这集番外篇，那么我会去盗版网站上看。",
+      "score": 0,
+      "reason": "这是从不在 B 站观看到在盗版网站观看的关键条件关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "D",
+            "nl": "我在b站看银魂番外的最新一集"
+          },
+          {
+            "key": "B",
+            "nl": "我在盗版网站上看银魂番外的最新一集"
+          }
+        ],
+        "formula": "~D -> B",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "LR3",
+      "group": "logical_relation",
+      "desc": "应表示：如果我在盗版网站上看，那么我的观看体验会被邪恶弹窗等影响。",
+      "score": 0,
+      "reason": "这是盗版网站观看与观看体验受影响之间的直接因果/蕴含关系。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "B",
+            "nl": "我在盗版网站上看银魂番外的最新一集"
+          },
+          {
+            "key": "C",
+            "nl": "我被邪恶弹窗诱骗点击影响观看体验"
+          }
+        ],
+        "formula": "B -> C",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "应保留题干明确给出的当前事实：我没有 B 站大会员。",
+      "score": 0,
+      "reason": "这是题目中已知的显式状态，用来触发后续条件链。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "A",
+            "nl": "我有b站大会员"
+          }
+        ],
+        "formula": "~A",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询应同时对应两个问题类型：possible 和 necessary；目标命题都是“我的观看体验被影响”。",
+      "score": 0,
+      "reason": "题目询问同一目标命题是否有可能成立以及是否必然成立，形式化查询必须同时对齐这两个问法。z3_check omitted: 单项查询模式无法同时表示两个查询类型"
+    }
+  ]
+}

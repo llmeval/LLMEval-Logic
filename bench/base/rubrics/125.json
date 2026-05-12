@@ -1,0 +1,59 @@
+{
+  "id": 125,
+  "title": "鸵鸟会飞",
+  "items": [
+    {
+      "id": "LR1",
+      "group": "logical_relation",
+      "desc": "候选形式化必须表示“所有鸟都会飞”的全称条件关系：对任意对象，如果它是鸟，则它会飞。",
+      "score": 0,
+      "reason": "这是背景中的核心逻辑规则，决定从“是鸟”推出“会飞”的方向和全称范围。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "G",
+            "nl": "是鸟"
+          },
+          {
+            "key": "H",
+            "nl": "会飞"
+          },
+          {
+            "key": "x",
+            "nl": "任意对象"
+          }
+        ],
+        "formula": "forall x. (G(x) -> H(x))",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "SC1",
+      "group": "stated_constraint",
+      "desc": "候选形式化必须保留显式事实：鸵鸟是鸟。",
+      "score": 0,
+      "reason": "这是题干直接给出的个体事实，是把一般规则应用到鸵鸟这一查询对象上的必要前提。",
+      "z3_check": {
+        "atoms": [
+          {
+            "key": "a",
+            "nl": "鸵鸟"
+          },
+          {
+            "key": "G",
+            "nl": "是鸟"
+          }
+        ],
+        "formula": "G(a)",
+        "mode": "entails"
+      }
+    },
+    {
+      "id": "QA1",
+      "group": "query_alignment",
+      "desc": "查询类型必须同时包含 possible 和 necessary，目标命题集为“鸵鸟会飞”这一命题。",
+      "score": 0,
+      "reason": "原问题同时询问鸵鸟会飞是否有可能以及是否必然，候选形式化需要对同一目标命题提出这两类查询。z3_check omitted: 查询含两种类型"
+    }
+  ]
+}
