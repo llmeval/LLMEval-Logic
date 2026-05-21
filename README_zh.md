@@ -5,15 +5,19 @@
 <h2 align="center">LLMEval-Logic：经求解器验证、含对抗强化的中文逻辑推理评测基准</h2>
 
 <p align="center">
+  <a href="https://arxiv.org/abs/2605.19597"><img src="https://img.shields.io/badge/论文-Arxiv-blue.svg?style=for-the-badge" alt="论文"></a>
   <a href="https://huggingface.co/datasets/llmeval-fdu/LLMEval-Logic"><img src="https://img.shields.io/badge/数据集-HuggingFace-yellow.svg?style=for-the-badge" alt="数据集"></a>
   <a href="https://llmeval.com/"><img src="https://img.shields.io/badge/官网-llmeval.com-2ea44f.svg?style=for-the-badge" alt="官网"></a>
   <a href="https://github.com/llmeval"><img src="https://img.shields.io/badge/组织-LLMEval-green.svg?style=for-the-badge" alt="LLMEval"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0%20%2B%20Eval--Only-blue.svg?style=for-the-badge" alt="License"></a>
 </p>
 
-> 📂 **动态：** 本次开源为 LLMEval-Logic 的 **80% 公开版**，剩余 20%（49 道 Base / 36 道 Hard / 49 个 rubric）由复旦 NLP 实验室作为**私有抗污染测试集**自留。
-
 > **说明：** 英文版 README 请参见 [README.md](README.md)。
+
+## 🔔 动态
+
+- 🎉 **[2026-05]** 论文已上 arXiv：[arXiv:2605.19597](https://arxiv.org/abs/2605.19597)。
+- 📂 **[2026-05]** **80% 公开版** 同步发布。剩余 20%（49 道 Base / 36 道 Hard / 49 个 rubric）由复旦 NLP 实验室作为**私有抗污染测试集**自留。
 
 ## 📚 数据集介绍
 
@@ -161,16 +165,16 @@ python evaluate.py --model openai/gpt-4o --only fl-fixed
 如果本工作对你的研究有帮助，请引用：
 
 ```bibtex
-@misc{llmeval2026logic,
+@misc{zhang2026llmevallogic,
   title         = {{LLMEval-Logic}: A Solver-Verified Chinese Benchmark for Logical Reasoning of LLMs with Adversarial Hardening},
-  author        = {{LLMEval Team, Fudan NLP Lab}},
+  author        = {Ming Zhang and Qiyuan Peng and Yinxi Wei and Yujiong Shen and Kexin Tan and Yuhui Wang and Zhenghao Xiang and Junjie Ye and Zhangyue Yin and Zhiheng Xi and Shihan Dou and Tao Gui and Maxm Pan and Ruizhi Yang and Qi Zhang and Xuanjing Huang},
   year          = {2026},
-  howpublished  = {\url{https://github.com/llmeval/LLMEval-Logic}},
-  note          = {Public release: 80\% of items (49 Base / 36 Hard held out as a private contamination-resistant test set)}
+  eprint        = {2605.19597},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2605.19597}
 }
 ```
-
-> 论文正在投稿。正式作者列表与 venue BibTeX 将在 arXiv 公开后更新。
 
 ## 🔗 相关项目
 

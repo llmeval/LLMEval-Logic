@@ -5,15 +5,19 @@
 <h2 align="center">LLMEval-Logic: A Solver-Verified Chinese Benchmark for Logical Reasoning of LLMs with Adversarial Hardening</h2>
 
 <p align="center">
+  <a href="https://arxiv.org/abs/2605.19597"><img src="https://img.shields.io/badge/Paper-Arxiv-blue.svg?style=for-the-badge" alt="Paper"></a>
   <a href="https://huggingface.co/datasets/llmeval-fdu/LLMEval-Logic"><img src="https://img.shields.io/badge/Dataset-HuggingFace-yellow.svg?style=for-the-badge" alt="Dataset"></a>
   <a href="https://llmeval.com/"><img src="https://img.shields.io/badge/Website-llmeval.com-2ea44f.svg?style=for-the-badge" alt="Website"></a>
   <a href="https://github.com/llmeval"><img src="https://img.shields.io/badge/Org-LLMEval-green.svg?style=for-the-badge" alt="LLMEval"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0%20%2B%20Eval--Only-blue.svg?style=for-the-badge" alt="License"></a>
 </p>
 
-> 📂 **News:** This is the **80% public release** of LLMEval-Logic. The remaining 20% (49 Base / 36 Hard / 49 rubrics) is held out as a private contamination-resistant test set maintained by Fudan NLP Lab.
-
 > **Note:** For the Chinese version of this README, please refer to [README_zh.md](README_zh.md).
+
+## 🔔 News
+
+- 🎉 **[2026-05]** Our paper is released on arXiv: [arXiv:2605.19597](https://arxiv.org/abs/2605.19597).
+- 📂 **[2026-05]** **80% public release** is live. The remaining 20% (49 Base / 36 Hard / 49 rubrics) is held out as a private contamination-resistant test set maintained by Fudan NLP Lab.
 
 ## 📚 Overview
 
@@ -161,16 +165,16 @@ For questions or suggestions, please:
 If you find this benchmark useful, please cite our work:
 
 ```bibtex
-@misc{llmeval2026logic,
+@misc{zhang2026llmevallogic,
   title         = {{LLMEval-Logic}: A Solver-Verified Chinese Benchmark for Logical Reasoning of LLMs with Adversarial Hardening},
-  author        = {{LLMEval Team, Fudan NLP Lab}},
+  author        = {Ming Zhang and Qiyuan Peng and Yinxi Wei and Yujiong Shen and Kexin Tan and Yuhui Wang and Zhenghao Xiang and Junjie Ye and Zhangyue Yin and Zhiheng Xi and Shihan Dou and Tao Gui and Maxm Pan and Ruizhi Yang and Qi Zhang and Xuanjing Huang},
   year          = {2026},
-  howpublished  = {\url{https://github.com/llmeval/LLMEval-Logic}},
-  note          = {Public release: 80\% of items (49 Base / 36 Hard held out as a private contamination-resistant test set)}
+  eprint        = {2605.19597},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2605.19597}
 }
 ```
-
-> The paper is under submission. The official author list and venue BibTeX will be updated here once the arXiv version is public.
 
 ## 🔗 Related Projects
 
