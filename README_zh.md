@@ -50,7 +50,6 @@ LLMEval-Logic 是一个中文逻辑推理评测基准，构造采用**三阶段�
 │       ├── z3_judge/                       Z3 求解 → "Z3" 列
 │       └── rubric_judge/                rubric 原子打分 → "Rubric" 列
 │
-├── scripts/split.py                        确定性的分层切分脚本（seed=2026）
 ├── evaluate.py                             ★ 一键端到端入口
 ├── requirements.txt
 └── .env.example                            复制为 .env，填 OPENAI_BASE_URL + OPENAI_API_KEY
@@ -141,9 +140,6 @@ python evaluate.py --model openai/gpt-4o --only fl-fixed
 ## 🔐 私有 20% 留存
 
 参照 [LLMEval-Fair](https://github.com/llmeval/LLMEval-Fair) 的抗污染评测做法，本次公开发布仅包含 LLMEval-Logic 的 **80%**，剩余 **20%**（50 道 Base / 36 道 Hard / 50 个 rubric）**不对外开源**，由复旦 NLP 实验室内部维护。
-
-公开切分由确定性的、固定种子（`seed=2026`）**分层随机抽样**得到 —— Base 按答案类型派生类（`enum / nec / pos / pos+nec / count / other`）分层，Hard 按子问题数桶分层。`scripts/split.py` 在全集上重跑可逐字节复现当前公开切分。
-
 如需在私有留存集上提交模型评测（用于官方排行榜），请联系 <mingzhang23@m.fudan.edu.cn>。
 
 ## 👥 贡献

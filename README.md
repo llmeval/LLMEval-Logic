@@ -50,7 +50,6 @@ LLMEval-Logic is a Chinese logical reasoning benchmark built through a three-sta
 │       ├── z3_judge/                       Z3 execution  → "Z3" column
 │       └── rubric_judge/                rubric atom scoring → "Rubric" column
 │
-├── scripts/split.py                        deterministic stratified splitter (seed=2026)
 ├── evaluate.py                             ★ one-command end-to-end evaluator
 ├── requirements.txt
 └── .env.example                            copy to .env, fill OPENAI_BASE_URL + OPENAI_API_KEY
@@ -141,9 +140,6 @@ All numbers in the paper are run with `gpt-5.1-chat` as the LLM-as-Judge, three 
 ## 🔐 Held-out 20%
 
 Following the contamination-resistant evaluation tradition of [LLMEval-Fair](https://github.com/llmeval/LLMEval-Fair), only **80%** of LLMEval-Logic is released publicly. The remaining **20%** (50 Base / 36 Hard / 50 rubrics) is held out as a private contamination-resistant test set maintained by Fudan NLP Lab.
-
-The split is produced by a deterministic, seeded (`seed=2026`) stratified random sample — Base by an answer-type-derived class (`enum / nec / pos / pos+nec / count / other`), Hard by sub-question-count bucket. `scripts/split.py` reproduces the public split bit-for-bit when run against the full corpus.
-
 To submit a model for official evaluation against the holdout, please contact <mingzhang23@m.fudan.edu.cn>.
 
 ## 👥 Contributing
