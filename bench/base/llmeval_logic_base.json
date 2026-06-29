@@ -7032,53 +7032,6 @@
     "logictype": "fol"
   },
   {
-    "id": 203,
-    "title": "谁是最被牵挂的人",
-    "original": {
-      "background": "习主席在2017年新年贺词中说：\"新年之际，我最牵挂的还是困难群众。\"困难群众包括：最低生活保障对象、特困对象、最低生活保障边缘家庭、支出型困难家庭、困境儿童、困境残疾人。",
-      "question": "困境儿童是习主席最牵挂的人吗？",
-      "answer": "是。"
-    },
-    "formalization": {
-      "parameters": {
-        "a": "Person",
-        "F": "Function(1)",
-        "G": "Function(1)",
-        "H": "Function(1)",
-        "I": "Function(1)",
-        "J": "Function(1)",
-        "FF": "Function(1)",
-        "FG": "Function(1)",
-        "P": "Function(2)"
-      },
-      "translation": {
-        "a": "习主席",
-        "F(x)": "x是困难群众",
-        "G(x)": "x是最低生活保障对象",
-        "H(x)": "x是特困对象",
-        "I(x)": "x是最低生活保障边缘家庭",
-        "J(x)": "x是支出型困难家庭",
-        "FF(x)": "x是困境儿童",
-        "FG(x)": "x是困境残疾人",
-        "P(x, y)": "x是习主席最牵挂的人"
-      },
-      "premise": [
-        "\\forall x(F(x) \\rightarrow P(a,x))",
-        "\\forall x(G(x) \\vee H(x) \\vee I(x) \\vee J(x) \\vee FF(x) \\vee FG(x) \\rightarrow F(x))"
-      ],
-      "question": [
-        "necessary(\\forall x (FF(x) \\rightarrow P(a, x)))"
-      ],
-      "answer": [
-        "necessary"
-      ]
-    },
-    "label_type": [
-      "necessary"
-    ],
-    "logictype": "fol"
-  },
-  {
     "id": 204,
     "title": "悲伤小故事一则",
     "original": {

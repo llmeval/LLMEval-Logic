@@ -17,13 +17,13 @@
 ## 🔔 News
 
 - 🎉 **[2026-05]** Our paper is released on arXiv: [arXiv:2605.19597](https://arxiv.org/abs/2605.19597).
-- 📂 **[2026-05]** **80% public release** is live. The remaining 20% (49 Base / 36 Hard / 49 rubrics) is held out as a private contamination-resistant test set maintained by Fudan NLP Lab.
+- 📂 **[2026-05]** **80% public release** is live. The remaining 20% (50 Base / 36 Hard / 50 rubrics) is held out as a private contamination-resistant test set maintained by Fudan NLP Lab.
 
 ## 📚 Overview
 
 LLMEval-Logic is a Chinese logical reasoning benchmark built through a three-stage audited construction pipeline: (a) trained annotators **forward-author** each item from a real-world situational scenario rather than templating backward from formulas, (b) each item passes a four-layer normalization pipeline and is **double-audited** by an expert-developed rubric plus the **Z3 SMT solver**, and (c) surviving items are elevated through a closed-loop **adversarial-hardening agent workflow** that filters out items too easy for frontier models. The dataset has two paired splits:
 
-- **LLMEval-Logic-Base** — single-question PL & FOL items with Z3-verified answers, gold formalizations, and atom-level NL→FL rubrics (1,400 atoms across 246 items; the public split ships 197 items).
+- **LLMEval-Logic-Base** — single-question PL & FOL items with Z3-verified answers, gold formalizations, and atom-level NL→FL rubrics (1,400 atoms across 246 items; the public split ships 196 items).
 - **LLMEval-Logic-Hard** — multi-question / sub-question items obtained by adversarially hardening Base items under six strategies (branching, effective distractors, explicit uncertainty, set-valued output, counterfactual variants, alias/coreference shifts). The strongest evaluated frontier model still only reaches **37.5%** Item Accuracy on Hard.
 
 ## 🗂️ Project Structure
@@ -32,8 +32,8 @@ LLMEval-Logic is a Chinese logical reasoning benchmark built through a three-sta
 .
 ├── bench/                                  the 80% public release
 │   ├── base/                               Base items + paired rubrics
-│   │   ├── llmeval_logic_base.json         197 items + gold FL + answers
-│   │   └── rubrics/                        197 per-problem rubric files (NL+Z3 atoms)
+│   │   ├── llmeval_logic_base.json         196 items + gold FL + answers
+│   │   └── rubrics/                        196 per-problem rubric files (NL+Z3 atoms)
 │   └── hard/
 │       └── llmeval_logic_hard.json         154 items / 766 sub-questions
 │
@@ -140,7 +140,7 @@ All numbers in the paper are run with `gpt-5.1-chat` as the LLM-as-Judge, three 
 
 ## 🔐 Held-out 20%
 
-Following the contamination-resistant evaluation tradition of [LLMEval-Fair](https://github.com/llmeval/LLMEval-Fair), only **80%** of LLMEval-Logic is released publicly. The remaining **20%** (49 Base / 36 Hard / 49 rubrics) is held out as a private contamination-resistant test set maintained by Fudan NLP Lab.
+Following the contamination-resistant evaluation tradition of [LLMEval-Fair](https://github.com/llmeval/LLMEval-Fair), only **80%** of LLMEval-Logic is released publicly. The remaining **20%** (50 Base / 36 Hard / 50 rubrics) is held out as a private contamination-resistant test set maintained by Fudan NLP Lab.
 
 The split is produced by a deterministic, seeded (`seed=2026`) stratified random sample — Base by an answer-type-derived class (`enum / nec / pos / pos+nec / count / other`), Hard by sub-question-count bucket. `scripts/split.py` reproduces the public split bit-for-bit when run against the full corpus.
 

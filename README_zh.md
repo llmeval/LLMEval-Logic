@@ -17,13 +17,13 @@
 ## 🔔 动态
 
 - 🎉 **[2026-05]** 论文已上 arXiv：[arXiv:2605.19597](https://arxiv.org/abs/2605.19597)。
-- 📂 **[2026-05]** **80% 公开版** 同步发布。剩余 20%（49 道 Base / 36 道 Hard / 49 个 rubric）由复旦 NLP 实验室作为**私有抗污染测试集**自留。
+- 📂 **[2026-05]** **80% 公开版** 同步发布。剩余 20%（50 道 Base / 36 道 Hard / 50 个 rubric）由复旦 NLP 实验室作为**私有抗污染测试集**自留。
 
 ## 📚 数据集介绍
 
 LLMEval-Logic 是一个中文逻辑推理评测基准，构造采用**三阶段审计流水线**：(a) 由具备逻辑基础的标注员从真实情境**正向撰写**题目，而非从公式反向模板化；(b) 每条题目经过四层规范化处理，并由人工编写的 rubric 检查表与 **Z3 SMT 求解器**双重审计自然语言到形式语言（NL→FL）的翻译；(c) 通过闭环**对抗强化 Agent 工作流**淘汰过于简单的样本。数据集由两个配对子集组成：
 
-- **LLMEval-Logic-Base** —— 命题逻辑与一阶逻辑的单问题题目，每题附 Z3 验证答案、金标 FL，以及 atom 级 NL→FL rubric（全集 246 道 / 1,400 atoms；公开版 197 道）。
+- **LLMEval-Logic-Base** —— 命题逻辑与一阶逻辑的单问题题目，每题附 Z3 验证答案、金标 FL，以及 atom 级 NL→FL rubric（全集 246 道 / 1,400 atoms；公开版 196 道）。
 - **LLMEval-Logic-Hard** —— 在 Base 同一模型空间上经六种对抗策略（分支化、有效干扰项、显式不确定、集值输出、反事实变体、别名/共指变化）生成的多问题题目。论文中最强前沿模型 Hard 子集 Item Accuracy 仅 **37.5%**。
 
 ## 🗂️ 项目结构
@@ -32,8 +32,8 @@ LLMEval-Logic 是一个中文逻辑推理评测基准，构造采用**三阶段�
 .
 ├── bench/                                  80% 公开发布
 │   ├── base/                               Base 题目 + 配套 rubric
-│   │   ├── llmeval_logic_base.json         197 道 + 金标 FL + 答案
-│   │   └── rubrics/                        197 个 per-problem rubric（NL + Z3 atoms）
+│   │   ├── llmeval_logic_base.json         196 道 + 金标 FL + 答案
+│   │   └── rubrics/                        196 个 per-problem rubric（NL + Z3 atoms）
 │   └── hard/
 │       └── llmeval_logic_hard.json         154 道 / 766 子问题
 │
@@ -71,7 +71,7 @@ LLMEval-Logic 是一个中文逻辑推理评测基准，构造采用**三阶段�
 - **`formalization.parameters` / `.translation` / `.premise` / `.question` / `.answer`** —— 人工审定的金标 FL（参数、NL→符号映射、形式前提、形式查询，以及 Z3 求解的金标答案）。
 - **`label_type`** —— 答案类型标签列表（`possible` / `necessary` / `enumerate_models` / `count_models` 等）。
 
-公开发布的 Base 是这套 id 的一个子集（`0..245` 中的 197 个），私有保留集是其补集；二者相对 `0..245` 都是稀疏的。
+公开发布的 Base 是这套 id 的一个子集（`0..245` 中的 196 个），私有保留集是其补集；二者相对 `0..245` 都是稀疏的。
 
 ### Hard 题目（`bench/hard/llmeval_logic_hard.json`）
 
@@ -140,7 +140,7 @@ python evaluate.py --model openai/gpt-4o --only fl-fixed
 
 ## 🔐 私有 20% 留存
 
-参照 [LLMEval-Fair](https://github.com/llmeval/LLMEval-Fair) 的抗污染评测做法，本次公开发布仅包含 LLMEval-Logic 的 **80%**，剩余 **20%**（49 道 Base / 36 道 Hard / 49 个 rubric）**不对外开源**，由复旦 NLP 实验室内部维护。
+参照 [LLMEval-Fair](https://github.com/llmeval/LLMEval-Fair) 的抗污染评测做法，本次公开发布仅包含 LLMEval-Logic 的 **80%**，剩余 **20%**（50 道 Base / 36 道 Hard / 50 个 rubric）**不对外开源**，由复旦 NLP 实验室内部维护。
 
 公开切分由确定性的、固定种子（`seed=2026`）**分层随机抽样**得到 —— Base 按答案类型派生类（`enum / nec / pos / pos+nec / count / other`）分层，Hard 按子问题数桶分层。`scripts/split.py` 在全集上重跑可逐字节复现当前公开切分。
 
